@@ -1,0 +1,26 @@
+[
+  {
+    "docId": "EU-AI-ACT-ART14-1",
+    "source": "Regulation (EU) 2024/1689 - Article 14(1)-(2)",
+    "topic": "Human Oversight Interface",
+    "text": "High-risk AI systems shall be designed and developed with appropriate human-machine interface tools so they can be effectively overseen by natural persons during use, aiming to prevent or minimise risks to health, safety, or fundamental rights."
+  },
+  {
+    "docId": "EU-AI-ACT-ART14-4",
+    "source": "Regulation (EU) 2024/1689 - Article 14(4)(a)-(e)",
+    "topic": "Override & Stop Controls",
+    "text": "Human oversight measures must enable assigned overseers (VP Rajesh Nair) to understand capabilities and limitations, monitor anomalies, remain aware of automation bias, interpret AI outputs, and override, disregard, or halt automated spend/rerouting decisions before execution."
+  },
+  {
+    "docId": "CEPA-PHARMA-ANNEX-1",
+    "source": "India-UAE CEPA Chapter 30 Pharma Annexure",
+    "topic": "Preferential 0% Duty",
+    "text": "Qualifying Indian pharmaceutical formulations under HS 3002 and HS 3004 exported from JNPT to UAE/GCC hubs qualify for 0% preferential customs duty under India-UAE CEPA when accompanied by a valid DGFT Certificate of Origin."
+  },
+  {
+    "docId": "WHO-GDP-COLDCHAIN-1",
+    "source": "Cold-Chain GDP SOP (2-8C Biologics)",
+    "topic": "Temperature Excursion Gate",
+    "text": "Insulin Glargine and Monoclonal Antibodies must be maintained strictly within 2.0C to 8.0C. Any door-open event or temperature drift above 8.0C requires immediate triage and route re-optimization within remaining batch shelf life."
+  }
+]

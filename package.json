@@ -1,0 +1,28 @@
+{
+  "name": "pravah-a2a",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@cap-js/hana": "^3",
+    "@langchain/core": "^1.4.2",
+    "@langchain/google-genai": "^2.3.6",
+    "@langchain/langgraph": "^1.7.5",
+    "@sap/cds": "^10",
+    "@sap/hana-client": "^2.30.32",
+    "dotenv": "^18.0.10",
+    "ws": "^8.23.0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^3",
+    "@sap/cds-dk": "^10"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "auth": "dummy"
+    }
+  }
+}

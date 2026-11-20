@@ -1,0 +1,58 @@
+[
+  {
+    "routeId": "RT-BASELINE-GULF",
+    "name": "Baseline (Blocked/Delayed Gulf Route + War Surcharge)",
+    "mode": "Ocean Reefer",
+    "transitDays": 19,
+    "delayDeltaDays": 9,
+    "warRiskSurchargeUSD": 3500,
+    "demurrageRangeINR": "365000-750000",
+    "totalCostINR": 630000,
+    "totalCostUSD": 7500,
+    "coldChainSafe": false,
+    "notes": "Exposed to Strait of Hormuz war-risk surcharge ($3,500/reefer) and port detention."
+  },
+  {
+    "routeId": "RT-CAPE-DETOUR",
+    "name": "Cape of Good Hope Detour",
+    "mode": "Ocean Reefer",
+    "transitDays": 24,
+    "delayDeltaDays": 14,
+    "warRiskSurchargeUSD": 1500,
+    "demurrageRangeINR": "365000-500000",
+    "totalCostINR": 588000,
+    "totalCostUSD": 7000,
+    "coldChainSafe": false,
+    "notes": "+14 days transit triggers hard batch spoilage flag in Agent 02 for <=20-day biologics."
+  },
+  {
+    "routeId": "RT-JEDDAH-INTERMODAL",
+    "name": "Jeddah Sea-Air / Land-Bridge Intermodal",
+    "mode": "Sea + Bonded Reefer Truck (CEPA)",
+    "transitDays": 7,
+    "delayDeltaDays": 0,
+    "warRiskSurchargeUSD": 0,
+    "demurrageRangeINR": "0",
+    "totalCostINR": 352800,
+    "totalCostUSD": 4200,
+    "coldChainSafe": true,
+    "savingsVsGulfINR": 277200,
+    "savingsVsAirINR": 613200,
+    "modelledSavingsRangeINR": "3.10L-6.85L",
+    "modelledSavingsRangeUSD": "3300-7300",
+    "notes": "Optimal route: bypasses Hormuz war surcharge, preserves 2-8C integrity, leverages India-UAE CEPA / GCC corridor."
+  },
+  {
+    "routeId": "RT-PANIC-AIR",
+    "name": "Panic Spot Air Freight + Cold Truck",
+    "mode": "Air Cargo + Truck",
+    "transitDays": 2,
+    "delayDeltaDays": -8,
+    "warRiskSurchargeUSD": 0,
+    "demurrageRangeINR": "0",
+    "totalCostINR": 966000,
+    "totalCostUSD": 11500,
+    "coldChainSafe": true,
+    "notes": "Avoids spoilage but triggers 200-300% panic spot rate surcharge; violates CFO spend cap."
+  }
+]

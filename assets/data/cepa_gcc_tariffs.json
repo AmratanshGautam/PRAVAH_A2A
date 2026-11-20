@@ -1,0 +1,38 @@
+[
+  {
+    "hsCode": "3004.31.00.10",
+    "category": "Insulin Glargine & Insulin Formulations",
+    "mfnDutyPct": 5,
+    "cepaPreferentialDutyPct": 0,
+    "gccCommonExternalTariffPct": 0,
+    "certificateRequired": "India-UAE CEPA Certificate of Origin (DGFT)",
+    "corridor": "JNPT -> Jebel Ali / Jeddah Land-Bridge"
+  },
+  {
+    "hsCode": "3002.15.00.00",
+    "category": "Monoclonal Antibodies & Immunological Biologics",
+    "mfnDutyPct": 5,
+    "cepaPreferentialDutyPct": 0,
+    "gccCommonExternalTariffPct": 0,
+    "certificateRequired": "India-UAE CEPA COO + Cold-Chain GDP Cert",
+    "corridor": "JNPT -> Jebel Ali / Jeddah Land-Bridge"
+  },
+  {
+    "hsCode": "3002.41.00.00",
+    "category": "Human Vaccines (Cold-Chain 2-8C)",
+    "mfnDutyPct": 5,
+    "cepaPreferentialDutyPct": 0,
+    "gccCommonExternalTariffPct": 0,
+    "certificateRequired": "WHO-PQ + CEPA COO",
+    "corridor": "JNPT -> Jebel Ali / Jeddah Land-Bridge"
+  },
+  {
+    "hsCode": "3004.39.00.50",
+    "category": "Recombinant Hormones & Biologics",
+    "mfnDutyPct": 5,
+    "cepaPreferentialDutyPct": 0,
+    "gccCommonExternalTariffPct": 0,
+    "certificateRequired": "India-UAE CEPA COO",
+    "corridor": "JNPT -> Jebel Ali / Jeddah Land-Bridge"
+  }
+]

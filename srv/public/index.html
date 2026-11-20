@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pravah-A2A · SAP Fiori Horizon Supply Chain Command Center</title>
+  <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --navy: #00144A; --cobalt: #0057D2; --cobalt-soft: #E8F1FD;
+      --teal: #03736F; --teal-soft: #E6F4F1; --gold: #F0AB00; --gold-soft: #FEF6E4;
+      --danger: #D32F2F; --danger-soft: #FDECEA; --bg: #F3F5F8; --surface: #FFFFFF;
+      --border: #E2E8F0; --text: #132337; --muted: #64748B;
+      --shadow: 0 4px 18px rgba(0, 20, 74, 0.06); --radius: 14px;
+    }
+    * { box-sizing: border-box; font-family: "72", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; }
+
+    /* Auth Overlay */
+    .auth-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: radial-gradient(circle at 20% 20%, #0A2463 0%, #00144A 65%, #000B29 100%);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .auth-card {
+      width: 450px; max-width: 100%; background: #fff; border-radius: 18px; padding: 28px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    }
+    .auth-tabs { display: flex; background: #EDF2F7; padding: 4px; border-radius: 10px; margin: 16px 0; }
+    .auth-tab { flex: 1; border: none; background: transparent; padding: 8px; border-radius: 8px; font-weight: 700; font-size: 13px; color: var(--muted); cursor: pointer; }
+    .auth-tab.active { background: #fff; color: var(--navy); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .field input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 9px; font-size: 13px; }
+    .demo-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .demo-pill { background: var(--cobalt-soft); color: var(--cobalt); border: none; border-radius: 999px; padding: 5px 10px; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .auth-err { color: var(--danger); font-size: 12px; font-weight: 600; margin-bottom: 10px; display: none; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 248px; background: linear-gradient(180deg, var(--navy) 0%, #071D59 100%);
+      color: #fff; display: flex; flex-direction: column; padding: 20px 14px; flex-shrink: 0;
+      position: sticky; top: 0; height: 100vh; z-index: 20;
+    }
+    .logo-box { display: flex; align-items: center; gap: 11px; padding: 4px 10px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .logo-mark { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #0070F2, #00C6B8); display: grid; place-items: center; font-weight: 800; font-size: 16px; color: #fff; }
+    .logo-text strong { display: block; font-size: 16px; }
+    .logo-text span { font-size: 11px; color: #94A3B8; }
+    .nav-list { margin-top: 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 10px; color: #CBD5E1; font-size: 13.5px; font-weight: 600; cursor: pointer; border: none; background: transparent; text-align: left; }
+    .nav-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .nav-item.active { background: var(--cobalt); color: #fff; box-shadow: 0 4px 12px rgba(0,87,210,0.4); }
+    .nav-badge { margin-left: auto; background: var(--danger); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 999px; }
+    .sidebar-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px; font-size: 12px; color: #94A3B8; }
+    .persona-pill { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.07); padding: 10px; border-radius: 10px; margin-bottom: 10px; }
+    .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--gold); color: var(--navy); display: grid; place-items: center; font-weight: 800; font-size: 13px; flex-shrink: 0; }
+
+    /* Workspace */
+    .workspace { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .topbar {
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border); padding: 14px 26px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      position: sticky; top: 0; z-index: 15; flex-wrap: wrap;
+    }
+    .topbar-left h1 { margin: 0; font-size: 18px; color: var(--navy); }
+    .topbar-left span { font-size: 12px; color: var(--muted); }
+    .topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .seg-toggle { display: inline-flex; background: #EDF2F7; padding: 3px; border-radius: 9px; }
+    .seg-btn { border: none; background: transparent; padding: 6px 11px; border-radius: 7px; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; }
+    .seg-btn.active { background: #fff; color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+    .btn { padding: 9px 15px; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 7px; }
+    .btn-danger { background: linear-gradient(135deg, #D32F2F, #B71C1C); color: #fff; }
+    .btn-cobalt { background: linear-gradient(135deg, #0057D2, #0070F2); color: #fff; }
+    .btn-teal { background: linear-gradient(135deg, #03736F, #059669); color: #fff; }
+    .btn-ghost { background: #fff; color: var(--navy); border: 1px solid var(--border); }
+
+    .content { padding: 22px 26px 90px; max-width: 1400px; width: 100%; margin: 0 auto; }
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .kpi-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--cobalt); }
+    .kpi-card.teal::before { background: var(--teal); }
+    .kpi-card.gold::before { background: var(--gold); }
+    .kpi-card.danger::before { background: var(--danger); }
+    .kpi-label { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); }
+    .kpi-val { font-size: 25px; font-weight: 800; color: var(--navy); margin: 6px 0 4px; }
+    .kpi-sub { font-size: 12px; color: var(--muted); }
+
+    .grid-2 { display: grid; grid-template-columns: 1.45fr 1fr; gap: 18px; margin-bottom: 20px; }
+    @media (max-width: 1024px) { .grid-2 { grid-template-columns: 1fr; } .sidebar { display: none; } }
+
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 18px; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .panel-head h2 { margin: 0; font-size: 15.5px; color: var(--navy); }
+
+    /* Real Leaflet Map */
+    #maritimeMap { height: 320px; width: 100%; border-radius: 12px; border: 1px solid var(--border); z-index: 1; }
+    .map-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11.5px; color: var(--muted); margin-top: 10px; font-weight: 600; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+
+    .agent-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .agent-box { border: 1px solid var(--border); border-radius: 12px; padding: 14px; background: #FAFCFF; }
+    .agent-box.done { border-color: var(--teal); background: var(--teal-soft); }
+    .agent-step { font-size: 10.5px; font-weight: 800; color: var(--cobalt); text-transform: uppercase; }
+    .agent-box h3 { margin: 4px 0; font-size: 14px; color: var(--navy); }
+    .agent-box p { margin: 0 0 8px; font-size: 12px; color: var(--muted); }
+    .agent-status { font-size: 11px; font-weight: 700; }
+
+    .routes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .route-card { border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; background: #fff; display: flex; flex-direction: column; gap: 10px; }
+    .route-card.rec { border-color: var(--teal); background: linear-gradient(180deg, #F0FDF9 0%, #FFFFFF 55%); }
+    .route-card.spoil { border-color: #FECACA; background: #FFF5F5; }
+    .price-big { font-size: 22px; font-weight: 800; color: var(--navy); }
+    .price-sub { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+    .pill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .pill-ok { background: var(--teal-soft); color: var(--teal); }
+    .pill-bad { background: var(--danger-soft); color: var(--danger); }
+    .pill-warn { background: var(--gold-soft); color: #9A6700; }
+    .pill-blue { background: var(--cobalt-soft); color: var(--cobalt); }
+    .bar-bg { height: 7px; background: #E2E8F0; border-radius: 999px; overflow: hidden; margin-top: 5px; }
+    .bar-fill { height: 100%; border-radius: 999px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 11px 10px; border-bottom: 1px solid var(--border); }
+    th { font-size: 11px; text-transform: uppercase; color: var(--muted); background: #F8FAFC; }
+    input[type="text"], select { padding: 9px 12px; border: 1px solid var(--border); border-radius: 9px; font-size: 13px; background: #fff; }
+    .slider-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 14px; }
+    .slider-row label { display: block; font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+    .slider-row input[type="range"] { width: 100%; accent-color: var(--cobalt); }
+    pre.json-box { background: #0B1221; color: #7DD3FC; padding: 16px; border-radius: 10px; font-size: 12px; overflow-x: auto; max-height: 360px; margin: 0; }
+
+    .joule-fab { position: fixed; bottom: 24px; right: 24px; z-index: 50; background: linear-gradient(135deg, #5B21B6, #0057D2); color: #fff; border: none; border-radius: 999px; padding: 13px 20px; font-weight: 700; font-size: 13.5px; box-shadow: 0 8px 24px rgba(0,87,210,0.45); cursor: pointer; }
+    .joule-drawer { position: fixed; bottom: 82px; right: 24px; width: 390px; max-width: calc(100vw - 32px); height: 500px; background: #fff; border-radius: 16px; box-shadow: 0 16px 48px rgba(0,20,74,0.28); border: 1px solid var(--border); display: none; flex-direction: column; overflow: hidden; z-index: 60; }
+    .joule-drawer.open { display: flex; }
+    .joule-head { background: linear-gradient(135deg, var(--navy), #3B1D8F); color: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .joule-msgs { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #F8FAFC; }
+    .msg { padding: 10px 13px; border-radius: 12px; font-size: 12.8px; line-height: 1.45; max-width: 88%; }
+    .msg.bot { background: #fff; border: 1px solid var(--border); align-self: flex-start; }
+    .msg.user { background: var(--cobalt); color: #fff; align-self: flex-end; }
+    .joule-chips { padding: 8px 12px; display: flex; gap: 6px; flex-wrap: wrap; background: #fff; border-top: 1px solid var(--border); }
+    .chip { background: var(--cobalt-soft); color: var(--cobalt); border: none; border-radius: 999px; padding: 5px 10px; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .joule-input { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--border); }
+    .joule-input input { flex: 1; }
+    .toast { display: none; position: fixed; top: 76px; right: 24px; background: var(--navy); color: #fff; padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 99; border-left: 4px solid var(--gold); max-width: 420px; }
+  
+    /* === MODERN STARTUP VISUAL POLISH (Stripe / Linear / Foundry Aesthetic) === */
+    * { font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important; }
+    code, pre, .kpi-val, .price-big { font-variant-numeric: tabular-nums; }
+    pre.json-box, code { font-family: "JetBrains Mono", monospace !important; }
+    body { background: #F8FAFC; color: #0F172A; -webkit-font-smoothing: antialiased; }
+
+    /* Sleek Obsidian-Navy Sidebar */
+    .sidebar {
+      background: radial-gradient(circle at 0% 0%, #0F2557 0%, #060D21 55%, #030712 100%) !important;
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .logo-mark {
+      width: 44px !important; height: 44px !important; padding: 2px; background: #fff !important;
+      border-radius: 12px !important; box-shadow: 0 6px 20px rgba(0, 198, 184, 0.25) !important;
+    }
+    .nav-item { border-radius: 10px; font-weight: 600; letter-spacing: -0.01em; transition: all 0.16s ease; }
+    .nav-item.active {
+      background: linear-gradient(135deg, rgba(0,87,210,0.95), rgba(3,166,150,0.9)) !important;
+      box-shadow: 0 6px 18px rgba(0, 87, 210, 0.35) !important;
+    }
+
+    /* Glassmorphic Topbar & Elevated Cards */
+    .topbar { background: rgba(255,255,255,0.82) !important; backdrop-filter: blur(14px); border-bottom: 1px solid #E2E8F0; }
+    .topbar-left h1 { font-weight: 800; letter-spacing: -0.025em; }
+    .kpi-card, .panel, .route-card {
+      border: 1px solid rgba(15, 23, 42, 0.07) !important;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.03), 0 8px 24px rgba(15,23,42,0.04) !important;
+      border-radius: 16px !important;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(15,23,42,0.08) !important; }
+    .kpi-val { font-size: 27px !important; letter-spacing: -0.03em; }
+
+    /* Sleek Startup Login Portal */
+    .auth-overlay {
+      background: radial-gradient(circle at 18% 18%, rgba(0,87,210,0.35) 0%, transparent 45%),
+                  radial-gradient(circle at 82% 80%, rgba(3,166,150,0.28) 0%, transparent 45%),
+                  #040917 !important;
+    }
+    .auth-card {
+      border-radius: 22px !important; padding: 32px !important;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55) !important;
+    }
+    .field input { transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+    .field input:focus { outline: none; border-color: #0057D2; box-shadow: 0 0 0 3px rgba(0,87,210,0.12); }
+
+    /* Refined Buttons & Copilot */
+    .btn { border-radius: 10px !important; letter-spacing: -0.01em; transition: all 0.16s ease; }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.04); }
+    .joule-fab {
+      background: linear-gradient(135deg, #00144A, #0057D2 55%, #03A696) !important;
+      box-shadow: 0 10px 30px rgba(0, 87, 210, 0.45) !important;
+    }
+    .joule-head { background: linear-gradient(135deg, #060D21, #0057D2) !important; }
+    #maritimeMap { border-radius: 14px !important; box-shadow: inset 0 0 0 1px rgba(15,23,42,0.08); }
+  </style>
+</head>
+<body>
+  <!-- MULTI-TENANT PREMIUM SAAS LOGIN GATE -->
+  <div id="authOverlay" class="auth-overlay">
+    <div class="auth-card">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="logo-mark"><img src="/logo.jpg" alt="Pravah-A2A" style="width:100%;height:100%;object-fit:cover;border-radius:10px;background:#fff;" onerror="this.remove();this.parentNode.textContent='P';" /></div>
+        <div>
+          <strong style="font-size:18px;color:var(--navy);display:block;">Pravah-A2A Enterprise SaaS</strong>
+          <span style="font-size:12px;color:var(--muted);">SAP BTP · Multi-Tenant Supply Chain AI Portal</span>
+        </div>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="setAuthMode('login')">Premium Customer Sign In</button>
+        <button class="auth-tab" id="tabReg" onclick="setAuthMode('register')">Activate New Tenant</button>
+      </div>
+
+      <div id="authErr" class="auth-err"></div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="field"><label>Corporate Email</label><input id="lEmail" type="email" required placeholder="name@company.com" value="rajesh.nair@hyderabadpharma.in"></div>
+        <div class="field"><label>Password</label><input id="lPass" type="password" required placeholder="••••••••" value="Pravah@2026"></div>
+        <button type="submit" class="btn btn-cobalt" style="width:100%;justify-content:center;padding:11px;">🔐 Sign In to Command Center</button>
+        <div style="margin-top:14px;font-size:11.5px;color:var(--muted);font-weight:700;">Quick-Fill Subscribed Demo Tenants (Password: <code>Pravah@2026</code>):</div>
+        <div class="demo-pills">
+          <button type="button" class="demo-pill" onclick="fillDemo('rajesh.nair@hyderabadpharma.in')">VP Rajesh Nair (Hyderabad)</button>
+          <button type="button" class="demo-pill" onclick="fillDemo('ananya.deshmukh@ciplaexports.in')">Ananya Deshmukh (Mumbai)</button>
+          <button type="button" class="demo-pill" onclick="fillDemo('khalid.mansoor@gulfmed3pl.ae')">Dr. Khalid (Dubai 3PL)</button>
+        </div>
+      </form>
+
+      <form id="regForm" style="display:none;" onsubmit="handleRegister(event)">
+        <div class="field"><label>Full Name</label><input id="rName" type="text" required placeholder="e.g., Priya Sharma"></div>
+        <div class="field"><label>Company Name</label><input id="rComp" type="text" required placeholder="e.g., SunBio Exports Ltd"></div>
+        <div class="field"><label>Role / Title</label><input id="rRole" type="text" value="VP Supply Chain"></div>
+        <div class="field"><label>Corporate Email</label><input id="rEmail" type="email" required placeholder="priya@sunbio.in"></div>
+        <div class="field"><label>Create Password (min 6 chars)</label><input id="rPass" type="password" required minlength="6" placeholder="••••••••"></div>
+        <button type="submit" class="btn btn-teal" style="width:100%;justify-content:center;padding:11px;">✨ Create Premium SaaS Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo-box">
+      <div class="logo-mark"><img src="/logo.jpg" alt="Pravah-A2A" style="width:100%;height:100%;object-fit:cover;border-radius:10px;background:#fff;" onerror="this.remove();this.parentNode.textContent='P';" /></div>
+      <div class="logo-text">
+        <strong>Pravah-A2A</strong>
+        <span>SAP BTP · Supply Chain AI</span>
+      </div>
+    </div>
+    <nav class="nav-list">
+      <button class="nav-item active" onclick="switchView('overview', this)">📊 Command Center</button>
+      <button class="nav-item" onclick="switchView('hitl', this)">🛡️ Crisis &amp; HITL Gate <span id="hitlBadge" class="nav-badge" style="display:none;">1</span></button>
+      <button class="nav-item" onclick="switchView('fleet', this)">🚢 S/4HANA Reefer Fleet</button>
+      <button class="nav-item" onclick="switchView('audit', this)">📜 EU AI Act &amp; A2A Cards</button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="persona-pill">
+        <div class="avatar" id="userAvatar">RN</div>
+        <div style="min-width:0;">
+          <strong id="userName" style="color:#fff;display:block;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Not signed in</strong>
+          <span id="userComp" style="font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</span>
+        </div>
+      </div>
+      <button onclick="logout()" style="width:100%;padding:7px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#CBD5E1;font-size:12px;font-weight:600;cursor:pointer;margin-bottom:8px;">Sign Out / Switch Tenant</button>
+      <div style="font-size:11px;">HMAC-SHA256 Protected · Team NexusA2A</div>
+    </div>
+  </aside>
+
+  <!-- Main Workspace -->
+  <div class="workspace">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 id="viewTitle">Executive Command Center</h1>
+        <span id="tenantSub">Multi-Tenant Cold-Chain Control Tower · Live SAP HANA Cloud</span>
+      </div>
+      <div class="topbar-right">
+        <div class="seg-toggle">
+          <button class="seg-btn active" onclick="setCurrency('BOTH', this)">INR + USD</button>
+          <button class="seg-btn" onclick="setCurrency('INR', this)">₹ INR</button>
+          <button class="seg-btn" onclick="setCurrency('USD', this)">$ USD</button>
+        </div>
+        <button class="btn btn-danger" onclick="quickCrisisDemo()">⚡ Trigger Live Hormuz Crisis</button>
+        <button class="btn btn-ghost" onclick="loadAll()">↻ Sync</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- VIEW 1: COMMAND CENTER -->
+      <div id="view-overview" class="view active">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Active Reefer Fleet (S/4HANA)</div>
+            <div class="kpi-val" id="kpiFleet">16 Boxes</div>
+            <div class="kpi-sub" id="kpiCargoVal">Loading...</div>
+          </div>
+          <div class="kpi-card teal">
+            <div class="kpi-label">Modelled Savings / Reefer</div>
+            <div class="kpi-val" id="kpiSavings">₹3.10L / $3.3k+</div>
+            <div class="kpi-sub">Jeddah Intermodal vs Panic Rates</div>
+          </div>
+          <div class="kpi-card gold">
+            <div class="kpi-label">Crisis Triage Speed</div>
+            <div class="kpi-val">50h → &lt;2m</div>
+            <div class="kpi-sub">4-Agent A2A · Joule 60s Safe Cache</div>
+          </div>
+          <div class="kpi-card danger">
+            <div class="kpi-label">Cold-Chain Status (2°C–8°C)</div>
+            <div class="kpi-val" id="kpiAlerts">0 Alerts</div>
+            <div class="kpi-sub" id="kpiAlertSub">All JNPT–Gulf reefers nominal</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- REAL INTERACTIVE LEAFLET MARITIME MAP -->
+          <div class="panel" style="margin-bottom:0;">
+            <div class="panel-head">
+              <h2>🌍 Live Maritime Corridor Map (Real Geospatial Routing)</h2>
+              <span id="mapStatusPill" class="pill pill-ok">● AISStream + PortWatch Nominal</span>
+            </div>
+            <div id="maritimeMap"></div>
+            <div class="map-legend">
+              <span><i class="dot" style="background:#10B981;"></i>Jeddah Sea-Air / Land-Bridge (7d · Optimal)</span>
+              <span><i class="dot" style="background:#EF4444;"></i>Strait of Hormuz (War Risk $3,500/reefer)</span>
+              <span><i class="dot" style="background:#F59E0B;"></i>Cape Detour (+14d)</span><span><i class="dot" style="background:#F0AB00;border:1.5px solid #00144A;"></i>16 S/4HANA Pharma Reefers</span><span><i class="dot" style="background:#38BDF8;"></i>Live AISStream Vessels</span>
+            </div>
+          </div>
+
+          <!-- Cost Chart -->
+          <div class="panel" style="margin-bottom:0;display:flex;flex-direction:column;">
+            <div class="panel-head">
+              <h2>📈 Crisis Cost per 40-ft Pharma Reefer</h2>
+              <span class="pill pill-ok">Saves up to 63%</span>
+            </div>
+            <div style="flex:1;min-height:280px;position:relative;">
+              <canvas id="costChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>🤖 4-Agent A2A Orchestration Pipeline (SAP Joule Outbound A2A)</h2>
+            <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="switchView('audit', document.querySelectorAll('.nav-item')[3])">Inspect /.well-known/agent.json ↗</button>
+          </div>
+          <div class="agent-strip">
+            <div class="agent-box" id="box-1"><div class="agent-step">AGENT 01 · SENSING</div><h3>The Watcher</h3><p>AISStream + IMF PortWatch + NOAA + Reefer IoT.</p><div class="agent-status" id="st-1">● Standby</div></div>
+            <div class="agent-box" id="box-2"><div class="agent-step">AGENT 02 · SCENARIO</div><h3>The Planner</h3><p>S/4HANA Batch Expiry &amp; IBP hard spoilage gate.</p><div class="agent-status" id="st-2">● Standby</div></div>
+            <div class="agent-box" id="box-3"><div class="agent-step">AGENT 03 · LOGISTICS</div><h3>The Bookmaker</h3><p>Live USITC HTS + India–UAE CEPA 0% duty math.</p><div class="agent-status" id="st-3">● Standby</div></div>
+            <div class="agent-box" id="box-4"><div class="agent-step">AGENT 04 · GOVERNANCE</div><h3>The Safe Guard</h3><p>EU AI Act Art. 14(4) HITL gate &amp; AuditLogs.</p><div class="agent-status" id="st-4">● Standby</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: CRISIS & HITL -->
+      <div id="view-hitl" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>🚨 Custom Crisis Simulator &amp; Reefer IoT Telemetry Injector</h2>
+            <span class="pill pill-blue">Authenticated CAP Action</span>
+          </div>
+          <div class="slider-row">
+            <div><label>Target Pharma Reefer Shipment</label><select id="shipmentSelect" style="width:100%;"></select></div>
+            <div><label>Simulated Reefer Temp: <span id="tempVal" style="color:var(--danger);">8.9°C</span></label><input type="range" id="tempSlider" min="2.5" max="12.0" step="0.1" value="8.9" oninput="document.getElementById('tempVal').textContent=this.value+'°C'"></div>
+            <div><label>AIS Dark-Ship Duration: <span id="darkVal">45 mins</span></label><input type="range" id="darkSlider" min="5" max="120" step="5" value="45" oninput="document.getElementById('darkVal').textContent=this.value+' mins'"></div>
+          </div>
+          <button class="btn btn-danger" onclick="triggerCrisis()">⚡ Run 4-Agent A2A Crisis Triage Now</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2 id="hitlTitle">🛡️ Executive Human-in-the-Loop (HITL) Decision Gate</h2>
+            <span class="pill pill-warn">EU AI Act Art. 14(4) Sign-Off</span>
+          </div>
+          <div id="briefBox" style="background:var(--cobalt-soft);border-left:4px solid var(--cobalt);padding:14px 16px;border-radius:10px;font-size:13.5px;line-height:1.55;margin-bottom:16px;">
+            Click <strong>Run 4-Agent A2A Crisis Triage Now</strong> to generate a live reroute recommendation.
+          </div>
+          <div id="routesCards" class="routes-grid"></div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: FLEET -->
+      <div id="view-fleet" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>🚢 SAP S/4HANA Batch Master &amp; IBP Cold-Chain Fleet</h2>
+            <input type="text" id="fleetSearch" placeholder="Search Insulin, mAb, Jebel Ali..." oninput="renderFleet()" style="min-width:260px;">
+          </div>
+          <div style="overflow-x:auto;">
+            <table><thead><tr><th>Shipment / Batch</th><th>Biologic &amp; HS</th><th>Corridor</th><th>Shelf Life</th><th>Cargo Value</th><th>Status</th></tr></thead><tbody id="fleetBody"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 4: AUDIT & A2A -->
+      <div id="view-audit" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>📜 Immutable EU AI Act Compliance &amp; Decision Audit Log</h2>
+            <span class="pill pill-ok">Regulation (EU) 2024/1689</span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table><thead><tr><th>Shipment</th><th>Agent / Event</th><th>Legal &amp; Tariff Citations</th><th>Approver &amp; Status</th><th>Decision Rationale</th></tr></thead><tbody id="auditBody"></tbody></table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>🔌 Live A2A Protocol Inspector (<code>/.well-known/agent.json</code>)</h2>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/.well-known/agent.json')">Root</button>
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/watcher/.well-known/agent.json')">01 Watcher</button>
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/planner/.well-known/agent.json')">02 Planner</button>
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/bookmaker/.well-known/agent.json')">03 Bookmaker</button>
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/safeguard/.well-known/agent.json')">04 Safe Guard</button>
+            </div>
+          </div>
+          <pre id="agentJsonViewer" class="json-box"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Joule Copilot -->
+  <button class="joule-fab" onclick="document.getElementById('jouleDrawer').classList.toggle('open')">✦ Ask Joule A2A Copilot</button>
+  <div id="jouleDrawer" class="joule-drawer">
+    <div class="joule-head">
+      <div><strong style="font-size:14.5px;">✦ Joule-Compatible A2A Copilot</strong><div style="font-size:11px;color:#CBD5E1;">Connected to /.well-known/agent.json</div></div>
+      <button onclick="document.getElementById('jouleDrawer').classList.toggle('open')" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
+    </div>
+    <div id="jouleMsgs" class="joule-msgs">
+      <div class="msg bot" id="jouleWelcome">Connected to all 4 Pravah-A2A agents via Outbound A2A. Ask about spoilage, CEPA tariffs, EU AI Act compliance, or trigger a live reroute.</div>
+    </div>
+    <div class="joule-chips">
+      <button class="chip" onclick="askJoule('Why was Cape Detour rejected?')">Why reject Cape?</button>
+      <button class="chip" onclick="askJoule('Show CEPA duty math')">CEPA duty math</button>
+      <button class="chip" onclick="askJoule('EU AI Act Art. 14 status')">EU AI Act status</button>
+      <button class="chip" onclick="askJoule('Trigger Hormuz crisis')">⚡ Trigger Crisis</button>
+    </div>
+    <div class="joule-input">
+      <input type="text" id="jouleInput" placeholder="Ask Pravah-A2A Copilot..." onkeydown="if(event.key==='Enter') askJoule()">
+      <button class="btn btn-cobalt" style="padding:8px 12px;" onclick="askJoule()">Send</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const API = '/odata/v4/pravah';
+    let authToken = localStorage.getItem('pravah_token') || '';
+    let currentUser = null;
+    let currencyMode = 'BOTH';
+    let state = { shipments: [], batches: [], options: [], audits: [] };
+    let costChart = null;
+    let map = null, hormuzZone = null, liveVesselLayer = null, pharmaFleetLayer = null, telemTimer = null;
+
+    const fmtINR = n => '₹' + Number(n || 0).toLocaleString('en-IN');
+    const fmtUSD = n => '$' + Number(n || 0).toLocaleString('en-US');
+    const fmtMoney = (inr, usd) => currencyMode === 'INR' ? fmtINR(inr) : (currencyMode === 'USD' ? fmtUSD(usd) : `${fmtINR(inr)} (${fmtUSD(usd)})`);
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 4200);
+    }
+
+    // AUTH LOGIC
+    function setAuthMode(m) {
+      document.getElementById('loginForm').style.display = m === 'login' ? 'block' : 'none';
+      document.getElementById('regForm').style.display = m === 'register' ? 'block' : 'none';
+      document.getElementById('tabLogin').classList.toggle('active', m === 'login');
+      document.getElementById('tabReg').classList.toggle('active', m === 'register');
+      document.getElementById('authErr').style.display = 'none';
+    }
+    function fillDemo(email) {
+      document.getElementById('lEmail').value = email;
+      document.getElementById('lPass').value = 'Pravah@2026';
+    }
+    function showAuthErr(msg) {
+      const el = document.getElementById('authErr');
+      el.textContent = msg; el.style.display = 'block';
+    }
+    async function handleLogin(e) {
+      e.preventDefault();
+      const res = await fetch('/api/auth/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: document.getElementById('lEmail').value, password: document.getElementById('lPass').value })
+      });
+      const data = await res.json();
+      if (!res.ok) return showAuthErr(data.error || 'Login failed');
+      enterApp(data.token, data.user);
+    }
+    async function handleRegister(e) {
+      e.preventDefault();
+      const res = await fetch('/api/auth/register', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: document.getElementById('rName').value,
+          companyName: document.getElementById('rComp').value,
+          role: document.getElementById('rRole').value,
+          email: document.getElementById('rEmail').value,
+          password: document.getElementById('rPass').value
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) return showAuthErr(data.error || 'Registration failed');
+      enterApp(data.token, data.user);
+      showToast(`Welcome ${data.user.fullName}! Your Premium SaaS tenant is active.`);
+    }
+    function enterApp(token, user) {
+      authToken = token; currentUser = user;
+      localStorage.setItem('pravah_token', token);
+      document.getElementById('authOverlay').style.display = 'none';
+      const initials = user.fullName.split(' ').map(x => x[0]).join('').slice(0,2).toUpperCase();
+      document.getElementById('userAvatar').textContent = initials;
+      document.getElementById('userName').textContent = user.fullName;
+      document.getElementById('userComp').textContent = user.companyName;
+      document.getElementById('tenantSub').textContent = `${user.companyName} · ${user.subscriptionTier} · ${user.corridor}`;
+      document.getElementById('hitlTitle').textContent = `🛡️ ${user.fullName} — Human-in-the-Loop (HITL) Decision Gate`;
+      document.getElementById('jouleWelcome').innerHTML = `Hello <strong>${user.fullName}</strong> (${user.companyName}). Connected to all 4 Pravah-A2A agents via Outbound A2A.`;
+      initMap(); pollLiveTelemetry(); if (!telemTimer) telemTimer = setInterval(pollLiveTelemetry, 10000);
+      loadAll();
+      loadAgentCard('/.well-known/agent.json');
+    }
+    function logout() {
+      localStorage.removeItem('pravah_token');
+      authToken = ''; currentUser = null;
+      document.getElementById('authOverlay').style.display = 'flex';
+    }
+    async function checkSession() {
+      if (!authToken) return;
+      const res = await fetch('/api/auth/me', { headers: { Authorization: 'Bearer ' + authToken } });
+      if (res.ok) { const d = await res.json(); enterApp(authToken, d.user); }
+    }
+
+    // REAL LEAFLET GEOSPATIAL MARITIME MAP (Free Esri Satellite + Ocean + OSM, Zero API Key)
+    function initMap() {
+      if (map) { setTimeout(() => map.invalidateSize(), 150); return; }
+      map = L.map("maritimeMap", { zoomControl: true }).setView([20.0, 54.0], 4);
+
+      const satellite = L.layerGroup([
+        L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Esri Satellite", maxZoom: 14 }),
+        L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}", { maxZoom: 14 })
+      ]);
+      const ocean = L.layerGroup([
+        L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}", { attribution: "Esri Ocean", maxZoom: 13 }),
+        L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}", { maxZoom: 13 })
+      ]);
+      const street = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap", maxZoom: 16 });
+
+      satellite.addTo(map);
+      L.control.layers({ "🛰️ Satellite": satellite, "🌊 Ocean Chart": ocean, "🗺️ Street Map": street }, null, { position: "topright" }).addTo(map);
+
+      const jnpt = [18.95, 72.95], hormuz = [26.57, 56.25], jebelAli = [24.99, 55.06], jeddah = [21.48, 39.17], riyadh = [24.64, 46.75];
+
+      // 1. Blocked Hormuz Sea Lane (Red Dashed)
+      L.polyline([jnpt, [20.8, 67.5], [23.8, 61.5], [25.3, 58.0], hormuz, jebelAli], { color: "#FF4D4F", weight: 3.5, dashArray: "8, 7", opacity: 0.95 })
+        .bindPopup("<strong>Baseline Gulf Route (Blocked)</strong><br/>War Risk Surcharge: $3,500/reefer<br/>Cost: ₹6,30,000 ($7,500)").addTo(map);
+
+      // 2. Optimal Jeddah Sea + Land-Bridge Route (Glowing Emerald)
+      L.polyline([jnpt, [16.8, 66.0], [14.2, 57.5], [12.3, 47.0], [12.6, 43.3], [16.5, 41.2], jeddah], { color: "#10B981", weight: 4.5, opacity: 0.98 })
+        .bindPopup("<strong>★ Jeddah Sea Leg (Arabian Sea -> Red Sea)</strong><br/>Bypasses Strait of Hormuz War Risk").addTo(map);
+      L.polyline([jeddah, riyadh, jebelAli], { color: "#34D399", weight: 4, dashArray: "3, 6", opacity: 0.98 })
+        .bindPopup("<strong>★ GCC Bonded Reefer Land-Bridge</strong><br/>Jeddah -> Riyadh -> Jebel Ali (0% CEPA Duty · Total: ₹3,52,800 / $4,200)").addTo(map);
+
+      // 3. Cape of Good Hope Detour (Amber Dashed)
+      L.polyline([jnpt, [11.0, 65.0], [2.0, 56.0], [-10.0, 48.0]], { color: "#F59E0B", weight: 3, dashArray: "6, 6", opacity: 0.85 })
+        .bindPopup("<strong>Cape of Good Hope Detour</strong><br/>+14 days transit → Auto-rejected by Agent 02 (Batch Spoilage)").addTo(map);
+
+      // Hormuz Red Alert Radar Ring
+      hormuzZone = L.circle(hormuz, { color: "#FF4D4F", fillColor: "#FF4D4F", fillOpacity: 0.35, weight: 2, radius: 210000 })
+        .bindPopup("<strong>⚠️ Strait of Hormuz Chokepoint</strong><br/>AIS Dark-Ship / War Risk Zone ($3,500/reefer)").addTo(map);
+
+      // Port Markers with Clean Tooltips
+      [
+        { pt: jnpt, label: "JNPT (Mumbai)", sub: "Origin · 16 Active Pharma Reefers", col: "#38BDF8" },
+        { pt: jeddah, label: "Jeddah Hub", sub: "Intermodal Cold-Chain Transfer", col: "#10B981" },
+        { pt: riyadh, label: "Riyadh Dry Port", sub: "GCC Bonded Land-Bridge", col: "#34D399" },
+        { pt: jebelAli, label: "Jebel Ali (Dubai)", sub: "0% India-UAE CEPA Clearance", col: "#60A5FA" }
+      ].forEach(p => {
+        L.circleMarker(p.pt, { radius: 7.5, fillColor: p.col, color: "#fff", weight: 2.5, fillOpacity: 1 })
+          .bindTooltip(p.label, { permanent: true, direction: "top", offset: [0, -8] })
+          .bindPopup(`<strong>${p.label}</strong><br/>${p.sub}`).addTo(map);
+      });
+    }
+
+    function switchView(name, btn) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + name).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const titles = { overview: 'Executive Command Center', hitl: 'Crisis Simulator & HITL Gate', fleet: 'SAP S/4HANA Reefer Fleet', audit: 'EU AI Act Audit & A2A Inspector' };
+      document.getElementById('viewTitle').textContent = titles[name];
+      if (name === 'overview' && map) setTimeout(() => map.invalidateSize(), 120);
+    }
+
+    function setCurrency(mode, btn) {
+      currencyMode = mode;
+      document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderAll();
+    }
+
+    async function loadAll() {
+      const [s, b, o, a] = await Promise.all([
+        fetch(`${API}/Shipments?$orderby=shipmentId asc`).then(r => r.json()),
+        fetch(`${API}/ReeferBatches`).then(r => r.json()),
+        fetch(`${API}/RerouteOptions?$orderby=recommended desc,totalCostINR asc`).then(r => r.json()),
+        fetch(`${API}/AuditLogs?$orderby=createdAt desc`).then(r => r.json())
+      ]);
+      state = { shipments: s.value || [], batches: b.value || [], options: o.value || [], audits: a.value || [] };
+      renderAll();
+    }
+
+    function renderAll() {
+      const totalINR = state.shipments.reduce((acc, s) => acc + Number(s.cargoValueINR || 0), 0);
+      const totalUSD = state.shipments.reduce((acc, s) => acc + Number(s.cargoValueUSD || 0), 0);
+      const alerts = state.shipments.filter(s => s.status === 'ALERT_TRIGGERED').length;
+      const pending = state.options.filter(o => o.approvalStatus === 'PENDING_HITL').length;
+
+      document.getElementById('kpiFleet').textContent = `${state.shipments.length} Boxes`;
+      document.getElementById('kpiCargoVal').textContent = `Value: ${fmtMoney(totalINR, totalUSD)}`;
+      document.getElementById('kpiSavings').textContent = currencyMode === 'USD' ? '$3,300–$7,300' : (currencyMode === 'INR' ? '₹3.10L–₹6.85L' : '₹3.10L / $3.3k+');
+      document.getElementById('kpiAlerts').textContent = alerts > 0 ? `${alerts} Critical` : '0 Alerts';
+      document.getElementById('kpiAlertSub').textContent = alerts > 0 ? 'Hormuz Stall + Temp Excursion Active' : 'All JNPT–Gulf reefers within 2–8°C';
+
+      const badge = document.getElementById('hitlBadge');
+      badge.style.display = pending > 0 ? 'inline-block' : 'none'; badge.textContent = pending;
+
+      const mapPill = document.getElementById('mapStatusPill');
+      if (alerts > 0) { mapPill.className = 'pill pill-bad'; mapPill.textContent = '● CRITICAL: Hormuz Stall + Temp Drift'; if (hormuzZone) hormuzZone.setStyle({ fillOpacity: 0.65, radius: 340000 }); }
+      else if (state.shipments.some(s => s.status === 'REROUTED')) { mapPill.className = 'pill pill-ok'; mapPill.textContent = '● REROUTED: Jeddah Land-Bridge Active'; if (hormuzZone) hormuzZone.setStyle({ fillOpacity: 0.25, radius: 200000 }); }
+
+      const activeRun = state.options.length > 0;
+      for (let i = 1; i <= 4; i++) {
+        if (activeRun) {
+          document.getElementById('box-' + i).className = 'agent-box done';
+          document.getElementById('st-' + i).textContent = i === 4 && pending > 0 ? '⏳ Awaiting HITL Sign-Off' : '✔ Executed (<2m)';
+        }
+      }
+
+      const sel = document.getElementById('shipmentSelect');
+      const prev = sel.value;
+      sel.innerHTML = state.shipments.map(s => {
+        const bt = state.batches.find(x => x.shipmentId === s.shipmentId);
+        return `<option value="${s.shipmentId}">${s.shipmentId} · ${s.product} (${bt ? bt.remainingShelfLifeDays + 'd shelf' : ''})</option>`;
+      }).join('');
+      if (prev) sel.value = prev;
+
+      renderChart(); renderRoutes(); renderFleet(); renderAudit(); renderPharmaOnMap();
+    }
+
+    
+    // Realistic GPS waypoints along JNPT -> Gulf / Red Sea lanes for the 16 S/4HANA Pharma Reefers
+    const pharmaCoords = {
+      "SHP-JNPT-001": [25.60, 57.10], "SHP-JNPT-002": [16.20, 41.30], "SHP-JNPT-003": [24.40, 59.80],
+      "SHP-JNPT-004": [23.10, 62.40], "SHP-JNPT-005": [22.00, 65.10], "SHP-JNPT-006": [21.30, 61.20],
+      "SHP-JNPT-007": [25.10, 58.40], "SHP-JNPT-008": [18.40, 40.20], "SHP-JNPT-009": [23.90, 60.90],
+      "SHP-JNPT-010": [20.40, 68.30], "SHP-JNPT-011": [13.80, 43.10], "SHP-JNPT-012": [22.60, 63.80],
+      "SHP-JNPT-013": [24.90, 56.60], "SHP-JNPT-014": [21.10, 66.70], "SHP-JNPT-015": [19.80, 70.20],
+      "SHP-JNPT-016": [14.70, 53.50]
+    };
+
+    function renderPharmaOnMap() {
+      if (!map) return;
+      if (!pharmaFleetLayer) pharmaFleetLayer = L.layerGroup().addTo(map);
+      pharmaFleetLayer.clearLayers();
+      state.shipments.forEach(s => {
+        const pt = pharmaCoords[s.shipmentId];
+        if (!pt) return;
+        const bt = state.batches.find(x => x.shipmentId === s.shipmentId) || {};
+        const col = s.status === "ALERT_TRIGGERED" ? "#EF4444" : (s.status === "REROUTED" ? "#10B981" : "#F0AB00");
+        L.circleMarker(pt, {
+          radius: s.status === "ALERT_TRIGGERED" ? 8 : 6,
+          fillColor: col, color: "#00144A", weight: 2, fillOpacity: 0.95
+        }).bindPopup(`<strong>💊 ${s.shipmentId}</strong> (${s.status})<br/>${s.product}<br/>Shelf Life: <strong>${bt.remainingShelfLifeDays || 18}d</strong> · Temp: <strong>${bt.currentTempC || 4.2}°C</strong><br/>Dest: ${s.destination}<br/>Value: ${fmtMoney(s.cargoValueINR, s.cargoValueUSD)}`).addTo(pharmaFleetLayer);
+      });
+    }
+
+    function renderChart() {
+      const ctx = document.getElementById('costChart').getContext('2d');
+      const isUSD = currencyMode === 'USD';
+      if (costChart) costChart.destroy();
+      costChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Jeddah Intermodal (★)', 'Gulf War Surcharge', 'Panic Spot Air'],
+          datasets: [{ data: isUSD ? [4200, 7500, 11500] : [352800, 630000, 966000], backgroundColor: ['#03736F', '#0057D2', '#D32F2F'], borderRadius: 8, barThickness: 38 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => isUSD ? '$' + v.toLocaleString() : '₹' + (v/100000).toFixed(1) + 'L' } } } }
+      });
+    }
+
+    function renderRoutes() {
+      const wrap = document.getElementById('routesCards');
+      if (state.options.length === 0) { wrap.innerHTML = '<div style="color:var(--muted);font-size:13px;">No reroute options simulated yet.</div>'; return; }
+      if (state.audits.length > 0) document.getElementById('briefBox').innerHTML = `<strong>✦ Agent 04 (The Safe Guard) Executive Brief:</strong><br/>${state.audits[0].details}`;
+      wrap.innerHTML = state.options.map(o => {
+        const cls = o.recommended ? 'route-card rec' : (o.spoilageFlag ? 'route-card spoil' : 'route-card');
+        const statusPill = o.spoilageFlag ? '<span class="pill pill-bad">✖ SPOILAGE REJECTED</span>' : (o.recommended ? '<span class="pill pill-ok">★ #1 OPTIMAL · 2–8°C SAFE</span>' : '<span class="pill pill-warn">ALTERNATIVE</span>');
+        let btnHtml = '';
+        if (o.approvalStatus === 'PENDING_HITL') {
+          btnHtml = `<div style="display:flex;gap:8px;margin-top:auto;"><button class="btn btn-teal" style="flex:1;justify-content:center;" onclick="decide('${o.ID}','approve')">✔ Approve Reroute</button><button class="btn btn-ghost" onclick="decide('${o.ID}','reject')">✖ Override</button></div>`;
+        } else if (o.approvalStatus === 'APPROVED') {
+          btnHtml = `<div class="pill pill-ok" style="justify-content:center;padding:8px;">✔ SIGNED OFF</div>`;
+        } else if (o.approvalStatus === 'REJECTED') {
+          btnHtml = `<div class="pill pill-bad" style="justify-content:center;padding:8px;">✖ OVERRIDDEN</div>`;
+        }
+        return `<div class="${cls}">
+          <strong style="font-size:14.5px;color:var(--navy);">${o.routeName}</strong>
+          <div>${statusPill}</div>
+          <div><div class="price-big">${currencyMode === 'USD' ? fmtUSD(o.totalCostUSD) : fmtINR(o.totalCostINR)}</div><div class="price-sub">${currencyMode === 'BOTH' ? fmtUSD(o.totalCostUSD) + ' · ' : ''}Transit: ${o.transitDays}d · CEPA: ${o.cepaDutyPct}%</div></div>
+          <div style="font-size:12px;color:var(--teal);font-weight:700;">${o.savingsINR > 0 ? 'Saves ' + fmtMoney(o.savingsINR, o.savingsUSD) + ' vs Gulf' : 'No cost savings'}</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.45;">${o.rationale}</div>
+          ${btnHtml}
+        </div>`;
+      }).join('');
+    }
+
+    function renderFleet() {
+      const q = (document.getElementById('fleetSearch')?.value || '').toLowerCase();
+      document.getElementById('fleetBody').innerHTML = state.shipments.filter(s => `${s.shipmentId} ${s.product} ${s.destination} ${s.corridor}`.toLowerCase().includes(q)).map(s => {
+        const bt = state.batches.find(x => x.shipmentId === s.shipmentId) || {};
+        const days = bt.remainingShelfLifeDays || 18;
+        const pct = Math.min(100, Math.round((days / 30) * 100));
+        const stCls = s.status === 'REROUTED' ? 'pill-ok' : (s.status === 'ALERT_TRIGGERED' ? 'pill-bad' : 'pill-blue');
+        return `<tr>
+          <td><strong>${s.shipmentId}</strong><div style="font-size:11px;color:var(--muted);">${s.batchId}</div></td>
+          <td>${s.product}<div style="font-size:11px;color:var(--muted);">HS ${s.hsCode}</div></td>
+          <td>${s.origin} → ${s.destination}</td>
+          <td style="min-width:125px;"><strong>${days}d left</strong> (${bt.currentTempC || 4.2}°C)<div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${days<=18?'var(--danger)':'var(--teal)'};"></div></div></td>
+          <td><strong>${fmtMoney(s.cargoValueINR, s.cargoValueUSD)}</strong></td>
+          <td><span class="pill ${stCls}">${s.status}</span></td>
+        </tr>`;
+      }).join('');
+    }
+
+    function renderAudit() {
+      document.getElementById('auditBody').innerHTML = state.audits.length ? state.audits.map(a => {
+        const cls = a.decisionStatus === 'APPROVED' ? 'pill-ok' : (a.decisionStatus === 'REJECTED' ? 'pill-bad' : 'pill-warn');
+        return `<tr><td><strong>${a.shipmentId || '-'}</strong></td><td><strong>${a.agentName}</strong><div style="font-size:11px;color:var(--muted);">${a.actionTaken}</div></td><td>${a.euAiActClause}<div style="font-size:11px;color:var(--teal);">${a.cepaCitation || ''}</div></td><td><strong>${a.humanApprover}</strong><div style="margin-top:4px;"><span class="pill ${cls}">${a.decisionStatus}</span></div></td><td style="max-width:320px;font-size:12.5px;">${a.details}</td></tr>`;
+      }).join('') : '<tr><td colspan="5" style="color:var(--muted);">Trigger a crisis to record immutable audit trails.</td></tr>';
+    }
+
+    async function quickCrisisDemo() {
+      switchView('hitl', document.querySelectorAll('.nav-item')[1]);
+      await triggerCrisis();
+    }
+
+    async function triggerCrisis() {
+      const shipmentId = document.getElementById('shipmentSelect').value || 'SHP-JNPT-001';
+      showToast(`⚡ Running authenticated 4-Agent triage for ${shipmentId}...`);
+      const res = await fetch(`${API}/triggerCrisis`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken },
+        body: JSON.stringify({
+          shipmentId, eventType: 'HORMUZ_CHOKEPOINT_STALL_AND_TEMP_DRIFT', chokepoint: 'Strait of Hormuz / Red Sea',
+          vesselSogKnots: 0.4, aisDarkMinutes: parseInt(document.getElementById('darkSlider').value, 10),
+          reeferTempC: parseFloat(document.getElementById('tempSlider').value), doorOpen: true, severity: 'CRITICAL'
+        })
+      });
+      if (res.status === 401) { logout(); return showAuthErr('Session expired. Please sign in again.'); }
+      showToast('✔ 4-Agent triage complete! Review HITL Gate.');
+      await loadAll();
+    }
+
+    async function decide(optionId, type) {
+      const res = await fetch(`${API}/${type === 'approve' ? 'approveReroute' : 'rejectReroute'}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken },
+        body: JSON.stringify(type === 'approve' ? { optionId } : { optionId, reason: 'Manual override per EU AI Act Art. 14(4)(e)' })
+      });
+      if (res.status === 401) { logout(); return showAuthErr('Session expired.'); }
+      const data = await res.json();
+      showToast(data.value || 'Decision logged!');
+      await loadAll();
+    }
+
+    async function loadAgentCard(path) {
+      const data = await fetch(path).then(r => r.json());
+      document.getElementById('agentJsonViewer').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function pollLiveTelemetry() {
+      try {
+        const data = await fetch("/api/telemetry/live").then(r => r.json());
+        const pill = document.getElementById("mapStatusPill");
+        if (data.vesselCount > 0) {
+          pill.className = "pill pill-ok";
+          const pw = data.portWatch || {}; const pwTxt = pw.hormuzDailyTransits !== null ? ` · 🛰️ PortWatch Hormuz: ${pw.hormuzDailyTransits}/day (${pw.hormuzDate})` : ""; pill.textContent = `📡 AIS: ${data.vesselCount} Ships${pwTxt} · NOAA: ${data.noaaActiveAlerts ?? "..."}`; if (hormuzZone && pw.hormuzDailyTransits !== null) hormuzZone.setPopupContent(`<strong>⚠️ Strait of Hormuz (LIVE IMF PortWatch)</strong><br/>Satellite Transits: <strong>${pw.hormuzDailyTransits}/day</strong> (${pw.hormuzDate})<br/>Container Ships: ${pw.hormuzContainers ?? 0}/day<br/>War Risk Surcharge: $3,500/reefer`);
+        } else {
+          pill.className = "pill pill-blue";
+          pill.textContent = `📡 AISStream: ${data.aisStatus} · NOAA Alerts: ${data.noaaActiveAlerts ?? "..."}`;
+        }
+        if (map) {
+          if (!liveVesselLayer) liveVesselLayer = L.layerGroup().addTo(map);
+          liveVesselLayer.clearLayers();
+          (data.vessels || []).forEach(v => {
+            L.circleMarker([v.lat, v.lon], {
+              radius: 4.5,
+              fillColor: v.stalled ? "#F59E0B" : "#38BDF8",
+              color: "#fff",
+              weight: 1.2,
+              fillOpacity: 0.92
+            }).bindPopup(`<strong>🚢 ${v.name}</strong> (LIVE AIS)<br/>MMSI: ${v.mmsi}<br/>Speed: <strong>${v.sog} knots</strong>${v.stalled ? " ⚠️ STALLED" : ""}<br/>GPS: ${v.lat.toFixed(3)}, ${v.lon.toFixed(3)}`).addTo(liveVesselLayer);
+          });
+        }
+      } catch {}
+    }
+
+    async function askJoule(preset) {
+      const inp = document.getElementById("jouleInput");
+      const q = preset || inp.value.trim();
+      if (!q) return; inp.value = "";
+      const msgs = document.getElementById("jouleMsgs");
+      msgs.innerHTML += `<div class="msg user">${q}</div>`;
+      const thinkingId = "think-" + Date.now();
+      msgs.innerHTML += `<div class="msg bot" id="${thinkingId}">✦ Querying live Gemini AI + HANA Cloud + AISStream...</div>`;
+      msgs.scrollTop = msgs.scrollHeight;
+
+      if (q.toLowerCase().includes("trigger")) {
+        await quickCrisisDemo();
+      }
+      try {
+        const res = await fetch("/api/copilot/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + authToken },
+          body: JSON.stringify({ question: q })
+        });
+        const d = await res.json();
+        document.getElementById(thinkingId).innerHTML = `${d.answer} <div style="font-size:10px;color:#64748B;margin-top:4px;">${d.liveLLM ? "✦ Live Gemini 2.0 Flash · " + (d.liveVessels || 0) + " Live AIS Ships" : "Cached fallback"}</div>`;
+      } catch {
+        document.getElementById(thinkingId).textContent = "Could not reach live Copilot endpoint.";
+      }
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    checkSession();
+  </script>
+</body>
+</html>
