@@ -1,6 +1,9 @@
 import crypto from 'crypto';
 
-const SECRET = process.env.SESSION_SECRET || crypto.createHash('sha256').update((process.env.GEMINI_API_KEY || 'pravah-btp') + '-hmac-secret').digest('hex');
+function getSecret() {
+  return process.env.SESSION_SECRET ||
+    crypto.createHash('sha256').update((process.env.GEMINI_API_KEY || 'pravah-btp') + '-hmac-secret').digest('hex');
+}
 
 export function hashPassword(password) {
   const salt = crypto.randomBytes(16).toString('hex');
@@ -18,7 +21,7 @@ export function verifyPassword(password, stored) {
 
 export function signToken(payload) {
   const data = Buffer.from(JSON.stringify({ ...payload, exp: Date.now() + 8 * 3600 * 1000 })).toString('base64url');
-  const sig = crypto.createHmac('sha256', SECRET).update(data).digest('base64url');
+  const sig = crypto.createHmac('sha256', getSecret()).update(data).digest('base64url');
   return `${data}.${sig}`;
 }
 
@@ -27,7 +30,7 @@ export function verifyToken(authHeader) {
   const token = authHeader.slice(7).trim();
   const [data, sig] = token.split('.');
   if (!data || !sig) return null;
-  const expected = crypto.createHmac('sha256', SECRET).update(data).digest('base64url');
+  const expected = crypto.createHmac('sha256', getSecret()).update(data).digest('base64url');
   const a = Buffer.from(sig), b = Buffer.from(expected);
   if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
   const payload = JSON.parse(Buffer.from(data, 'base64url').toString('utf8'));

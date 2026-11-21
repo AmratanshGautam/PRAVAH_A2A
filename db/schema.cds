@@ -11,6 +11,7 @@ entity Shipments : managed {
   containerType        : String(30);
   vesselMMSI           : String(20);
   corridor             : String(40);
+  cargoDomain          : String(40) default 'PHARMA_COLD_CHAIN';
   cargoValueINR        : Decimal(15,2);
   cargoValueUSD        : Decimal(15,2);
   status               : String(30); // IN_TRANSIT, ALERT_TRIGGERED, REROUTED, DELIVERED
@@ -42,22 +43,49 @@ entity ColdChainExcursions : cuid, managed {
 }
 
 entity RerouteOptions : cuid, managed {
+  shipmentId          : String(30);
+  routeId             : String(40);
+  routeName           : String(120);
+  mode                : String(60);
+  cargoDomain         : String(40) default 'PHARMA_COLD_CHAIN';
+  transitDays         : Integer;
+  warRiskSurchargeUSD : Decimal(10,2);
+  cepaDutyPct         : Decimal(5,2);
+  totalCostINR        : Decimal(15,2);
+  totalCostUSD        : Decimal(15,2);
+  savingsINR          : Decimal(15,2);
+  savingsUSD          : Decimal(15,2);
+  coldChainSafe       : Boolean;
+  spoilageFlag        : Boolean;
+  cfoCapExceeded      : Boolean default false;
+  cfoCapThresholdINR  : Decimal(15,2) default 500000;
+  complianceNote      : String(500);
+  recommended         : Boolean default false;
+  approvalStatus      : String(30) default 'PENDING_HITL'; // PENDING_HITL, APPROVED, REJECTED
+  rationale           : String(1000);
+}
+
+entity MaritimeIncidents : cuid, managed {
+  incidentCode       : String(40);
+  incidentType       : String(60); // MISSILE_DRONE, PIRATE_RAID, TERROR_HIJACK, SHIP_COLLISION, AIS_SPOOFING
+  severity           : String(20) default 'CRITICAL';
+  vesselName         : String(100);
+  vesselMMSI         : String(20);
   shipmentId         : String(30);
-  routeId            : String(40);
-  routeName          : String(120);
-  mode               : String(60);
-  transitDays        : Integer;
-  warRiskSurchargeUSD: Decimal(10,2);
-  cepaDutyPct        : Decimal(5,2);
-  totalCostINR       : Decimal(15,2);
-  totalCostUSD       : Decimal(15,2);
-  savingsINR         : Decimal(15,2);
-  savingsUSD         : Decimal(15,2);
-  coldChainSafe      : Boolean;
-  spoilageFlag       : Boolean;
-  recommended        : Boolean default false;
-  approvalStatus     : String(30) default 'PENDING_HITL'; // PENDING_HITL, APPROVED, REJECTED
-  rationale          : String(1000);
+  latitude           : Decimal(9,5);
+  longitude          : Decimal(9,5);
+  threatBearingDeg   : Integer;
+  threatSource       : String(120);
+  corridor           : String(80);
+  cargoCriticality   : String(120);
+  targetAgencies     : String(200);
+  dispatchPacketJson : LargeString;
+  affectedShipments  : Integer default 0;
+  protectedValueINR  : Decimal(15,2) default 0;
+  protectedValueUSD  : Decimal(15,2) default 0;
+  dangerRadiusNM     : Integer default 50;
+  reportedBy         : String(100);
+  status             : String(30) default 'DISPATCHED_PROTOTYPE'; // DISPATCHED_PROTOTYPE, RESOLVED
 }
 
 entity AuditLogs : cuid, managed {
