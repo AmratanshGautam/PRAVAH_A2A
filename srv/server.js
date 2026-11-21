@@ -55,43 +55,91 @@ cds.on('bootstrap', (app) => {
 
   // Real Gemini-Powered Joule A2A Copilot (Authenticated)
   app.post("/api/copilot/ask", async (req, res) => {
-    const user = verifyToken(req.headers.authorization);
+    const rawTok = req.headers["x-pravah-token"];
+    const user = verifyToken(rawTok ? ("Bearer " + rawTok) : req.headers.authorization);
     if (!user) return res.status(401).json({ error: "Unauthorized" });
     const question = String(req.body?.question || "").trim();
     if (!question) return res.status(400).json({ error: "Question required" });
 
     const db = await cds.connect.to("db");
-    const [shipments, options, audits] = await Promise.all([
-      db.run(SELECT.from("pravah.a2a.Shipments").limit(6)),
-      db.run(SELECT.from("pravah.a2a.RerouteOptions").limit(4)),
-      db.run(SELECT.from("pravah.a2a.AuditLogs").orderBy("createdAt desc").limit(3))
+    const [shipments, options, audits, sosList] = await Promise.all([
+      db.run(SELECT.from("pravah.a2a.Shipments").limit(16)),
+      db.run(SELECT.from("pravah.a2a.RerouteOptions").limit(8)),
+      db.run(SELECT.from("pravah.a2a.AuditLogs").orderBy("createdAt desc").limit(5)),
+      db.run(SELECT.from("pravah.a2a.MaritimeIncidents").orderBy("createdAt desc").limit(5)).catch(() => [])
     ]);
     const telem = getLiveTelemetry();
-    const topShips = telem.vessels.slice(0, 5).map(v => `${v.name} (MMSI ${v.mmsi}, ${v.sog} kn at ${v.lat.toFixed(2)},${v.lon.toFixed(2)})`).join("; ");
+    const topShipsArr = [];
+    for (const v of (telem.vessels || []).slice(0, 5)) {
+      topShipsArr.push(v['name'] + " (MMSI " + v.mmsi + ", " + v.sog + " kn)");
+    }
+    const topShips = topShipsArr.join("; ");
 
-    if (process.env.GEMINI_API_KEY) {
-      try {
-        const prompt = `You are Pravah-A2A, a Joule-compatible SAP Supply Chain AI Copilot speaking to ${user.fullName} (${user.role}, ${user.companyName}).
-Live Telemetry: AISStream=${telem.aisStatus} (${telem.vesselCount} live ships: ${topShips || "warming up"}), NOAA active alerts=${telem.noaaActiveAlerts}, LIVE IMF PortWatch Satellite Transits: Strait of Hormuz=${telem.portWatch?.hormuzDailyTransits}/day (${telem.portWatch?.hormuzDate}), Bab el-Mandeb=${telem.portWatch?.babElMandebDailyTransits}/day.
-S/4HANA Shipments: ${shipments.length} active pharma reefers. Active Reroutes: ${JSON.stringify(options.map(o => ({ route: o.routeName, inr: o.totalCostINR, usd: o.totalCostUSD, days: o.transitDays, spoilage: o.spoilageFlag })))}.
-Latest Audits: ${audits.length} EU AI Act Art. 14 records.
-Answer concisely in 2-3 sentences: ${question}`;
-
-        const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(process.env.GEMINI_API_KEY)}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-        });
-        const gData = await gRes.json();
-        const text = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) return res.json({ answer: text.trim(), liveLLM: true, liveVessels: telem.vesselCount });
-      } catch {}
+    const optSummary = [];
+    for (const o of options) {
+      optSummary.push({
+        route: o.routeName, domain: o.cargoDomain, inr: o.totalCostINR, usd: o.totalCostUSD,
+        days: o.transitDays, status: o.approvalStatus, cfoLock: o.cfoCapExceeded, note: o.complianceNote
+      });
+    }
+    const sosSummary = [];
+    for (const m of sosList) {
+      sosSummary.push({
+        code: m.incidentCode, type: m.incidentType, ship: m.shipmentId,
+        lat: m.latitude, lng: m.longitude, blastBoxes: m.affectedShipments, protectedINR: m.protectedValueINR
+      });
     }
 
-    // Smart Live-Data Grounded Fallback (always includes real AISStream + NOAA + HANA numbers)
-    const fallback = telem.vesselCount > 0
-      ? `Live AISStream is tracking <strong>${telem.vesselCount} real vessels</strong> right now (e.g., ${topShips}) alongside <strong>${telem.noaaActiveAlerts ?? 0} live NOAA alerts</strong>. For S/4HANA pharma exports, Jeddah Intermodal (₹3,52,800 / $4,200; 0% CEPA duty) avoids the $3,500 Hormuz war surcharge and Cape +14d spoilage.`
-      : `AISStream (${telem.aisStatus}) & NOAA (${telem.noaaActiveAlerts ?? 0} live alerts) are active with ${shipments.length} HANA Cloud pharma shipments and ${audits.length} EU AI Act Art. 14 audit records. Jeddah Intermodal (₹3,52,800 / $4,200) remains the #1 cold-chain safe route.`;
+    if (process.env.GEMINI_API_KEY) {
+      const prompt = [
+        "You are Pravah-A2A, an executive SAP BTP Supply Chain & Maritime Intelligence Copilot speaking to " + user.fullName + " (" + user.role + ", " + user.companyName + ").",
+        "STRICT INSTRUCTION: Answer the user's EXACT question directly, naturally, and concisely (2-4 sentences). Do NOT mention vessel counts, AISStream numbers, or generic telemetry unless the user specifically asks about live ships, maritime traffic, weather, or telemetry.",
+        "Platform Capabilities: 4 A2A Agents (01 Watcher, 02 Planner, 03 Bookmaker, 04 Safe Guard), 5 Cargo Domains (Pharma 2-8C/18d CEPA 0%, Agri/Urea 180d, Perishable Seafood 12d, Semiconductors JIT with INR 8L/day line-down penalty + WTO ITA 0%, Specialty Chemicals Hazmat with IMDG Air Cargo Ban), CFO Spend-Cap Dual-Approval Lock (default INR 5,00,000 / $6,000), EU AI Act Art. 14(4) HITL Sign-Off & printable A4 Certificate, and Maritime SOS Naval Dispatch (Indian Navy IFC-IOR, UKMTO, Indian Coast Guard MRCC Mumbai).",
+        "Live HANA State: " + shipments.length + " shipments | Active Reroutes: " + JSON.stringify(optSummary) + " | Active Maritime SOS: " + JSON.stringify(sosSummary) + " | Audit Records: " + audits.length,
+        "Live External Feeds (use ONLY if relevant to the question): AISStream=" + telem.aisStatus + " (" + telem.vesselCount + " ships: " + (topShips || "warming up") + "), IMF PortWatch Hormuz=" + telem.portWatch?.hormuzDailyTransits + "/day (" + telem.portWatch?.hormuzDate + "), Bab el-Mandeb=" + telem.portWatch?.babElMandebDailyTransits + "/day, NOAA alerts=" + telem.noaaActiveAlerts + ".",
+        "User Question: " + question
+      ].join("\n");
+
+      const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+      for (const model of models) {
+        try {
+          const gUrl = ["https:", "", "generativelanguage.googleapis.com", "v1beta", "models", model + ":generateContent"].join("/") + "?key=" + encodeURIComponent(process.env.GEMINI_API_KEY);
+          const gRes = await fetch(gUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              generationConfig: { temperature: 0.3, maxOutputTokens: 320 }
+            })
+          });
+          const gData = await gRes.json();
+          const text = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (text) return res.json({ answer: text.trim(), liveLLM: true, model, liveVessels: telem.vesselCount });
+          console.error("[Copilot Gemini " + model + "]", gRes.status, gData?.error?.message || "No text returned");
+        } catch (err) {
+          console.error("[Copilot Gemini " + model + " Error]", err.message);
+        }
+      }
+    }
+
+    // Topic-aware fallback (only used if all Gemini models fail/rate-limit)
+    const q = question.toLowerCase();
+    let fallback = "";
+    if (/sos|navy|pirate|missile|drone|terror|attack|ukmto|ifc|coast guard|blast/.test(q)) {
+      fallback = sosList.length
+        ? "Active Maritime SOS " + sosList[0].incidentCode + " (" + sosList[0].incidentType + ") has been persisted in HANA Cloud with a standardized Indian Navy IFC-IOR / UKMTO / MRCC Mumbai packet, alerting " + sosList[0].affectedShipments + " fleet shipments (INR " + Number(sosList[0].protectedValueINR).toLocaleString("en-IN") + " protected)."
+        : "Pravah-A2A's Maritime Security & SOS module captures GPS coordinates, MMSI, and threat bearing to generate standardized Indian Navy IFC-IOR, UKMTO, and Indian Coast Guard MRCC Mumbai distress packets while scanning the entire fleet blast radius.";
+    } else if (/cfo|cap|spend|budget|cost|price|saving|air/.test(q)) {
+      fallback = "The configurable CFO Spend-Cap Guardrail (default ₹5,00,000 / $6,000) automatically places a Dual-Approval Lock on expensive routes like Panic Spot Air (₹9,66,000 / $11,500), while Jeddah Intermodal (₹3,52,800 / $4,200) saves ₹2,77,200 ($3,300) vs Gulf War Surcharge.";
+    } else if (/hazmat|chemical|imdg|semiconductor|chip|urea|agri|shrimp|food|domain|cargo/.test(q)) {
+      fallback = "Pravah-A2A supports 5 sea-export verticals: Pharma (2–8°C, 18d CEPA 0%), Agri/Urea (180d bulk), Perishable Seafood (12d), Semiconductors JIT (₹8L/day line-down penalty + WTO ITA 0%), and Hazmat Chemicals (automatic IMDG Air Cargo Ban).";
+    } else if (/eu|ai act|cepa|audit|compliance|certificate|legal|hitl/.test(q)) {
+      fallback = "Every reroute is held at Agent 04's Human-in-the-Loop gate per EU AI Act Article 14(4). Once approved, SAP HANA Cloud logs an immutable audit entry (" + audits.length + " records active) and unlocks a printable A4 Compliance & India–UAE CEPA 0% Duty Certificate.";
+    } else if (/ship|ais|vessel|hormuz|noaa|weather|telemetry|live|map/.test(q)) {
+      fallback = "Live telemetry is active: AISStream reports " + telem.vesselCount + " live vessels" + (topShips ? " (" + topShips + ")" : "") + ", IMF PortWatch shows " + (telem.portWatch?.hormuzDailyTransits ?? "N/A") + " daily Strait of Hormuz transits, and NOAA reports " + (telem.noaaActiveAlerts ?? 0) + " active alerts.";
+    } else {
+      fallback = "Pravah-A2A currently monitors " + shipments.length + " S/4HANA shipments on SAP BTP + HANA Cloud with 4 A2A agents, 5 cargo-domain rule engines, CFO spend-cap governance, EU AI Act Art. 14(4) audit trails, and Maritime SOS naval dispatch. Ask me about any specific route, cargo domain, compliance rule, or live corridor.";
+    }
     return res.json({ answer: fallback, liveLLM: false, liveVessels: telem.vesselCount });
   });
 
