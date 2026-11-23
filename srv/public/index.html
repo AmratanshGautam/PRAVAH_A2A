@@ -523,6 +523,97 @@
     .rs-bad { background: rgba(239,68,68,0.18); color: #F87171; border: 1px solid rgba(239,68,68,0.4); }
     .rs-warn { background: rgba(245,158,11,0.18); color: #FBBF24; border: 1px solid rgba(245,158,11,0.4); }
     .rs-info { background: rgba(56,189,248,0.16); color: #38BDF8; border: 1px solid rgba(56,189,248,0.4); }
+  
+    /* === COMPLETE DAY MODE (SAP FIORI HORIZON LIGHT) === */
+    body.day-mode {
+      --bg: #F4F6FA;
+      --surface: #FFFFFF;
+      --card: #FFFFFF;
+      --text: #0F172A;
+      --ink: #0F172A;
+      --muted: #475569;
+      --border: #E2E8F0;
+      --navy: #0B1221;
+      background: #F4F6FA !important;
+      color: #0F172A !important;
+    }
+    body.day-mode .sidebar {
+      background: #FFFFFF !important;
+      border-right: 1px solid #E2E8F0 !important;
+      color: #0F172A !important;
+    }
+    body.day-mode .sidebar .logo-text strong,
+    body.day-mode .sidebar #userName { color: #0B1221 !important; }
+    body.day-mode .sidebar .logo-text span,
+    body.day-mode .sidebar .sidebar-footer,
+    body.day-mode .sidebar #userComp { color: #475569 !important; }
+    body.day-mode .nav-item { color: #334155 !important; }
+    body.day-mode .nav-item:hover { background: #F1F5F9 !important; color: #0B1221 !important; }
+    body.day-mode .nav-item.active { background: #0057D2 !important; color: #FFFFFF !important; box-shadow: 0 4px 12px rgba(0,87,210,0.22) !important; }
+    body.day-mode .persona-pill { background: #F8FAFC !important; border: 1px solid #E2E8F0 !important; }
+    body.day-mode .sidebar-footer button { border-color: #CBD5E1 !important; color: #334155 !important; }
+    body.day-mode .workspace { background: #F4F6FA !important; }
+    body.day-mode .topbar {
+      background: #FFFFFF !important;
+      border-bottom: 1px solid #E2E8F0 !important;
+      color: #0F172A !important;
+    }
+    body.day-mode .topbar h1 { color: #0B1221 !important; }
+    body.day-mode .topbar span { color: #475569 !important; }
+    body.day-mode .panel,
+    body.day-mode .kpi-card,
+    body.day-mode .route-card,
+    body.day-mode .agent-box {
+      background: #FFFFFF !important;
+      border: 1px solid #E2E8F0 !important;
+      color: #0F172A !important;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.05) !important;
+    }
+    body.day-mode .panel-head h2,
+    body.day-mode .kpi-val,
+    body.day-mode .price-big,
+    body.day-mode strong { color: #0B1221 !important; }
+    body.day-mode .kpi-label,
+    body.day-mode .kpi-sub,
+    body.day-mode .price-sub,
+    body.day-mode label { color: #475569 !important; }
+    body.day-mode table th { background: #F8FAFC !important; color: #334155 !important; border-bottom: 1px solid #E2E8F0 !important; }
+    body.day-mode table td { color: #0F172A !important; border-bottom: 1px solid #F1F5F9 !important; }
+    body.day-mode input[type="text"],
+    body.day-mode input[type="number"],
+    body.day-mode input[type="email"],
+    body.day-mode input[type="password"],
+    body.day-mode select {
+      background: #FFFFFF !important;
+      color: #0F172A !important;
+      border: 1px solid #CBD5E1 !important;
+    }
+    body.day-mode .btn-ghost {
+      background: #F8FAFC !important;
+      color: #0F172A !important;
+      border: 1px solid #CBD5E1 !important;
+    }
+    body.day-mode .btn-ghost:hover { background: #E2E8F0 !important; }
+    body.day-mode .seg-toggle { background: #F1F5F9 !important; border: 1px solid #CBD5E1 !important; }
+    body.day-mode .seg-btn { color: #475569 !important; }
+    body.day-mode .seg-btn.active { background: #0057D2 !important; color: #FFFFFF !important; }
+    body.day-mode #maritimeMap { background: #E8EEF5 !important; border-color: #CBD5E1 !important; }
+    body.day-mode .mf-btn { background: #FFFFFF !important; color: #334155 !important; border-color: #CBD5E1 !important; }
+    body.day-mode .mf-btn.active { background: #0057D2 !important; color: #FFFFFF !important; border-color: #0057D2 !important; }
+    body.day-mode .rs-card { background: #F8FAFC !important; border-color: #CBD5E1 !important; color: #0F172A !important; }
+    body.day-mode .rs-card.selected { background: #EFF6FF !important; border-color: #0057D2 !important; }
+    body.day-mode .rs-title { color: #0B1221 !important; }
+    body.day-mode .rs-meta { color: #475569 !important; }
+    body.day-mode .map-legend { color: #475569 !important; }
+    body.day-mode .brief-box,
+    body.day-mode #briefBox { background: #EFF6FF !important; color: #0F172A !important; border-left-color: #0057D2 !important; }
+    body.day-mode .joule-drawer,
+    body.day-mode #jouleDrawer { background: #FFFFFF !important; border-left: 1px solid #CBD5E1 !important; color: #0F172A !important; }
+    body.day-mode .auth-overlay { background: linear-gradient(135deg, #EEF2F7, #DBEAFE) !important; }
+    body.day-mode .auth-card { background: #FFFFFF !important; border: 1px solid #CBD5E1 !important; color: #0F172A !important; box-shadow: 0 20px 50px rgba(15,23,42,0.12) !important; }
+    body.day-mode .demo-pill { background: #EFF6FF !important; color: #1D4ED8 !important; border-color: #BFDBFE !important; }
+    body.day-mode .blast-banner strong,
+    body.day-mode .blast-banner div { color: #FFFFFF !important; }
   </style>
 </head>
 <body>
@@ -607,7 +698,8 @@
         <span id="tenantSub">Multi-Tenant Cold-Chain Control Tower · Live SAP HANA Cloud</span>
       </div>
       <div class="topbar-right">
-        <button class="btn btn-ghost" style="padding:7px 12px;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;" onclick="resetDemo()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Reset Workspace</button>
+        <button class="btn btn-ghost" id="themeToggleBtn" style="padding:7px 12px;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;" onclick="toggleThemeMode()" title="Switch Day / Night Mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:15px;height:15px;stroke-width:1.9;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span id="themeToggleLbl">Day Mode</span></button>
+                <button class="btn btn-ghost" style="padding:7px 12px;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;" onclick="resetDemo()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Reset Workspace</button>
         <div class="seg-toggle">
           <button class="seg-btn active" onclick="setCurrency('BOTH', this)">INR + USD</button>
           <button class="seg-btn" onclick="setCurrency('INR', this)">₹ INR</button>
@@ -1213,7 +1305,19 @@
         maxZoom: 16,
         attribution: 'Esri Labels'
       });
-      const darkMatter = L.layerGroup([darkBase, darkLabels]).addTo(map);
+      const lightBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 16,
+        attribution: 'Esri Light Gray Canvas'
+      });
+      const lightLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 16,
+        attribution: 'Esri Light Labels'
+      });
+      window._darkBasemap = L.layerGroup([darkBase, darkLabels]);
+      window._lightBasemap = L.layerGroup([lightBase, lightLabels]);
+      const darkMatter = window._darkBasemap;
+      if (document.body.classList.contains('day-mode')) window._lightBasemap.addTo(map);
+      else window._darkBasemap.addTo(map);
 
       const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 18,
@@ -1226,7 +1330,7 @@
       });
 
       L.control.layers(
-        { 'Dark Command Map': darkMatter, 'Esri Satellite': esriSat, 'Ocean Bathymetry': esriOcean },
+        { 'Dark Command Map': darkMatter, 'Day Light Map': window._lightBasemap, 'Esri Satellite': esriSat, 'Ocean Bathymetry': esriOcean },
         {},
         { position: 'topright' }
       ).addTo(map);
@@ -2262,6 +2366,34 @@
       URL.revokeObjectURL(url);
       showToast('Downloaded ' + (data.dossierId || shipmentId) + ' (Chain Valid: ' + data.euAiActGovernance?.sha256ChainVerification?.valid + ')');
     }
+  
+    function applyThemeMode(mode) {
+      const isDay = mode === 'day';
+      document.body.classList.toggle('day-mode', isDay);
+      localStorage.setItem('pravah_theme', isDay ? 'day' : 'night');
+      const lbl = document.getElementById('themeToggleLbl');
+      if (lbl) lbl.textContent = isDay ? 'Night Mode' : 'Day Mode';
+      if (map && window._darkBasemap && window._lightBasemap) {
+        if (isDay) {
+          if (map.hasLayer(window._darkBasemap)) map.removeLayer(window._darkBasemap);
+          if (!map.hasLayer(window._lightBasemap)) window._lightBasemap.addTo(map);
+        } else {
+          if (map.hasLayer(window._lightBasemap)) map.removeLayer(window._lightBasemap);
+          if (!map.hasLayer(window._darkBasemap)) window._darkBasemap.addTo(map);
+        }
+      }
+      if (typeof renderChart === 'function') { try { renderChart(); } catch {} }
+    }
+
+    function toggleThemeMode() {
+      const next = document.body.classList.contains('day-mode') ? 'night' : 'day';
+      applyThemeMode(next);
+    }
+
+    (function initSavedTheme() {
+      const saved = localStorage.getItem('pravah_theme');
+      if (saved === 'day') applyThemeMode('day');
+    })();
   </script>
 </body>
 </html>
