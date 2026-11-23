@@ -498,6 +498,31 @@
       border: 1px solid #1E293B; font-family: 'JetBrains Mono', ui-monospace, monospace;
       font-size: 11.5px !important; line-height: 1.5;
     }
+  
+    /* === GLOBAL MARITIME COMMAND MAP === */
+    #maritimeMap { background: #060D1C !important; min-height: 410px; border-radius: 10px; border: 1px solid rgba(56,189,248,0.18); }
+    .map-filter-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 10px; }
+    .map-filter-group { display: flex; flex-wrap: wrap; gap: 6px; }
+    .mf-btn {
+      background: rgba(15,23,42,0.85); color: #CBD5E1; border: 1px solid rgba(148,163,184,0.28);
+      padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+    }
+    .mf-btn:hover { border-color: #38BDF8; color: #FFFFFF; }
+    .mf-btn.active { background: #0057D2; border-color: #38BDF8; color: #FFFFFF; }
+    .route-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+    @media (max-width: 1100px) { .route-strip { grid-template-columns: repeat(2, 1fr); } }
+    .rs-card {
+      background: rgba(15,23,42,0.82); border: 1px solid rgba(148,163,184,0.22); border-radius: 8px;
+      padding: 8px 10px; cursor: pointer; transition: all 0.16s; color: #E2E8F0;
+    }
+    .rs-card:hover, .rs-card.selected { border-color: #38BDF8; box-shadow: 0 0 0 1px rgba(56,189,248,0.45); background: rgba(15,23,42,0.96); }
+    .rs-title { font-size: 11.5px; font-weight: 700; color: #F8FAFC; display: flex; justify-content: space-between; align-items: center; gap: 4px; }
+    .rs-meta { font-size: 10.5px; color: #94A3B8; margin-top: 4px; line-height: 1.4; font-variant-numeric: tabular-nums; }
+    .rs-tag { font-size: 9.5px; font-weight: 700; padding: 1px 6px; border-radius: 4px; text-transform: uppercase; }
+    .rs-ok { background: rgba(16,185,129,0.18); color: #34D399; border: 1px solid rgba(16,185,129,0.4); }
+    .rs-bad { background: rgba(239,68,68,0.18); color: #F87171; border: 1px solid rgba(239,68,68,0.4); }
+    .rs-warn { background: rgba(245,158,11,0.18); color: #FBBF24; border: 1px solid rgba(245,158,11,0.4); }
+    .rs-info { background: rgba(56,189,248,0.16); color: #38BDF8; border: 1px solid rgba(56,189,248,0.4); }
   </style>
 </head>
 <body>
@@ -631,7 +656,35 @@
               <h2><span>🌍</span> Interactive Maritime Chokepoint Map</h2>
               <span id="mapStatusPill" class="pill pill-ok">● AISStream + PortWatch Nominal</span>
             </div>
+            <div class="map-filter-bar">
+              <div class="map-filter-group">
+                <button class="mf-btn active" id="mf-all" onclick="toggleGlobalLayer('all', this)">All Corridors</button>
+                <button class="mf-btn active" id="mf-disrupted" onclick="toggleGlobalLayer('disrupted', this)">Disrupted Route</button>
+                <button class="mf-btn active" id="mf-cape" onclick="toggleGlobalLayer('cape', this)">Cape Reroute</button>
+                <button class="mf-btn active" id="mf-multimodal" onclick="toggleGlobalLayer('multimodal', this)">CEPA / Multimodal</button>
+                <button class="mf-btn active" id="mf-chokepoints" onclick="toggleGlobalLayer('chokepoints', this)">Global Chokepoints (12)</button>
+              </div>
+              <button class="mf-btn" style="border-color:#38BDF8;color:#38BDF8;" onclick="fitGlobalCorridors()">Fit Global Corridors</button>
+            </div>
             <div id="maritimeMap"></div>
+            <div class="route-strip" id="routeComparisonStrip">
+              <div class="rs-card selected" id="rs-multimodal" onclick="highlightGlobalRoute('multimodal')">
+                <div class="rs-title"><span>CEPA / Fujairah Air-Sea</span><span class="rs-tag rs-ok">Optimal</span></div>
+                <div class="rs-meta">Transit: <strong>3–7d</strong> · 2–8°C Safe<br/>Buffer: +11d · ₹3.53L ($4.2k) · 0% CEPA</div>
+              </div>
+              <div class="rs-card" id="rs-disrupted" onclick="highlightGlobalRoute('disrupted')">
+                <div class="rs-title"><span>Hormuz / Red Sea</span><span class="rs-tag rs-bad">Disrupted</span></div>
+                <div class="rs-meta">Transit: <strong>12d+</strong> · Thermal Risk<br/>+$3,500 War Surcharge · ₹6.30L ($7.5k)</div>
+              </div>
+              <div class="rs-card" id="rs-cape" onclick="highlightGlobalRoute('cape')">
+                <div class="rs-title"><span>Cape of Good Hope</span><span class="rs-tag rs-warn">Spoilage</span></div>
+                <div class="rs-meta">Transit: <strong>+14d (26d)</strong> · Fails 18d<br/>Auto-Rejected Pharma · ₹5.71L ($6.8k)</div>
+              </div>
+              <div class="rs-card" id="rs-transoceanic" onclick="highlightGlobalRoute('transoceanic')">
+                <div class="rs-title"><span>Global APAC / US Lanes</span><span class="rs-tag rs-info">Active</span></div>
+                <div class="rs-meta">Malacca ↔ JNPT ↔ Rotterdam ↔ NY/NJ<br/>Panama Canal &amp; Bosporus Monitored</div>
+              </div>
+            </div>
             <div class="map-legend">
               <span><i class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></i>Original Disrupted Route (Red Sea/Hormuz)</span>
               <span><i class="dot" style="background:#10b981;box-shadow:0 0 6px #10b981;"></i>Agent 03 Reroute (Fujairah Multimodal / Jeddah)</span>
@@ -1027,151 +1080,217 @@
       } catch {}
     }
 
+    let globalLayers = {};
+    let globalRoutePolylines = {};
+    let globalLayerVisibility = { baseline: true, disrupted: true, cape: true, multimodal: true, transoceanic: true, chokepoints: true };
+
+    const GLOBAL_CHOKEPOINTS = [
+      { id: 'hormuz', title: 'Strait of Hormuz', kind: 'Chokepoint', coords: [26.56, 56.25], status: 'HIGH_THREAT / DISRUPTED', delay: '+5d', lanes: ['disrupted', 'multimodal'], note: 'War-risk surcharge $3,500/reefer · IMF PortWatch monitored' },
+      { id: 'bab-el-mandeb', title: 'Bab el-Mandeb Strait', kind: 'Chokepoint', coords: [12.58, 43.33], status: 'HIGH_THREAT / DISRUPTED', delay: '+6d', lanes: ['disrupted', 'baseline'], note: 'Red Sea security advisory · UAV/missile threat zone' },
+      { id: 'suez', title: 'Suez Canal & Red Sea', kind: 'Chokepoint', coords: [29.97, 32.55], status: 'CONGESTED', delay: '+3d', lanes: ['baseline', 'disrupted'], note: 'Primary Asia-to-Europe maritime artery' },
+      { id: 'malacca', title: 'Strait of Malacca', kind: 'Chokepoint', coords: [2.50, 101.20], status: 'OPEN', delay: '0d', lanes: ['transoceanic'], note: 'APAC-to-India cold-chain & semiconductor corridor' },
+      { id: 'cape', title: 'Cape of Good Hope', kind: 'Chokepoint', coords: [-34.35, 18.47], status: 'OPEN', delay: '+14d Detour', lanes: ['cape'], note: 'Long-haul detour · auto-vetoed for 18d biologics' },
+      { id: 'panama', title: 'Panama Canal', kind: 'Chokepoint', coords: [9.08, -79.68], status: 'CONGESTED', delay: '+2d', lanes: ['transoceanic'], note: 'Americas transshipment bottleneck · slot queue active' },
+      { id: 'bosporus', title: 'Bosporus / Turkish Straits', kind: 'Chokepoint', coords: [41.12, 29.05], status: 'OPEN', delay: '+1d', lanes: ['baseline'], note: 'Black Sea & Eastern Europe maritime gateway' },
+      { id: 'jnpt', title: 'Mumbai / JNPT (India)', kind: 'Pharma Hub', coords: [18.95, 72.83], status: 'OPEN', delay: '0d', lanes: ['baseline', 'disrupted', 'cape', 'multimodal', 'transoceanic'], note: 'Origin · 16 S/4HANA Pharma & Multi-Domain Shipments' },
+      { id: 'fujairah', title: 'Jebel Ali / Fujairah (UAE)', kind: 'Pharma Hub', coords: [25.18, 56.36], status: 'OPEN', delay: '0d', lanes: ['multimodal', 'disrupted'], note: 'India–UAE CEPA 0% Duty Hub & Air-Sea Fallback' },
+      { id: 'rotterdam', title: 'Port of Rotterdam (EU)', kind: 'Pharma Hub', coords: [51.92, 4.48], status: 'OPEN', delay: '0d', lanes: ['baseline', 'cape', 'multimodal', 'transoceanic'], note: 'EU GDP Cold-Chain Gateway & Customs Entry' },
+      { id: 'singapore', title: 'Port of Singapore', kind: 'Pharma Hub', coords: [1.26, 103.82], status: 'OPEN', delay: '0d', lanes: ['transoceanic'], note: 'APAC Semiconductor & Biologics Transshipment Hub' },
+      { id: 'nynj', title: 'New York / New Jersey (US)', kind: 'Pharma Hub', coords: [40.66, -74.04], status: 'OPEN', delay: '0d', lanes: ['transoceanic'], note: 'US East Coast Pharma & USITC HTS Clearance Hub' }
+    ];
+
+    const GLOBAL_CORRIDORS = {
+      baseline: {
+        title: 'Baseline Sea Corridor (JNPT → Suez → Rotterdam)',
+        color: '#38BDF8', weight: 2.5, opacity: 0.72, dashArray: null,
+        summary: 'Transit: 14–16d | Status: Baseline Sea | Exposed to Red Sea congestion',
+        paths: [
+          [[18.95, 72.83], [16.2, 63.0], [12.8, 51.2], [12.58, 43.33], [18.5, 39.5], [24.0, 36.4], [29.97, 32.55], [31.6, 32.2], [34.4, 24.5], [36.8, 13.5], [36.2, 4.0], [35.95, -5.6], [38.5, -9.8], [45.5, -6.5], [50.1, -1.5], [51.92, 4.48]],
+          [[34.4, 24.5], [38.0, 25.5], [40.2, 26.5], [41.12, 29.05], [43.2, 31.5]]
+        ]
+      },
+      disrupted: {
+        title: 'Disrupted Chokepoint Lane (Hormuz / Bab el-Mandeb)',
+        color: '#EF4444', weight: 3.5, opacity: 0.92, dashArray: '8, 7',
+        summary: 'Transit: 12d+ | HIGH THREAT | +$3,500 War Surcharge · ₹6.30L ($7.5k)',
+        paths: [
+          [[18.95, 72.83], [21.5, 66.2], [23.8, 61.5], [25.6, 57.6], [26.56, 56.25], [25.18, 56.36]],
+          [[12.8, 51.2], [12.58, 43.33], [15.8, 41.2], [18.5, 39.5]]
+        ]
+      },
+      cape: {
+        title: 'Cape of Good Hope Long-Haul Reroute (+14d)',
+        color: '#F59E0B', weight: 2.8, opacity: 0.85, dashArray: '5, 5',
+        summary: 'Transit: 26d (+14d) | AUTO-REJECTED for 18d Biologics (Spoilage Risk) | ₹5.71L ($6.8k)',
+        paths: [
+          [[18.95, 72.83], [10.0, 65.0], [-2.0, 56.0], [-14.0, 44.5], [-26.0, 36.5], [-34.35, 18.47], [-28.0, 11.0], [-10.0, 2.0], [4.0, -13.0], [18.0, -19.5], [31.0, -14.0], [38.5, -9.8], [45.5, -6.5], [50.1, -1.5], [51.92, 4.48]]
+        ]
+      },
+      multimodal: {
+        title: 'CEPA / Fujairah–Jeddah Air-Sea Multimodal Corridor',
+        color: '#10B981', weight: 4.0, opacity: 0.96, dashArray: null,
+        summary: 'Transit: 3–7d | 2°C–8°C Safe | 0% India–UAE CEPA Duty | RECOMMENDED (₹3.53L–₹4.87L)',
+        paths: [
+          [[18.95, 72.83], [21.8, 65.5], [24.2, 60.2], [25.18, 56.36], [24.6, 46.7], [21.48, 39.17], [28.0, 33.8], [35.0, 23.0], [43.5, 12.5], [51.92, 4.48]]
+        ]
+      },
+      transoceanic: {
+        title: 'Global Trans-Oceanic Lanes (APAC ↔ India ↔ EU ↔ Americas)',
+        color: '#818CF8', weight: 2.3, opacity: 0.78, dashArray: '3, 5',
+        summary: 'Singapore → Malacca → JNPT & Rotterdam ↔ New York/NJ ↔ Panama Canal',
+        paths: [
+          [[1.26, 103.82], [2.50, 101.20], [5.8, 97.5], [6.5, 92.0], [5.4, 80.5], [11.5, 74.5], [18.95, 72.83]],
+          [[51.92, 4.48], [50.1, -1.5], [49.5, -14.0], [46.5, -36.0], [42.5, -58.0], [40.66, -74.04], [32.0, -76.5], [22.0, -74.5], [14.5, -77.5], [9.08, -79.68]]
+        ]
+      }
+    };
+
+    function fitGlobalCorridors() {
+      if (!map) return;
+      map.flyTo([18, 45], 2.3, { duration: 0.9 });
+    }
+
+    function toggleGlobalLayer(key, btn) {
+      if (!map) return;
+      if (key === 'all') {
+        const turnOn = !btn.classList.contains('active');
+        for (const k of Object.keys(globalLayers)) {
+          globalLayerVisibility[k] = turnOn;
+          if (turnOn) globalLayers[k].addTo(map); else map.removeLayer(globalLayers[k]);
+        }
+        document.querySelectorAll('.map-filter-group .mf-btn').forEach(b => b.classList.toggle('active', turnOn));
+        return;
+      }
+      const next = !globalLayerVisibility[key];
+      globalLayerVisibility[key] = next;
+      if (btn) btn.classList.toggle('active', next);
+      if (globalLayers[key]) {
+        if (next) globalLayers[key].addTo(map); else map.removeLayer(globalLayers[key]);
+      }
+    }
+
+    function highlightGlobalRoute(routeKey) {
+      document.querySelectorAll('.rs-card').forEach(c => c.classList.remove('selected'));
+      const card = document.getElementById('rs-' + routeKey);
+      if (card) card.classList.add('selected');
+      for (const k of Object.keys(globalRoutePolylines)) {
+        const isTarget = k === routeKey;
+        const base = GLOBAL_CORRIDORS[k];
+        for (const poly of globalRoutePolylines[k]) {
+          poly.setStyle({
+            weight: isTarget ? base.weight + 2.2 : Math.max(1.5, base.weight - 0.8),
+            opacity: isTarget ? 1.0 : 0.35
+          });
+        }
+      }
+      if (globalLayers[routeKey] && map && !map.hasLayer(globalLayers[routeKey])) {
+        globalLayers[routeKey].addTo(map);
+        globalLayerVisibility[routeKey] = true;
+      }
+      if (globalRoutePolylines[routeKey]?.length && map) {
+        const group = L.featureGroup(globalRoutePolylines[routeKey]);
+        map.fitBounds(group.getBounds().pad(0.18), { maxZoom: 5, animate: true });
+      }
+    }
+
     async function initMap() {
-      if (map) { setTimeout(() => map.invalidateSize(), 150); return; }
-      await fetchMapConfig();
-      
-      // Center focused on Arabian Sea, Gulf of Oman, and Red Sea
-      map = L.map("maritimeMap", { zoomControl: true }).setView([19.5, 55.0], 5);
+      if (map) return;
+      map = L.map('maritimeMap', {
+        center: [18, 45],
+        zoom: 2.3,
+        zoomSnap: 0.25,
+        minZoom: 2,
+        maxZoom: 10,
+        worldCopyJump: true,
+        preferCanvas: true
+      });
 
-      // MapTiler Professional Military / Command Center Map Styles
-      // 1. Dark Tactical (MapTiler Dark Matter - High Contrast Maritime Command)
-      const darkTactical = L.tileLayer(`https://api.maptiler.com/maps/darkmatter/256/{z}/{x}/{y}.png?key=${maptilerApiKey}`, {
-        attribution: '&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+      const darkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        subdomains: 'abcd',
         maxZoom: 19,
-        crossOrigin: true
-      });
-
-      // 2. High-Resolution Satellite / Hybrid
-      const satellite = L.tileLayer(`https://api.maptiler.com/maps/hybrid/256/{z}/{x}/{y}.jpg?key=${maptilerApiKey}`, {
-        attribution: '&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-        maxZoom: 19,
-        crossOrigin: true
-      });
-
-      // 3. Ocean / Nautical Bathymetry
-      const oceanNautical = L.tileLayer(`https://api.maptiler.com/maps/ocean/256/{z}/{x}/{y}.png?key=${maptilerApiKey}`, {
-        attribution: '&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-        maxZoom: 19,
-        crossOrigin: true
-      });
-
-      // Default to Dark Tactical
-      darkTactical.addTo(map);
-
-      // Layer switcher control (top-right)
-      L.control.layers({
-        "🛰️ Dark Tactical": darkTactical,
-        "🌍 Satellite": satellite,
-        "🌊 Ocean / Nautical": oceanNautical
-      }, null, { position: "topright" }).addTo(map);
-
-      // Key Coordinates
-      const jnpt = [18.95, 72.95];
-      const fujairah = [25.13, 56.36];
-      const hormuz = [26.57, 56.25];
-      const babElMandeb = [12.59, 43.34];
-      const redSeaCentral = [19.8, 38.5];
-      const jeddah = [21.48, 39.17];
-      const jebelAli = [24.99, 55.06];
-      const capeWay = [-12.0, 48.0];
-
-      // Subtle Glowing Chokepoint & Port Markers
-      const chokepoints = [
-        { pt: hormuz, name: "Strait of Hormuz", type: "chokepoint", note: "War Risk Surcharge Zone: $3,500/reefer · High AIS Dark Spikes" },
-        { pt: babElMandeb, name: "Bab el-Mandeb", type: "chokepoint", note: "Red Sea Bottleneck · Surface/Drone Threat Corridor" },
-        { pt: redSeaCentral, name: "Red Sea Shipping Lane", type: "chokepoint", note: "Commercial Transit Corridor" },
-        { pt: fujairah, name: "Fujairah Port & Anchorage", type: "hub", note: "Agent 03 Multimodal Air-Sea Buffer & Bunkering Hub" },
-        { pt: jeddah, name: "Jeddah Port", type: "hub", note: "Saudi Red Sea Gateway & Land-Bridge Head" },
-        { pt: jnpt, name: "JNPT (Navi Mumbai)", type: "hub", note: "Origin: India Biopharma Export Hub (Hyderabad Corridor)" },
-        { pt: jebelAli, name: "Jebel Ali (Dubai)", type: "hub", note: "0% India-UAE CEPA Preferential Duty Clearing Hub" }
-      ];
-
-      chokepoints.forEach(cp => {
-        const isChoke = cp.type === "chokepoint";
-        const color = isChoke ? "#ef4444" : "#00f2fe";
-        
-        // Subtle glow circle
-        const glow = L.circle(cp.pt, {
-          radius: isChoke ? 180000 : 90000,
-          color: color,
-          fillColor: color,
-          fillOpacity: 0.15,
-          weight: 1.5,
-          dashArray: isChoke ? "4, 6" : null
-        }).addTo(map);
-        chokepointLayers.push(glow);
-
-        const marker = L.circleMarker(cp.pt, {
-          radius: isChoke ? 6.5 : 5.5,
-          fillColor: color,
-          color: "#fff",
-          weight: 1.5,
-          fillOpacity: 0.95
-        }).addTo(map);
-        
-        marker.bindTooltip(`<strong>${cp.name}</strong>`, { direction: "top", offset: [0, -6] });
-        marker.bindPopup(`
-          <div style="font-family:var(--font-sans);">
-            <div style="font-weight:800;font-size:13px;color:${color};margin-bottom:4px;">${cp.name}</div>
-            <div style="font-size:12px;color:#cbd5e1;">${cp.note}</div>
-          </div>
-        `);
-      });
-
-      // ROUTE 1: Original Disrupted Route (Through Bab el-Mandeb / Red Sea or Hormuz)
-      // Styled as red dashed line (#ef4444)
-      const disruptedWaypoints = [
-        jnpt, [17.5, 65.0], [14.0, 56.0], [12.59, 43.34], [16.5, 41.2], jeddah, [27.8, 34.5]
-      ];
-      originalRoutePolyline = L.polyline(disruptedWaypoints, {
-        color: "#ef4444",
-        weight: 3.5,
-        dashArray: "8, 8",
-        opacity: 0.95
+        attribution: '&copy; CartoDB Dark Matter &copy; OpenStreetMap'
       }).addTo(map);
-      originalRoutePolyline.bindPopup(`
-        <strong>⚠️ Original Disrupted Route (Red Sea / Bab el-Mandeb)</strong><br/>
-        Status: <span style="color:#ef4444;font-weight:bold;">CRITICAL DISRUPTION</span><br/>
-        Thermal Drift Detected · SOG Stalled to &lt;2 knots
-      `);
 
-      // ROUTE 2: Agent 03 (Bookmaker) Recommended Reroute (Fujairah multimodal air-sea corridor / Jeddah)
-      // Styled as vibrant green solid line (#10b981)
-      const recommendedWaypoints = [
-        jnpt, [20.5, 66.5], [23.5, 61.0], fujairah, [24.5, 55.5], jebelAli
-      ];
-      reroutePolyline = L.polyline(recommendedWaypoints, {
-        color: "#10b981",
-        weight: 5,
-        opacity: 0.95
-      }).addTo(map);
-      reroutePolyline.bindPopup(`
-        <strong>★ Agent 03 Recommended: Fujairah Multimodal Corridor</strong><br/>
-        Route: JNPT → Fujairah Air-Sea Transfer → Jebel Ali Bonded Truck<br/>
-        Transit: 7 days · 0% CEPA Preferential Duty · 2–8°C Cold-Chain Safe
-      `);
-
-      // Cape Detour (Amber dashed reference)
-      capePolyline = L.polyline([jnpt, [10.0, 64.0], [0.0, 55.0], capeWay], {
-        color: "#f59e0b",
-        weight: 2.5,
-        dashArray: "5, 7",
-        opacity: 0.6
-      }).addTo(map);
-      capePolyline.bindPopup("<strong>Cape of Good Hope Detour</strong><br/>+14 Days · Spoilage Exceeded for &le;20d Biologics");
-
-      // Custom Interactive Vessel Marker along the active route
-      renderVesselMarker({
-        name: "MV Hyderabad Express",
-        mmsi: "419001234",
-        lat: 14.1,
-        lon: 51.5,
-        sog: 14.2,
-        tempC: 4.2,
-        darkMins: 0,
-        isCrisis: false
+      const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 18,
+        attribution: 'Esri Satellite'
       });
+
+      const esriOcean = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 13,
+        attribution: 'Esri Ocean'
+      });
+
+      L.control.layers(
+        { 'Dark Command Map': darkMatter, 'Esri Satellite': esriSat, 'Ocean Bathymetry': esriOcean },
+        {},
+        { position: 'topright' }
+      ).addTo(map);
+
+      // Subtle latitude/longitude graticules so vector lanes look crisp even offline
+      const gridLayer = L.layerGroup().addTo(map);
+      for (let lat = -40; lat <= 60; lat += 20) {
+        L.polyline([[lat, -120], [lat, 140]], { color: '#1E293B', weight: 0.6, opacity: 0.45, interactive: false }).addTo(gridLayer);
+      }
+      for (let lng = -100; lng <= 120; lng += 30) {
+        L.polyline([[-50, lng], [65, lng]], { color: '#1E293B', weight: 0.6, opacity: 0.45, interactive: false }).addTo(gridLayer);
+      }
+
+      // Build corridor layers
+      for (const key of Object.keys(GLOBAL_CORRIDORS)) {
+        const cfg = GLOBAL_CORRIDORS[key];
+        globalLayers[key] = L.layerGroup().addTo(map);
+        globalRoutePolylines[key] = [];
+        for (const pts of cfg.paths) {
+          const poly = L.polyline(pts, {
+            color: cfg.color,
+            weight: cfg.weight,
+            opacity: cfg.opacity,
+            dashArray: cfg.dashArray
+          })
+            .bindPopup('<strong>' + cfg.title + '</strong><br/>' + cfg.summary)
+            .on('click', () => highlightGlobalRoute(key))
+            .addTo(globalLayers[key]);
+          globalRoutePolylines[key].push(poly);
+        }
+      }
+
+      // Build 12 Global Chokepoints & Pharma Hubs layer
+      globalLayers.chokepoints = L.layerGroup().addTo(map);
+      for (const cp of GLOBAL_CHOKEPOINTS) {
+        const isThreat = cp.status.includes('HIGH_THREAT');
+        const isCong = cp.status.includes('CONGESTED');
+        const col = isThreat ? '#EF4444' : (isCong ? '#F59E0B' : (cp.kind === 'Pharma Hub' ? '#10B981' : '#38BDF8'));
+        const marker = L.circleMarker(cp.coords, {
+          radius: isThreat ? 8.5 : (cp.kind === 'Pharma Hub' ? 7 : 6),
+          color: '#FFFFFF',
+          fillColor: col,
+          fillOpacity: 0.95,
+          weight: isThreat ? 2.5 : 1.8
+        }).addTo(globalLayers.chokepoints);
+
+        marker.bindTooltip(cp.title, { direction: 'top', offset: [0, -7], opacity: 0.92 });
+        marker.on('click', () => {
+          const nearbyCount = (state?.shipments || []).length;
+          marker.bindPopup(
+            '<strong>' + cp.title + '</strong> (' + cp.kind + ')<br/>'
+            + 'Status: <strong style="color:' + col + '">' + cp.status + '</strong> · Delay: <strong>' + cp.delay + '</strong><br/>'
+            + 'Connected Lanes: ' + cp.lanes.join(', ') + '<br/>'
+            + 'Fleet Monitored: ' + nearbyCount + ' active boxes<br/>'
+            + '<small>' + cp.note + '</small>'
+          ).openPopup();
+          if (cp.lanes[0]) highlightGlobalRoute(cp.lanes[0]);
+        });
+      }
+
+      // Hormuz warning ring (kept for compatibility with renderAll)
+      hormuzZone = L.circle([26.56, 56.25], {
+        color: '#EF4444', fillColor: '#EF4444', fillOpacity: 0.22, weight: 1.5, dashArray: '4 4', radius: 220000
+      }).addTo(globalLayers.disrupted);
+
+      aisLayer = L.layerGroup().addTo(map);
+      pharmaFleetLayer = L.layerGroup().addTo(map);
+      sosLayer = L.layerGroup().addTo(map);
     }
 
     function renderVesselMarker(vesselData) {
