@@ -53,6 +53,13 @@ cds.on('bootstrap', (app) => {
   // Live AISStream.io + NOAA Telemetry Endpoint
   app.get('/api/telemetry/live', (_req, res) => res.json(getLiveTelemetry()));
 
+  // Public Map Configuration Endpoint (Exposes MapTiler key safely from environment)
+  app.get('/api/config/map', (_req, res) => {
+    res.json({
+      maptilerKey: process.env.MAPTILER_API_KEY || 'SfcHmnwhwHJpBQ9D78p9'
+    });
+  });
+
   // Real Gemini-Powered Joule A2A Copilot (Authenticated)
   app.post("/api/copilot/ask", async (req, res) => {
     const user = verifyToken(req.headers.authorization);
