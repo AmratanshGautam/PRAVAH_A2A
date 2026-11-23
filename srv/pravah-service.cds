@@ -14,16 +14,19 @@ service PravahService @(path: '/odata/v4/pravah') {
   @readonly entity TmFreightOrders   as projection on db.RerouteOptions;
 
   action triggerCrisis(
-    shipmentId     : String,
-    eventType      : String,
-    chokepoint     : String,
-    vesselSogKnots : Decimal,
-    aisDarkMinutes : Integer,
-    reeferTempC    : Decimal,
-    doorOpen       : Boolean,
-    severity       : String,
-    cargoDomain    : String,
-    cfoSpendCapINR : Decimal
+    shipmentId         : String,
+    eventType          : String,
+    chokepoint         : String,
+    vesselSogKnots     : Decimal,
+    aisDarkMinutes     : Integer,
+    reeferTempC        : Decimal,
+    doorOpen           : Boolean,
+    severity           : String,
+    cargoDomain        : String,
+    cfoSpendCapINR     : Decimal,
+    simulatedDelayDays : Integer,
+    simulatedTempC     : Decimal,
+    blockedChokepoint  : String
   ) returns String;
 
   action reportMaritimeSOS(
@@ -44,4 +47,10 @@ service PravahService @(path: '/odata/v4/pravah') {
   action approveReroute(optionId: UUID, approver: String) returns String;
   action rejectReroute(optionId: UUID, approver: String, reason: String) returns String;
   action resetDemo() returns String;
+
+  function verifyAuditChain() returns {
+    valid        : Boolean;
+    totalRecords : Integer;
+    brokenAtId   : String;
+  };
 }

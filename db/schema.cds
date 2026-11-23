@@ -14,7 +14,7 @@ entity Shipments : managed {
   cargoDomain          : String(40) default 'PHARMA_COLD_CHAIN';
   cargoValueINR        : Decimal(15,2);
   cargoValueUSD        : Decimal(15,2);
-  status               : String(30); // IN_TRANSIT, ALERT_TRIGGERED, REROUTED, DELIVERED
+  status               : String(30);
   batch                : Association to ReeferBatches on batch.batchId = batchId;
 }
 
@@ -61,13 +61,15 @@ entity RerouteOptions : cuid, managed {
   cfoCapThresholdINR  : Decimal(15,2) default 500000;
   complianceNote      : String(500);
   recommended         : Boolean default false;
-  approvalStatus      : String(30) default 'PENDING_HITL'; // PENDING_HITL, APPROVED, REJECTED
+  approvalStatus      : String(40) default 'PENDING_HITL';
+  firstApprover       : String(120);
+  firstApproverRole   : String(40);
   rationale           : String(1000);
 }
 
 entity MaritimeIncidents : cuid, managed {
   incidentCode       : String(40);
-  incidentType       : String(60); // MISSILE_DRONE, PIRATE_RAID, TERROR_HIJACK, SHIP_COLLISION, AIS_SPOOFING
+  incidentType       : String(60);
   severity           : String(20) default 'CRITICAL';
   vesselName         : String(100);
   vesselMMSI         : String(20);
@@ -85,17 +87,22 @@ entity MaritimeIncidents : cuid, managed {
   protectedValueUSD  : Decimal(15,2) default 0;
   dangerRadiusNM     : Integer default 50;
   reportedBy         : String(100);
-  status             : String(30) default 'DISPATCHED_PROTOTYPE'; // DISPATCHED_PROTOTYPE, RESOLVED
+  status             : String(30) default 'DISPATCHED_PROTOTYPE';
 }
 
 entity AuditLogs : cuid, managed {
   shipmentId         : String(30);
-  agentName          : String(60);
+  agentName          : String(80);
   actionTaken        : String(120);
   euAiActClause      : String(120);
-  cepaCitation       : String(120);
-  humanApprover      : String(80);
-  decisionStatus     : String(30);
+  cepaCitation       : String(200);
+  humanApprover      : String(120);
+  actorRole          : String(40);
+  decisionStatus     : String(40);
+  aiConfidenceScore  : Decimal(5,2);
+  policyVersion      : String(20) default 'PRAVAH-GOV-2.1';
+  previousHash       : String(64);
+  currentHash        : String(64);
   details            : String(2000);
 }
 
@@ -110,6 +117,7 @@ entity TenantUsers : managed {
   key email        : String(120);
   fullName         : String(100);
   role             : String(80);
+  rbacRole         : String(40) default 'SUPPLY_CHAIN_VP';
   companyName      : String(120);
   corridor         : String(100);
   subscriptionTier : String(40) default 'PREMIUM_SAAS';
