@@ -529,6 +529,8 @@
           <button type="button" class="demo-pill" onclick="fillDemo('rajesh.nair@hyderabadpharma.in')">VP Rajesh Nair (Hyderabad)</button>
           <button type="button" class="demo-pill" onclick="fillDemo('ananya.deshmukh@ciplaexports.in')">Ananya Deshmukh (Mumbai)</button>
           <button type="button" class="demo-pill" onclick="fillDemo('khalid.mansoor@gulfmed3pl.ae')">Dr. Khalid (Dubai 3PL)</button>
+          <button type="button" class="demo-chip" onclick="fillDemo('qa.officer@hyderabadpharma.in')">Dr. Meera Iyer (QA Officer)</button>
+          <button type="button" class="demo-chip" onclick="fillDemo('analyst@hyderabadpharma.in')">Rohan Kulkarni (Analyst)</button>
         </div>
       </form>
 
@@ -707,7 +709,25 @@
             </div>
             <div><label>AIS Dark-Ship Duration: <span id="darkVal">45 mins</span></label><input type="range" id="darkSlider" min="5" max="120" step="5" value="45" oninput="document.getElementById('darkVal').textContent=this.value+' mins'"></div>
           </div>
-          <button class="btn btn-danger" onclick="triggerCrisis()">Execute 4-Agent Autonomous Triage</button>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0 14px;">
+            <div>
+              <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">What-If Sea Delay Override: <span id="delayVal" style="color:var(--cobalt,#38bdf8);">+0 days</span></label>
+              <input type="range" id="delaySlider" min="0" max="12" step="1" value="0" oninput="document.getElementById('delayVal').textContent='+'+this.value+' days'" style="width:100%;">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">What-If Blocked Chokepoint (Triggers Multimodal Fallback)</label>
+              <select id="chokepointSelect" style="width:100%;">
+                <option value="">None (Standard Maritime Routing)</option>
+                <option value="Red Sea">Red Sea Corridor Closure (Fujairah Air-Sea)</option>
+                <option value="Strait of Hormuz">Strait of Hormuz Blockade</option>
+                <option value="Jeddah">Jeddah Hub Congestion</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-danger" onclick="triggerCrisis()">Execute 4-Agent Autonomous Triage</button>
+            <button class="btn btn-ghost" onclick="simulateS4Event()">Ingest S/4HANA Event Mesh CloudEvent</button>
+          </div>
         </div>
 
         <div class="panel">
@@ -813,7 +833,11 @@
         <div class="panel">
           <div class="panel-head">
             <h2>Immutable EU AI Act Compliance &amp; Decision Ledger</h2>
-            <span class="pill pill-ok">Regulation (EU) 2024/1689</span>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <button class="btn btn-ghost" style="padding:5px 10px;font-size:12px;" onclick="verifyChainUI()">Verify SHA-256 Chain</button>
+              <button class="btn btn-ghost" style="padding:5px 10px;font-size:12px;" onclick="exportDossierUI()">Export JSON Dossier</button>
+              <span id="chainStatusPill" class="pill pill-ok">Regulation (EU) 2024/1689</span>
+            </div>
           </div>
           <div style="overflow-x:auto;">
             <table>
@@ -1454,7 +1478,7 @@
       const totalINR = state.shipments.reduce((acc, s) => acc + Number(s.cargoValueINR || 0), 0);
       const totalUSD = state.shipments.reduce((acc, s) => acc + Number(s.cargoValueUSD || 0), 0);
       const alerts = state.shipments.filter(s => s.status === 'ALERT_TRIGGERED').length;
-      const pending = state.options.filter(o => o.approvalStatus === 'PENDING_HITL' || o.approvalStatus === 'PENDING_CFO_DUAL_APPROVAL').length;
+      const pending = state.options.filter(o => o.approvalStatus === 'PENDING_HITL' || o.approvalStatus === 'PENDING_CFO_DUAL_APPROVAL' || o.approvalStatus === 'PENDING_QA_COUNTERSIGN').length;
 
       document.getElementById('kpiFleet').textContent = `${state.shipments.length} Boxes`;
       document.getElementById('kpiCargoVal').textContent = `Value: ${fmtMoney(totalINR, totalUSD)}`;
@@ -1587,8 +1611,8 @@
                 : '<span class="pill pill-warn">ALTERNATIVE</span>';
         const cfoTag = o.cfoCapExceeded ? '<div class="cfo-lock">CFO Spend-Cap Gate Active</div>' : '';
         let btnHtml = '';
-        if (o.approvalStatus === 'PENDING_HITL' || o.approvalStatus === 'PENDING_CFO_DUAL_APPROVAL') {
-          const lbl = o.cfoCapExceeded ? 'Authorize (CFO + VP Dual Sign-Off)' : 'Approve &amp; Sign Off';
+        if (o.approvalStatus === 'PENDING_HITL' || o.approvalStatus === 'PENDING_CFO_DUAL_APPROVAL' || o.approvalStatus === 'PENDING_QA_COUNTERSIGN') {
+          const lbl = o.approvalStatus === 'PENDING_QA_COUNTERSIGN' ? ('Countersign &amp; Finalize (2nd Role · 1st: ' + (o.firstApproverRole || 'VP') + ')') : (o.cfoCapExceeded ? 'Authorize (CFO + VP Dual Sign-Off)' : 'Approve &amp; Sign Off');
           btnHtml = '<div style="display:flex;gap:8px;margin-top:auto;"><button class="btn btn-teal" style="flex:1;justify-content:center;" onclick="decide(\'' + o.ID + '\',\'approve\')">' + lbl + '</button><button class="btn btn-ghost" onclick="decide(\'' + o.ID + '\',\'reject\')">Override</button></div>';
         } else if (o.approvalStatus === 'APPROVED') {
           btnHtml = '<div style="display:grid;gap:6px;margin-top:auto;"><div class="pill pill-ok" style="justify-content:center;padding:8px;">AUTHORIZED &amp; LEDGERED</div><button class="btn btn-ghost" style="justify-content:center;font-size:12px;" onclick="printCertificate(\'' + o.ID + '\')">Download Official Compliance Certificate (PDF)</button></div>';
@@ -1687,7 +1711,9 @@
           vesselSogKnots: 0.4, aisDarkMinutes: parseInt(document.getElementById('darkSlider').value, 10),
           reeferTempC: parseFloat(document.getElementById('tempSlider').value), doorOpen: true, severity: 'CRITICAL',
           cargoDomain: document.getElementById('domainSelect')?.value || 'PHARMA_COLD_CHAIN',
-          cfoSpendCapINR: Number(document.getElementById('capSlider')?.value || 500000)
+          cfoSpendCapINR: Number(document.getElementById('capSlider')?.value || 500000),
+          simulatedDelayDays: Number(document.getElementById('delaySlider')?.value || 0),
+          blockedChokepoint: document.getElementById('chokepointSelect')?.value || ''
         })
       });
       if (res.status === 401) { logout(); return showAuthErr('Session expired. Please sign in again.'); }
@@ -2061,6 +2087,57 @@
       document.getElementById('briefBox').innerHTML = 'Click <strong>Run 4-Agent A2A Crisis Triage Now</strong> to generate a live reroute recommendation.';
       showToast(data.value);
       await loadAll();
+    }
+  
+    async function simulateS4Event() {
+      const shipmentId = document.getElementById('shipmentSelect')?.value || 'SHP-JNPT-001';
+      const temperatureC = parseFloat(document.getElementById('tempSlider')?.value || '9.8');
+      const delayDays = Number(document.getElementById('delaySlider')?.value || 0);
+      const blockedChokepoint = document.getElementById('chokepointSelect')?.value || '';
+      showToast('Ingesting SAP S/4HANA Event Mesh CloudEvent for ' + shipmentId + '...');
+      const res = await fetch('/api/webhooks/s4hana-event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'sap.s4.beh.handlingunit.excursion.v1',
+          data: { shipmentId, temperatureC, chokepoint: blockedChokepoint || 'Strait of Hormuz', delayDays, blockedChokepoint }
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast('Event Mesh error: ' + (data.error || res.status)); return; }
+      const fb = data.fallbackTriggered ? ' [LangGraph Multimodal Fallback Active]' : '';
+      showToast('S/4HANA CloudEvent triaged' + fb + ' · MKT ' + data.financialRisk?.mktC + '°C · Hash ' + String(data.auditHash || '').slice(0, 12));
+      await loadAll();
+    }
+
+    async function verifyChainUI() {
+      const res = await fetch(API + '/verifyAuditChain()');
+      const data = await res.json();
+      const pill = document.getElementById('chainStatusPill');
+      if (data.valid) {
+        if (pill) { pill.className = 'pill pill-ok'; pill.textContent = 'SHA-256 VERIFIED (' + data.totalRecords + ' records)'; }
+        showToast('SHA-256 Hash Chain VALID across ' + data.totalRecords + ' immutable HANA records (0 tampering).');
+      } else {
+        if (pill) { pill.className = 'pill pill-bad'; pill.textContent = 'CHAIN BROKEN @ ' + data.brokenAtId; }
+        showToast('WARNING: Audit hash chain mismatch detected at record ' + data.brokenAtId);
+      }
+    }
+
+    async function exportDossierUI() {
+      const shipmentId = document.getElementById('shipmentSelect')?.value || 'SHP-JNPT-001';
+      const res = await fetch('/api/compliance/dossier/' + encodeURIComponent(shipmentId), {
+        headers: { Authorization: 'Bearer ' + authToken, 'X-Pravah-Token': authToken }
+      });
+      if (res.status === 401) { logout(); return showAuthErr('Session expired.'); }
+      const data = await res.json();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (data.dossierId || ('DOSSIER-' + shipmentId)) + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Downloaded ' + (data.dossierId || shipmentId) + ' (Chain Valid: ' + data.euAiActGovernance?.sha256ChainVerification?.valid + ')');
     }
   </script>
 </body>
