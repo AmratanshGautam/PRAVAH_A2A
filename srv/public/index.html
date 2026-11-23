@@ -524,22 +524,26 @@
     .rs-warn { background: rgba(245,158,11,0.18); color: #FBBF24; border: 1px solid rgba(245,158,11,0.4); }
     .rs-info { background: rgba(56,189,248,0.16); color: #38BDF8; border: 1px solid rgba(56,189,248,0.4); }
   
-    /* === COMPLETE DAY MODE (SAP FIORI HORIZON LIGHT) === */
+    /* === COMPLETE DAY MODE (SAP FIORI HORIZON LIGHT — HIGH CONTRAST) === */
     body.day-mode {
-      --bg: #F4F6FA;
+      --bg: #EEF2F7;
       --surface: #FFFFFF;
       --card: #FFFFFF;
       --text: #0F172A;
       --ink: #0F172A;
       --muted: #475569;
-      --border: #E2E8F0;
+      --border: #CBD5E1;
       --navy: #0B1221;
-      background: #F4F6FA !important;
+      --cobalt: #0057D2;
+      --teal: #0F766E;
+      --danger: #B91C1C;
+      --success: #047857;
+      background: #EEF2F7 !important;
       color: #0F172A !important;
     }
     body.day-mode .sidebar {
       background: #FFFFFF !important;
-      border-right: 1px solid #E2E8F0 !important;
+      border-right: 1px solid #CBD5E1 !important;
       color: #0F172A !important;
     }
     body.day-mode .sidebar .logo-text strong,
@@ -549,13 +553,13 @@
     body.day-mode .sidebar #userComp { color: #475569 !important; }
     body.day-mode .nav-item { color: #334155 !important; }
     body.day-mode .nav-item:hover { background: #F1F5F9 !important; color: #0B1221 !important; }
-    body.day-mode .nav-item.active { background: #0057D2 !important; color: #FFFFFF !important; box-shadow: 0 4px 12px rgba(0,87,210,0.22) !important; }
-    body.day-mode .persona-pill { background: #F8FAFC !important; border: 1px solid #E2E8F0 !important; }
-    body.day-mode .sidebar-footer button { border-color: #CBD5E1 !important; color: #334155 !important; }
-    body.day-mode .workspace { background: #F4F6FA !important; }
+    body.day-mode .nav-item.active { background: #0057D2 !important; color: #FFFFFF !important; box-shadow: 0 4px 12px rgba(0,87,210,0.25) !important; }
+    body.day-mode .persona-pill { background: #F8FAFC !important; border: 1px solid #CBD5E1 !important; }
+    body.day-mode .sidebar-footer button { border-color: #CBD5E1 !important; color: #1E293B !important; background: #F8FAFC !important; }
+    body.day-mode .workspace { background: #EEF2F7 !important; }
     body.day-mode .topbar {
       background: #FFFFFF !important;
-      border-bottom: 1px solid #E2E8F0 !important;
+      border-bottom: 1px solid #CBD5E1 !important;
       color: #0F172A !important;
     }
     body.day-mode .topbar h1 { color: #0B1221 !important; }
@@ -565,10 +569,12 @@
     body.day-mode .route-card,
     body.day-mode .agent-box {
       background: #FFFFFF !important;
-      border: 1px solid #E2E8F0 !important;
+      border: 1px solid #CBD5E1 !important;
       color: #0F172A !important;
-      box-shadow: 0 1px 3px rgba(15,23,42,0.05) !important;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.05) !important;
     }
+    body.day-mode .route-card.rec { border: 1.5px solid #059669 !important; background: #F0FDF4 !important; }
+    body.day-mode .route-card.spoil { border: 1px solid #FECACA !important; background: #FEF2F2 !important; }
     body.day-mode .panel-head h2,
     body.day-mode .kpi-val,
     body.day-mode .price-big,
@@ -576,9 +582,66 @@
     body.day-mode .kpi-label,
     body.day-mode .kpi-sub,
     body.day-mode .price-sub,
-    body.day-mode label { color: #475569 !important; }
-    body.day-mode table th { background: #F8FAFC !important; color: #334155 !important; border-bottom: 1px solid #E2E8F0 !important; }
-    body.day-mode table td { color: #0F172A !important; border-bottom: 1px solid #F1F5F9 !important; }
+    body.day-mode label { color: #334155 !important; }
+
+    /* Fix dark slider container on Tab 2 */
+    body.day-mode .slider-row {
+      background: #F8FAFC !important;
+      border: 1px solid #CBD5E1 !important;
+      color: #0F172A !important;
+    }
+    body.day-mode .slider-row label { color: #1E293B !important; }
+
+    /* Fix Live A2A Execution Trace container & washed-out text on Tab 1 */
+    body.day-mode .trace-stream,
+    body.day-mode .trace-container,
+    body.day-mode .trace-terminal,
+    body.day-mode #traceFeed,
+    body.day-mode #a2aTraceStream {
+      background: #F1F5F9 !important;
+      border: 1px solid #CBD5E1 !important;
+      color: #0F172A !important;
+    }
+    body.day-mode .trace-card,
+    body.day-mode .trace-item,
+    body.day-mode .trace-step,
+    body.day-mode .trace-msg {
+      background: #FFFFFF !important;
+      border: 1px solid #CBD5E1 !important;
+      color: #1E293B !important;
+    }
+    body.day-mode .trace-card *,
+    body.day-mode .trace-item *,
+    body.day-mode .trace-step *,
+    body.day-mode .trace-msg *,
+    body.day-mode #traceFeed p,
+    body.day-mode #traceFeed div {
+      color: #1E293B !important;
+    }
+    body.day-mode .trace-badge,
+    body.day-mode .trace-tag {
+      background: #E0F2FE !important;
+      color: #0369A1 !important;
+      border: 1px solid #7DD3FC !important;
+    }
+    body.day-mode .trace-time { color: #475569 !important; }
+
+    /* High-contrast WCAG AAA semantic pills & badges */
+    body.day-mode .pill-ok { background: #DCFCE7 !important; color: #065F46 !important; border: 1px solid #86EFAC !important; }
+    body.day-mode .pill-warn { background: #FEF3C7 !important; color: #92400E !important; border: 1px solid #FCD34D !important; }
+    body.day-mode .pill-bad,
+    body.day-mode .pill-danger { background: #FEE2E2 !important; color: #991B1B !important; border: 1px solid #FCA5A5 !important; }
+    body.day-mode .pill-blue { background: #DBEAFE !important; color: #1E40AF !important; border: 1px solid #93C5FD !important; }
+
+    /* Tables & Fleet Sparkline contrast */
+    body.day-mode table th { background: #F1F5F9 !important; color: #1E293B !important; border-bottom: 1.5px solid #CBD5E1 !important; }
+    body.day-mode table td { color: #0F172A !important; border-bottom: 1px solid #E2E8F0 !important; }
+    body.day-mode table tbody tr:hover { background: #F8FAFC !important; }
+    body.day-mode #fleetBody span[style*="#00f2fe"],
+    body.day-mode #fleetBody span[style*="#38bdf8"],
+    body.day-mode #fleetBody span[style*="cyan"] { color: #0F766E !important; font-weight: 700 !important; }
+
+    /* Inputs, Buttons, Map Controls & Route Strip */
     body.day-mode input[type="text"],
     body.day-mode input[type="number"],
     body.day-mode input[type="email"],
@@ -586,32 +649,36 @@
     body.day-mode select {
       background: #FFFFFF !important;
       color: #0F172A !important;
-      border: 1px solid #CBD5E1 !important;
+      border: 1px solid #94A3B8 !important;
     }
     body.day-mode .btn-ghost {
-      background: #F8FAFC !important;
+      background: #FFFFFF !important;
       color: #0F172A !important;
       border: 1px solid #CBD5E1 !important;
     }
-    body.day-mode .btn-ghost:hover { background: #E2E8F0 !important; }
-    body.day-mode .seg-toggle { background: #F1F5F9 !important; border: 1px solid #CBD5E1 !important; }
-    body.day-mode .seg-btn { color: #475569 !important; }
+    body.day-mode .btn-ghost:hover { background: #F1F5F9 !important; border-color: #94A3B8 !important; }
+    body.day-mode .seg-toggle { background: #E2E8F0 !important; border: 1px solid #CBD5E1 !important; }
+    body.day-mode .seg-btn { color: #334155 !important; }
     body.day-mode .seg-btn.active { background: #0057D2 !important; color: #FFFFFF !important; }
-    body.day-mode #maritimeMap { background: #E8EEF5 !important; border-color: #CBD5E1 !important; }
-    body.day-mode .mf-btn { background: #FFFFFF !important; color: #334155 !important; border-color: #CBD5E1 !important; }
+    body.day-mode #maritimeMap { background: #DCE6F2 !important; border-color: #94A3B8 !important; }
+    body.day-mode .mf-btn { background: #FFFFFF !important; color: #1E293B !important; border-color: #CBD5E1 !important; }
     body.day-mode .mf-btn.active { background: #0057D2 !important; color: #FFFFFF !important; border-color: #0057D2 !important; }
     body.day-mode .rs-card { background: #F8FAFC !important; border-color: #CBD5E1 !important; color: #0F172A !important; }
     body.day-mode .rs-card.selected { background: #EFF6FF !important; border-color: #0057D2 !important; }
     body.day-mode .rs-title { color: #0B1221 !important; }
-    body.day-mode .rs-meta { color: #475569 !important; }
-    body.day-mode .map-legend { color: #475569 !important; }
+    body.day-mode .rs-meta { color: #334155 !important; }
+    body.day-mode .rs-ok { background: #DCFCE7 !important; color: #065F46 !important; border-color: #86EFAC !important; }
+    body.day-mode .rs-bad { background: #FEE2E2 !important; color: #991B1B !important; border-color: #FCA5A5 !important; }
+    body.day-mode .rs-warn { background: #FEF3C7 !important; color: #92400E !important; border-color: #FCD34D !important; }
+    body.day-mode .rs-info { background: #DBEAFE !important; color: #1E40AF !important; border-color: #93C5FD !important; }
+    body.day-mode .map-legend { color: #334155 !important; }
     body.day-mode .brief-box,
-    body.day-mode #briefBox { background: #EFF6FF !important; color: #0F172A !important; border-left-color: #0057D2 !important; }
+    body.day-mode #briefBox { background: #EFF6FF !important; color: #0F172A !important; border-left: 4px solid #0057D2 !important; }
     body.day-mode .joule-drawer,
     body.day-mode #jouleDrawer { background: #FFFFFF !important; border-left: 1px solid #CBD5E1 !important; color: #0F172A !important; }
-    body.day-mode .auth-overlay { background: linear-gradient(135deg, #EEF2F7, #DBEAFE) !important; }
+    body.day-mode .auth-overlay { background: linear-gradient(135deg, #E2E8F0, #DBEAFE) !important; }
     body.day-mode .auth-card { background: #FFFFFF !important; border: 1px solid #CBD5E1 !important; color: #0F172A !important; box-shadow: 0 20px 50px rgba(15,23,42,0.12) !important; }
-    body.day-mode .demo-pill { background: #EFF6FF !important; color: #1D4ED8 !important; border-color: #BFDBFE !important; }
+    body.day-mode .demo-pill { background: #EFF6FF !important; color: #1E40AF !important; border-color: #93C5FD !important; }
     body.day-mode .blast-banner strong,
     body.day-mode .blast-banner div { color: #FFFFFF !important; }
   </style>
