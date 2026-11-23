@@ -434,8 +434,6 @@
       from { r: 3.5; filter: drop-shadow(0 0 2px #ef4444); }
       to { r: 5.5; filter: drop-shadow(0 0 8px #ef4444); }
     }
-<<<<<<< HEAD
-=======
     .joule-head { background: linear-gradient(135deg, #060D21, #0057D2) !important; }
     #maritimeMap { border-radius: 14px !important; box-shadow: inset 0 0 0 1px rgba(15,23,42,0.08); }
   
@@ -500,7 +498,6 @@
       border: 1px solid #1E293B; font-family: 'JetBrains Mono', ui-monospace, monospace;
       font-size: 11.5px !important; line-height: 1.5;
     }
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
   </style>
 </head>
 <body>
@@ -556,18 +553,11 @@
       </div>
     </div>
     <nav class="nav-list">
-<<<<<<< HEAD
-      <button class="nav-item active" onclick="switchView('overview', this)">🌐 Command Center</button>
-      <button class="nav-item" onclick="switchView('hitl', this)">🛡️ Crisis &amp; HITL Gate <span id="hitlBadge" class="nav-badge" style="display:none;">1</span></button>
-      <button class="nav-item" onclick="switchView('fleet', this)">🚢 S/4HANA Biologics Fleet</button>
-      <button class="nav-item" onclick="switchView('audit', this)">📜 EU AI Act &amp; A2A Cards</button>
-=======
       <button class="nav-item active" onclick="switchView('overview', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg> Command Center</button>
       <button class="nav-item" onclick="switchView('hitl', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg> Disruption &amp; HITL Gate <span id="hitlBadge" class="nav-badge" style="display:none;">1</span></button>
       <button class="nav-item" onclick="switchView('fleet', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg> S/4HANA Cargo Fleet</button>
       <button class="nav-item" onclick="switchView('audit', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg> Governance &amp; A2A</button>
       <button class="nav-item" onclick="switchView('sos', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/><path d="M12 12 18.4 5.6"/></svg> Maritime Security &amp; SOS</button>
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     </nav>
     <div class="sidebar-footer">
       <div class="persona-pill">
@@ -604,14 +594,10 @@
     <div class="content">
       <!-- VIEW 1: COMMAND CENTER -->
       <div id="view-overview" class="view active">
-<<<<<<< HEAD
-        <!-- KPI METRICS -->
-=======
         <div id="blastBanner" class="blast-banner">
           <div><strong id="blastTitle"><span class="pulse-dot"></span>FLEET-WIDE BLAST RADIUS ACTIVE</strong><div id="blastSub" style="font-size:12px;opacity:.92;margin-top:2px;"></div></div>
           <div style="text-align:right;"><div style="font-size:11px;opacity:.85;letter-spacing:.04em;">TOTAL CARGO VALUE PROTECTED</div><div id="blastVal" style="font-size:20px;font-weight:800;"></div></div>
         </div>
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-label">Active Reefer Fleet (S/4HANA)</div>
@@ -687,11 +673,7 @@
       <div id="view-hitl" class="view">
         <div class="panel">
           <div class="panel-head">
-<<<<<<< HEAD
-            <h2><span>🚨</span> Maritime Chokepoint Stall &amp; Reefer Excursion Injector</h2>
-=======
             <h2>Multi-Domain Freight &amp; Disruption Triage Engine</h2>
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
             <span class="pill pill-blue">Authenticated CAP Action</span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
@@ -713,11 +695,6 @@
             </div>
           </div>
           <div class="slider-row">
-<<<<<<< HEAD
-            <div><label>Target Pharma Reefer Shipment</label><select id="shipmentSelect" style="width:100%;"></select></div>
-            <div><label>Simulated Reefer Temp: <span id="tempVal" class="mono" style="color:var(--accent-danger);">9.4°C</span></label><input type="range" id="tempSlider" min="2.5" max="14.0" step="0.1" value="9.4" oninput="document.getElementById('tempVal').textContent=this.value+'°C'"></div>
-            <div><label>AIS Dark-Ship Duration: <span id="darkVal" class="mono">45 mins</span></label><input type="range" id="darkSlider" min="5" max="120" step="5" value="45" oninput="document.getElementById('darkVal').textContent=this.value+' mins'"></div>
-=======
             <div><label>Target Shipment</label><select id="shipmentSelect" style="width:100%;"></select></div>
             <div>
               <label>Container Thermal Probe: <span id="tempVal" style="color:var(--danger);">8.9°C</span></label>
@@ -729,18 +706,13 @@
               </div>
             </div>
             <div><label>AIS Dark-Ship Duration: <span id="darkVal">45 mins</span></label><input type="range" id="darkSlider" min="5" max="120" step="5" value="45" oninput="document.getElementById('darkVal').textContent=this.value+' mins'"></div>
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
           </div>
           <button class="btn btn-danger" onclick="triggerCrisis()">Execute 4-Agent Autonomous Triage</button>
         </div>
 
         <div class="panel">
           <div class="panel-head">
-<<<<<<< HEAD
-            <h2 id="hitlTitle"><span>🛡️</span> Executive Human-in-the-Loop (HITL) Decision Gate</h2>
-=======
             <h2 id="hitlTitle">Executive Human-in-the-Loop (HITL) Authorization Gate</h2>
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
             <span class="pill pill-warn">EU AI Act Art. 14(4) Sign-Off</span>
           </div>
           <div id="briefBox" style="background:rgba(56, 189, 248, 0.08);border:1px solid rgba(56, 189, 248, 0.25);border-left:4px solid var(--accent-cyan);padding:16px 18px;border-radius:12px;font-size:13.5px;line-height:1.55;margin-bottom:18px;">
@@ -750,14 +722,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-      <!-- VIEW 3: FLEET & 24H EXCURSION SPARKLINES -->
-      <div id="view-fleet" class="view">
-        <div class="panel">
-          <div class="panel-head">
-            <h2><span>🚢</span> SAP S/4HANA Batch Master &amp; 24-Hour Thermal Telemetry</h2>
-            <input type="text" id="fleetSearch" placeholder="Search Biologic, HS Code, Destination..." oninput="renderFleet()" style="min-width:280px;">
-=======
       
       <!-- VIEW 5: MARITIME SOS & NAVY -->
       <div id="view-sos" class="view">
@@ -824,7 +788,6 @@
           <div class="panel-head">
             <h2>SAP S/4HANA Batch Master &amp; IBP Cargo Fleet</h2>
             <input type="text" id="fleetSearch" placeholder="Search Insulin, mAb, Jebel Ali..." oninput="renderFleet()" style="min-width:260px;">
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
           </div>
           <div style="overflow-x:auto;">
             <table>
@@ -849,11 +812,7 @@
       <div id="view-audit" class="view">
         <div class="panel">
           <div class="panel-head">
-<<<<<<< HEAD
-            <h2><span>📜</span> Immutable EU AI Act Article 14 Audit Trail</h2>
-=======
             <h2>Immutable EU AI Act Compliance &amp; Decision Ledger</h2>
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
             <span class="pill pill-ok">Regulation (EU) 2024/1689</span>
           </div>
           <div style="overflow-x:auto;">
@@ -874,15 +833,6 @@
 
         <div class="panel">
           <div class="panel-head">
-<<<<<<< HEAD
-            <h2><span>🔌</span> Live Outbound A2A Protocol Cards (<code>/.well-known/agent.json</code>)</h2>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="loadAgentCard('/.well-known/agent.json')">Root Mesh</button>
-              <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="loadAgentCard('/agents/watcher/.well-known/agent.json')">01 Watcher</button>
-              <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="loadAgentCard('/agents/planner/.well-known/agent.json')">02 Planner</button>
-              <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="loadAgentCard('/agents/bookmaker/.well-known/agent.json')">03 Bookmaker</button>
-              <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="loadAgentCard('/agents/safeguard/.well-known/agent.json')">04 Safe Guard</button>
-=======
             <h2>A2A Discovery Protocol Inspector (<code>/.well-known/agent.json</code>)</h2>
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
               <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/.well-known/agent.json')">Root</button>
@@ -890,7 +840,6 @@
               <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/planner/.well-known/agent.json')">02 Planner</button>
               <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/bookmaker/.well-known/agent.json')">03 Bookmaker</button>
               <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/safeguard/.well-known/agent.json')">04 Safe Guard</button>
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
             </div>
           </div>
           <pre id="agentJsonViewer" class="json-box"></pre>
@@ -1035,16 +984,8 @@
     }
     async function checkSession() {
       if (!authToken) return;
-<<<<<<< HEAD
-      try {
-        const res = await fetch('/api/auth/me', { headers: { Authorization: 'Bearer ' + authToken } });
-        if (res.ok) { const d = await res.json(); enterApp(authToken, d.user); }
-        else { localStorage.removeItem('pravah_token'); }
-      } catch {}
-=======
       const res = await fetch('/api/auth/me', { headers: { Authorization: 'Bearer ' + authToken, 'X-Pravah-Token': authToken } });
       if (res.ok) { const d = await res.json(); enterApp(authToken, d.user); }
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     // ----------------------------------------------------
@@ -1485,16 +1426,7 @@
       document.getElementById('view-' + name).classList.add('active');
       document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
-<<<<<<< HEAD
-      const titles = {
-        overview: 'Executive Command Center',
-        hitl: 'Crisis Simulator & HITL Gate',
-        fleet: 'SAP S/4HANA Reefer Fleet',
-        audit: 'EU AI Act Audit & A2A Cards'
-      };
-=======
       const titles = { overview: 'Executive Command Center', hitl: 'Crisis Simulator & HITL Gate', fleet: 'SAP S/4HANA Reefer Fleet', audit: 'EU AI Act Audit & A2A Inspector', sos: 'Maritime SOS & Naval / Coast Guard Dispatch' };
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
       document.getElementById('viewTitle').textContent = titles[name];
       if (name === 'overview' && map) setTimeout(() => map.invalidateSize(), 120);
     }
@@ -1507,20 +1439,6 @@
     }
 
     async function loadAll() {
-<<<<<<< HEAD
-      try {
-        const [s, b, o, a] = await Promise.all([
-          fetch(`${API}/Shipments?$orderby=shipmentId asc`).then(r => r.json()),
-          fetch(`${API}/ReeferBatches`).then(r => r.json()),
-          fetch(`${API}/RerouteOptions?$orderby=recommended desc,totalCostINR asc`).then(r => r.json()),
-          fetch(`${API}/AuditLogs?$orderby=createdAt desc`).then(r => r.json())
-        ]);
-        state = { shipments: s.value || [], batches: b.value || [], options: o.value || [], audits: a.value || [] };
-        renderAll();
-      } catch (err) {
-        console.error('Failed to load OData feeds', err);
-      }
-=======
       const [s, b, o, a, m] = await Promise.all([
         fetch(API + '/Shipments?$orderby=shipmentId asc').then(r => r.json()),
         fetch(API + '/ReeferBatches').then(r => r.json()),
@@ -1530,7 +1448,6 @@
       ]);
       state = { shipments: s.value || [], batches: b.value || [], options: o.value || [], audits: a.value || [], sos: m.value || [] };
       renderAll();
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     function renderAll() {
@@ -1566,12 +1483,6 @@
       }).join('');
       if (prev) sel.value = prev;
 
-<<<<<<< HEAD
-      renderChart();
-      renderRoutes();
-      renderFleet();
-      renderAudit();
-=======
       const sosSel = document.getElementById('sosShipSelect');
       if (sosSel) {
         const prevS = sosSel.value;
@@ -1608,7 +1519,6 @@
           fillColor: col, color: "#00144A", weight: 2, fillOpacity: 0.95
         }).bindPopup(`<strong>💊 ${s.shipmentId}</strong> (${s.status})<br/>${s.product}<br/>Shelf Life: <strong>${bt.remainingShelfLifeDays || 18}d</strong> · Temp: <strong>${bt.currentTempC || 4.2}°C</strong><br/>Dest: ${s.destination}<br/>Value: ${fmtMoney(s.cargoValueINR, s.cargoValueUSD)}`).addTo(pharmaFleetLayer);
       });
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     function renderChart() {
@@ -1660,32 +1570,6 @@
 
     function renderRoutes() {
       const wrap = document.getElementById('routesCards');
-<<<<<<< HEAD
-      if (!wrap) return;
-      if (state.options.length === 0) {
-        wrap.innerHTML = '<div style="color:var(--text-dim);font-size:13px;">No reroute options simulated yet.</div>';
-        return;
-      }
-      if (state.audits.length > 0) {
-        document.getElementById('briefBox').innerHTML = `<strong>✦ Agent 04 (The Safe Guard) Executive Brief:</strong><br/>${state.audits[0].details}`;
-      }
-      wrap.innerHTML = state.options.map(o => {
-        const cls = o.recommended ? 'route-card rec' : (o.spoilageFlag ? 'route-card spoil' : 'route-card');
-        const statusPill = o.spoilageFlag 
-          ? '<span class="pill pill-bad">✖ SPOILAGE REJECTED</span>' 
-          : (o.recommended ? '<span class="pill pill-ok">★ #1 OPTIMAL · 2–8°C PRESERVED</span>' : '<span class="pill pill-warn">ALTERNATIVE</span>');
-        
-        let btnHtml = '';
-        if (o.approvalStatus === 'PENDING_HITL') {
-          btnHtml = `
-            <div style="display:flex;gap:8px;margin-top:auto;">
-              <button class="btn btn-teal" style="flex:1;justify-content:center;" onclick="decide('${o.ID}','approve')">✔ Approve Reroute</button>
-              <button class="btn btn-ghost" onclick="decide('${o.ID}','reject')">✖ Override</button>
-            </div>
-          `;
-        } else if (o.approvalStatus === 'APPROVED') {
-          btnHtml = `<div class="pill pill-ok" style="justify-content:center;padding:8px;">✔ SIGNED OFF (HITL)</div>`;
-=======
       if (state.options.length === 0) { wrap.innerHTML = '<div style="color:var(--muted);font-size:13px;">No reroute options simulated yet.</div>'; return; }
       if (state.audits.length > 0) document.getElementById('briefBox').innerHTML = '<strong>✦ Agent 04 (The Safe Guard) Executive Brief:</strong><br/>' + state.audits[0].details;
       let htmlOut = '';
@@ -1708,28 +1592,9 @@
           btnHtml = '<div style="display:flex;gap:8px;margin-top:auto;"><button class="btn btn-teal" style="flex:1;justify-content:center;" onclick="decide(\'' + o.ID + '\',\'approve\')">' + lbl + '</button><button class="btn btn-ghost" onclick="decide(\'' + o.ID + '\',\'reject\')">Override</button></div>';
         } else if (o.approvalStatus === 'APPROVED') {
           btnHtml = '<div style="display:grid;gap:6px;margin-top:auto;"><div class="pill pill-ok" style="justify-content:center;padding:8px;">AUTHORIZED &amp; LEDGERED</div><button class="btn btn-ghost" style="justify-content:center;font-size:12px;" onclick="printCertificate(\'' + o.ID + '\')">Download Official Compliance Certificate (PDF)</button></div>';
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
         } else if (o.approvalStatus === 'REJECTED') {
           btnHtml = '<div class="pill pill-bad" style="justify-content:center;padding:8px;">OVERRIDDEN</div>';
         }
-<<<<<<< HEAD
-        return `
-          <div class="${cls}">
-            <strong style="font-size:15px;color:#fff;">${o.routeName}</strong>
-            <div>${statusPill}</div>
-            <div>
-              <div class="price-big mono">${currencyMode === 'USD' ? fmtUSD(o.totalCostUSD) : fmtINR(o.totalCostINR)}</div>
-              <div class="price-sub">${currencyMode === 'BOTH' ? fmtUSD(o.totalCostUSD) + ' · ' : ''}Transit: ${o.transitDays}d · CEPA: ${o.cepaDutyPct}%</div>
-            </div>
-            <div style="font-size:12px;color:var(--accent-emerald);font-weight:700;">
-              ${o.savingsINR > 0 ? 'Saves ' + fmtMoney(o.savingsINR, o.savingsUSD) + ' vs War Surcharge' : 'Baseline / No Savings'}
-            </div>
-            <div style="font-size:12px;color:var(--text-muted);line-height:1.45;">${o.rationale}</div>
-            ${btnHtml}
-          </div>
-        `;
-      }).join('');
-=======
         const priceMain = currencyMode === 'USD' ? fmtUSD(o.totalCostUSD) : fmtINR(o.totalCostINR);
         const priceSub = (currencyMode === 'BOTH' ? fmtUSD(o.totalCostUSD) + ' · ' : '') + 'Transit: ' + o.transitDays + 'd · Duty: ' + o.cepaDutyPct + '%';
         htmlOut += '<div class="' + cls + '">'
@@ -1742,7 +1607,6 @@
           + btnHtml + '</div>';
       }
       wrap.innerHTML = htmlOut;
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     function renderFleet() {
@@ -1814,50 +1678,6 @@
 
     async function triggerCrisis() {
       const shipmentId = document.getElementById('shipmentSelect').value || 'SHP-JNPT-001';
-<<<<<<< HEAD
-      const tempVal = parseFloat(document.getElementById('tempSlider').value) || 9.4;
-      const darkMins = parseInt(document.getElementById('darkSlider').value, 10) || 45;
-
-      showToast(`⚡ Initiating 4-Agent triage for ${shipmentId}...`);
-
-      const crisisPayload = {
-        shipmentId,
-        eventType: 'HORMUZ_CHOKEPOINT_STALL_AND_TEMP_DRIFT',
-        chokepoint: 'Strait of Hormuz / Bab el-Mandeb',
-        vesselSogKnots: 1.8,
-        aisDarkMinutes: darkMins,
-        reeferTempC: tempVal,
-        doorOpen: true,
-        severity: 'CRITICAL'
-      };
-
-      // 1. Immediately update Map Visuals
-      updateMapForCrisis(crisisPayload);
-
-      try {
-        const res = await fetch(`${API}/triggerCrisis`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken },
-          body: JSON.stringify(crisisPayload)
-        });
-
-        if (res.status === 401) { logout(); return showAuthErr('Session expired. Please sign in again.'); }
-        
-        let backendBrief = "";
-        if (res.ok) {
-          const resData = await res.json();
-          backendBrief = resData.value || "";
-        }
-
-        // 2. Stream real-time A2A trace with backend values
-        streamA2AExecution(crisisPayload, backendBrief);
-        showToast('✔ 4-Agent consensus reached! Held at HITL Gate.');
-        await loadAll();
-      } catch (err) {
-        console.error('Crisis trigger error', err);
-        streamA2AExecution(crisisPayload, null);
-      }
-=======
       showToast(`⚡ Running authenticated 4-Agent triage for ${shipmentId}...`);
       const res = await fetch(`${API}/triggerCrisis`, {
         method: 'POST',
@@ -1873,7 +1693,6 @@
       if (res.status === 401) { logout(); return showAuthErr('Session expired. Please sign in again.'); }
       showToast('✔ 4-Agent triage complete! Review HITL Gate.');
       await loadAll();
->>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     async function decide(optionId, type) {
