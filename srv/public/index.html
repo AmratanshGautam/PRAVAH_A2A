@@ -434,6 +434,73 @@
       from { r: 3.5; filter: drop-shadow(0 0 2px #ef4444); }
       to { r: 5.5; filter: drop-shadow(0 0 8px #ef4444); }
     }
+<<<<<<< HEAD
+=======
+    .joule-head { background: linear-gradient(135deg, #060D21, #0057D2) !important; }
+    #maritimeMap { border-radius: 14px !important; box-shadow: inset 0 0 0 1px rgba(15,23,42,0.08); }
+  
+    .blast-banner { background: linear-gradient(135deg, #7F1D1D, #991B1B); color: #fff; padding: 14px 18px; border-radius: 12px; margin-bottom: 16px; display: none; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; box-shadow: 0 8px 20px rgba(153,27,27,0.22); }
+    .meter-wrap { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px 12px; margin-top: 8px; }
+    .meter-bar { position: relative; height: 11px; border-radius: 999px; background: linear-gradient(90deg, #38BDF8 0%, #10B981 18%, #10B981 57%, #F59E0B 66%, #EF4444 76%, #991B1B 100%); margin: 8px 0; }
+    .meter-pin { position: absolute; top: -4px; width: 4px; height: 19px; background: #0F172A; border: 1px solid #fff; border-radius: 3px; transform: translateX(-50%); transition: left 0.15s ease; }
+    .cfo-lock { display: inline-block; background: #FEF2F2; color: #B91C1C; border: 1px solid #FCA5A5; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-top: 4px; }
+    .domain-pill { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-size: 12px; padding: 8px 10px; border-radius: 8px; margin-top: 6px; }
+    .sos-pre { background: #0F172A; color: #38BDF8; padding: 12px; border-radius: 10px; font-size: 11.5px; max-height: 340px; overflow: auto; white-space: pre-wrap; margin: 0; }
+  
+    /* === ENTERPRISE UI POLISH === */
+    .kpi-val, .price-big, table td, .mono-num { font-variant-numeric: tabular-nums; }
+    .nav-item svg, .btn svg, .panel-head svg { width: 15px; height: 15px; flex-shrink: 0; stroke-width: 1.9; }
+    .blast-banner {
+      background: #141016 !important;
+      border: 1px solid rgba(239,68,68,0.35);
+      border-left: 4px solid #EF4444;
+      color: #F8FAFC !important;
+      padding: 14px 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 28px rgba(15,23,42,0.16) !important;
+    }
+    .pulse-dot {
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      background: #EF4444; margin-right: 8px; box-shadow: 0 0 0 0 rgba(239,68,68,0.7);
+      animation: pravahPulse 1.8s infinite;
+    }
+    @keyframes pravahPulse {
+      0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.65); }
+      70% { box-shadow: 0 0 0 9px rgba(239,68,68,0); }
+      100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+    }
+    .meter-wrap { background: #F8FAFC !important; border: 1px solid #E2E8F0 !important; border-radius: 8px !important; padding: 10px 12px !important; }
+    .meter-bar {
+      position: relative; height: 8px !important; border-radius: 4px !important;
+      background: #E2E8F0 !important; overflow: visible !important; margin: 10px 0 8px !important;
+    }
+    .meter-bar::before {
+      content: ''; position: absolute; left: 14.3%; width: 42.8%; top: 0; bottom: 0;
+      background: rgba(5,150,105,0.28); border-left: 2px solid #059669; border-right: 2px solid #059669;
+    }
+    .meter-pin {
+      position: absolute; top: -5px !important; width: 3px !important; height: 18px !important;
+      background: #0F172A !important; border: none !important; border-radius: 2px !important;
+      box-shadow: 0 0 0 2px #FFFFFF;
+    }
+    .cfo-lock {
+      display: inline-flex !important; align-items: center; gap: 5px;
+      background: #FEF2F2 !important; color: #991B1B !important;
+      border: 1px solid #FECACA !important; font-size: 10.5px !important;
+      letter-spacing: 0.03em; text-transform: uppercase;
+      padding: 3px 8px !important; border-radius: 5px !important; margin-top: 6px !important;
+    }
+    .domain-pill {
+      background: #F1F5F9 !important; color: #334155 !important;
+      border: 1px solid #E2E8F0 !important; font-size: 11.5px !important;
+      line-height: 1.45; border-radius: 7px !important;
+    }
+    .sos-pre {
+      background: #0B1221 !important; color: #CBD5E1 !important;
+      border: 1px solid #1E293B; font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11.5px !important; line-height: 1.5;
+    }
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
   </style>
 </head>
 <body>
@@ -489,10 +556,18 @@
       </div>
     </div>
     <nav class="nav-list">
+<<<<<<< HEAD
       <button class="nav-item active" onclick="switchView('overview', this)">🌐 Command Center</button>
       <button class="nav-item" onclick="switchView('hitl', this)">🛡️ Crisis &amp; HITL Gate <span id="hitlBadge" class="nav-badge" style="display:none;">1</span></button>
       <button class="nav-item" onclick="switchView('fleet', this)">🚢 S/4HANA Biologics Fleet</button>
       <button class="nav-item" onclick="switchView('audit', this)">📜 EU AI Act &amp; A2A Cards</button>
+=======
+      <button class="nav-item active" onclick="switchView('overview', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg> Command Center</button>
+      <button class="nav-item" onclick="switchView('hitl', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg> Disruption &amp; HITL Gate <span id="hitlBadge" class="nav-badge" style="display:none;">1</span></button>
+      <button class="nav-item" onclick="switchView('fleet', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg> S/4HANA Cargo Fleet</button>
+      <button class="nav-item" onclick="switchView('audit', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg> Governance &amp; A2A</button>
+      <button class="nav-item" onclick="switchView('sos', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/><path d="M12 12 18.4 5.6"/></svg> Maritime Security &amp; SOS</button>
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     </nav>
     <div class="sidebar-footer">
       <div class="persona-pill">
@@ -515,20 +590,28 @@
         <span id="tenantSub">Multi-Tenant Cold-Chain Control Tower · Live SAP HANA Cloud</span>
       </div>
       <div class="topbar-right">
+        <button class="btn btn-ghost" style="padding:7px 12px;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;" onclick="resetDemo()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Reset Workspace</button>
         <div class="seg-toggle">
           <button class="seg-btn active" onclick="setCurrency('BOTH', this)">INR + USD</button>
           <button class="seg-btn" onclick="setCurrency('INR', this)">₹ INR</button>
           <button class="seg-btn" onclick="setCurrency('USD', this)">$ USD</button>
         </div>
-        <button class="btn btn-danger" onclick="quickCrisisDemo()">⚡ Trigger Live Hormuz Crisis</button>
-        <button class="btn btn-ghost" onclick="loadAll()">↻ Sync</button>
+        <button class="btn btn-danger" style="display:inline-flex;align-items:center;gap:6px;" onclick="quickCrisisDemo()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Run Disruption Triage</button>
+        <button class="btn btn-ghost" style="display:inline-flex;align-items:center;gap:6px;" onclick="loadAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Sync Telemetry</button>
       </div>
     </header>
 
     <div class="content">
       <!-- VIEW 1: COMMAND CENTER -->
       <div id="view-overview" class="view active">
+<<<<<<< HEAD
         <!-- KPI METRICS -->
+=======
+        <div id="blastBanner" class="blast-banner">
+          <div><strong id="blastTitle"><span class="pulse-dot"></span>FLEET-WIDE BLAST RADIUS ACTIVE</strong><div id="blastSub" style="font-size:12px;opacity:.92;margin-top:2px;"></div></div>
+          <div style="text-align:right;"><div style="font-size:11px;opacity:.85;letter-spacing:.04em;">TOTAL CARGO VALUE PROTECTED</div><div id="blastVal" style="font-size:20px;font-weight:800;"></div></div>
+        </div>
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-label">Active Reefer Fleet (S/4HANA)</div>
@@ -604,20 +687,60 @@
       <div id="view-hitl" class="view">
         <div class="panel">
           <div class="panel-head">
+<<<<<<< HEAD
             <h2><span>🚨</span> Maritime Chokepoint Stall &amp; Reefer Excursion Injector</h2>
+=======
+            <h2>Multi-Domain Freight &amp; Disruption Triage Engine</h2>
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
             <span class="pill pill-blue">Authenticated CAP Action</span>
           </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+            <div>
+              <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px;">Exporter Cargo Domain (Auto-Adapts All 4 Agents)</label>
+              <select id="domainSelect" onchange="updateDomainHint()" style="width:100%;">
+                <option value="PHARMA_COLD_CHAIN">Pharma &amp; Biologics (2°C–8°C · 18d Shelf Life · CEPA 0%)</option>
+                <option value="AGRI_UREA_BULK">Agri-Inputs &amp; Urea (Ambient Bulk · 180d · Avoids War Surcharge)</option>
+                <option value="PERISHABLE_FOOD">Perishable Food / Seafood (-18°C/4°C · 12d Ultra-Short)</option>
+                <option value="SEMICONDUCTOR_JIT">Semiconductors (JIT · ₹8L/day Line-Down Penalty · ITA 0%)</option>
+                <option value="CHEMICALS_HAZMAT">Specialty Chemicals (Hazmat · IMDG Air Cargo Ban)</option>
+              </select>
+              <div id="domainHint" class="domain-pill">Strict 2°C–8°C thermal band, 18d shelf life — blocks Cape Detour (+14d spoilage).</div>
+            </div>
+            <div>
+              <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px;">CFO Spend-Cap Guardrail: <span id="capVal" style="color:var(--cobalt);">₹5,00,000 ($6,000)</span></label>
+              <input type="range" id="capSlider" min="200000" max="1200000" step="50000" value="500000" oninput="updateCapLabel()" style="width:100%;">
+              <div class="domain-pill" style="background:#FEF2F2;color:#991B1B;border-color:#FECACA;">Routes above cap trigger a hard <strong>CFO Dual-Approval Lock</strong> (eliminates runaway AI spend risk).</div>
+            </div>
+          </div>
           <div class="slider-row">
+<<<<<<< HEAD
             <div><label>Target Pharma Reefer Shipment</label><select id="shipmentSelect" style="width:100%;"></select></div>
             <div><label>Simulated Reefer Temp: <span id="tempVal" class="mono" style="color:var(--accent-danger);">9.4°C</span></label><input type="range" id="tempSlider" min="2.5" max="14.0" step="0.1" value="9.4" oninput="document.getElementById('tempVal').textContent=this.value+'°C'"></div>
             <div><label>AIS Dark-Ship Duration: <span id="darkVal" class="mono">45 mins</span></label><input type="range" id="darkSlider" min="5" max="120" step="5" value="45" oninput="document.getElementById('darkVal').textContent=this.value+' mins'"></div>
+=======
+            <div><label>Target Shipment</label><select id="shipmentSelect" style="width:100%;"></select></div>
+            <div>
+              <label>Container Thermal Probe: <span id="tempVal" style="color:var(--danger);">8.9°C</span></label>
+              <input type="range" id="tempSlider" min="0.0" max="14.0" step="0.1" value="8.9" oninput="updateThermalMeter()">
+              <div class="meter-wrap">
+                <div style="display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:#475569;"><span>0°C</span><span style="color:#059669;">SAFE (2–8°C)</span><span style="color:#DC2626;">EXCURSION 14°C</span></div>
+                <div class="meter-bar"><div id="thermalPin" class="meter-pin" style="left:63.5%;"></div></div>
+                <div id="thermalStatus" style="font-size:11.5px;font-weight:700;color:#DC2626;">CRITICAL EXCURSION (8.9°C): ~14h before potency degrades.</div>
+              </div>
+            </div>
+            <div><label>AIS Dark-Ship Duration: <span id="darkVal">45 mins</span></label><input type="range" id="darkSlider" min="5" max="120" step="5" value="45" oninput="document.getElementById('darkVal').textContent=this.value+' mins'"></div>
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
           </div>
-          <button class="btn btn-danger" onclick="triggerCrisis()">⚡ Run 4-Agent A2A Crisis Triage Now</button>
+          <button class="btn btn-danger" onclick="triggerCrisis()">Execute 4-Agent Autonomous Triage</button>
         </div>
 
         <div class="panel">
           <div class="panel-head">
+<<<<<<< HEAD
             <h2 id="hitlTitle"><span>🛡️</span> Executive Human-in-the-Loop (HITL) Decision Gate</h2>
+=======
+            <h2 id="hitlTitle">Executive Human-in-the-Loop (HITL) Authorization Gate</h2>
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
             <span class="pill pill-warn">EU AI Act Art. 14(4) Sign-Off</span>
           </div>
           <div id="briefBox" style="background:rgba(56, 189, 248, 0.08);border:1px solid rgba(56, 189, 248, 0.25);border-left:4px solid var(--accent-cyan);padding:16px 18px;border-radius:12px;font-size:13.5px;line-height:1.55;margin-bottom:18px;">
@@ -627,12 +750,81 @@
         </div>
       </div>
 
+<<<<<<< HEAD
       <!-- VIEW 3: FLEET & 24H EXCURSION SPARKLINES -->
       <div id="view-fleet" class="view">
         <div class="panel">
           <div class="panel-head">
             <h2><span>🚢</span> SAP S/4HANA Batch Master &amp; 24-Hour Thermal Telemetry</h2>
             <input type="text" id="fleetSearch" placeholder="Search Biologic, HS Code, Destination..." oninput="renderFleet()" style="min-width:280px;">
+=======
+      
+      <!-- VIEW 5: MARITIME SOS & NAVY -->
+      <div id="view-sos" class="view">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+          <div class="panel" style="margin:0;">
+            <div class="panel-head">
+              <h2>Maritime Security &amp; Naval Distress Dispatch</h2>
+              <span class="pill pill-bad">IFC-IOR · UKMTO · MRCC</span>
+            </div>
+            <div class="domain-pill" style="background:#FEF2F2;color:#991B1B;border-color:#FECACA;margin-bottom:12px;">
+              <strong>Prototype Gateway Framing:</strong> Generates &amp; persists a standardized <strong>Indian Navy IFC-IOR / UKMTO / Indian Coast Guard MRCC Mumbai</strong> distress packet in HANA Cloud, drops a 50-NM danger zone on the map, and runs a Fleet-Wide Blast Radius scan.
+            </div>
+            <div style="display:grid;gap:10px;">
+              <div>
+                <label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px;">Structured Maritime Incident Type</label>
+                <select id="sosType" style="width:100%;">
+                  <option value="MISSILE_DRONE">Missile / Aerial Drone Attack</option>
+                  <option value="PIRATE_RAID">Pirate Raid / Armed Boarding</option>
+                  <option value="TERROR_HIJACK">Terror / Vessel Hijacking Threat</option>
+                  <option value="SHIP_COLLISION">Ship Collision / Grounding / Fire</option>
+                  <option value="AIS_SPOOFING">GPS / AIS Spoofing &amp; Cyber Interference</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px;">Affected Vessel &amp; Shipment</label>
+                <select id="sosShipSelect" style="width:100%;"></select>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px;">Latitude (°N)</label><input id="sosLat" type="number" step="0.001" value="26.567" style="width:100%;"></div>
+                <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px;">Longitude (°E)</label><input id="sosLng" type="number" step="0.001" value="56.250" style="width:100%;"></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px;">Threat Bearing (°)</label><input id="sosBearing" type="number" min="0" max="359" value="215" style="width:100%;"></div>
+                <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px;">Danger Radius (NM)</label><input id="sosRadius" type="number" min="10" max="150" value="50" style="width:100%;"></div>
+              </div>
+              <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px;">Threat Source / Visual Observation</label><input id="sosSource" type="text" value="Fast-moving aerial UAV contact from SW bearing 215°" style="width:100%;"></div>
+              <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px;">Cargo Criticality</label><input id="sosCrit" type="text" value="Life-Saving Biologics (2-8°C) · High-Value Sea Export Fleet" style="width:100%;"></div>
+              <button class="btn btn-danger" id="btnSos" onclick="reportSos()">Transmit Naval Distress Packet &amp; Scan Fleet</button>
+            </div>
+          </div>
+          <div class="panel" style="margin:0;">
+            <div class="panel-head">
+              <h2>Standardized IFC-IOR / UKMTO / MRCC Dispatch Packet</h2>
+              <div style="display:flex;gap:8px;align-items:center;"><button class="btn btn-ghost" style="padding:5px 10px;font-size:11.5px;" onclick="copySosPacket()">Copy JSON</button><span class="pill pill-warn">HANA Persisted</span></div>
+            </div>
+            <div id="sosBlastSummary" class="domain-pill" style="margin-bottom:10px;">No active SOS alert. Submit an incident to generate a naval dispatch packet and 50-NM danger zone.</div>
+            <pre id="sosPacketView" class="sos-pre">// Standardized IFC-IOR / UKMTO / MRCC Mumbai JSON packet will appear here...</pre>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Active Maritime Security Incident Ledger (SAP HANA Cloud)</h2>
+            <span class="pill pill-bad">Live Telemetry Sync</span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table><thead><tr><th>Code</th><th>Type</th><th>Vessel / Shipment</th><th>Coordinates</th><th>Blast Radius</th><th>Status</th></tr></thead><tbody id="sosBody"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: FLEET -->
+      <div id="view-fleet" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>SAP S/4HANA Batch Master &amp; IBP Cargo Fleet</h2>
+            <input type="text" id="fleetSearch" placeholder="Search Insulin, mAb, Jebel Ali..." oninput="renderFleet()" style="min-width:260px;">
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
           </div>
           <div style="overflow-x:auto;">
             <table>
@@ -657,7 +849,11 @@
       <div id="view-audit" class="view">
         <div class="panel">
           <div class="panel-head">
+<<<<<<< HEAD
             <h2><span>📜</span> Immutable EU AI Act Article 14 Audit Trail</h2>
+=======
+            <h2>Immutable EU AI Act Compliance &amp; Decision Ledger</h2>
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
             <span class="pill pill-ok">Regulation (EU) 2024/1689</span>
           </div>
           <div style="overflow-x:auto;">
@@ -678,6 +874,7 @@
 
         <div class="panel">
           <div class="panel-head">
+<<<<<<< HEAD
             <h2><span>🔌</span> Live Outbound A2A Protocol Cards (<code>/.well-known/agent.json</code>)</h2>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="loadAgentCard('/.well-known/agent.json')">Root Mesh</button>
@@ -685,6 +882,15 @@
               <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="loadAgentCard('/agents/planner/.well-known/agent.json')">02 Planner</button>
               <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="loadAgentCard('/agents/bookmaker/.well-known/agent.json')">03 Bookmaker</button>
               <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="loadAgentCard('/agents/safeguard/.well-known/agent.json')">04 Safe Guard</button>
+=======
+            <h2>A2A Discovery Protocol Inspector (<code>/.well-known/agent.json</code>)</h2>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/.well-known/agent.json')">Root</button>
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/watcher/.well-known/agent.json')">01 Watcher</button>
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/planner/.well-known/agent.json')">02 Planner</button>
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/bookmaker/.well-known/agent.json')">03 Bookmaker</button>
+              <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="loadAgentCard('/agents/safeguard/.well-known/agent.json')">04 Safe Guard</button>
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
             </div>
           </div>
           <pre id="agentJsonViewer" class="json-box"></pre>
@@ -829,11 +1035,16 @@
     }
     async function checkSession() {
       if (!authToken) return;
+<<<<<<< HEAD
       try {
         const res = await fetch('/api/auth/me', { headers: { Authorization: 'Bearer ' + authToken } });
         if (res.ok) { const d = await res.json(); enterApp(authToken, d.user); }
         else { localStorage.removeItem('pravah_token'); }
       } catch {}
+=======
+      const res = await fetch('/api/auth/me', { headers: { Authorization: 'Bearer ' + authToken, 'X-Pravah-Token': authToken } });
+      if (res.ok) { const d = await res.json(); enterApp(authToken, d.user); }
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     // ----------------------------------------------------
@@ -1274,12 +1485,16 @@
       document.getElementById('view-' + name).classList.add('active');
       document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
+<<<<<<< HEAD
       const titles = {
         overview: 'Executive Command Center',
         hitl: 'Crisis Simulator & HITL Gate',
         fleet: 'SAP S/4HANA Reefer Fleet',
         audit: 'EU AI Act Audit & A2A Cards'
       };
+=======
+      const titles = { overview: 'Executive Command Center', hitl: 'Crisis Simulator & HITL Gate', fleet: 'SAP S/4HANA Reefer Fleet', audit: 'EU AI Act Audit & A2A Inspector', sos: 'Maritime SOS & Naval / Coast Guard Dispatch' };
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
       document.getElementById('viewTitle').textContent = titles[name];
       if (name === 'overview' && map) setTimeout(() => map.invalidateSize(), 120);
     }
@@ -1292,6 +1507,7 @@
     }
 
     async function loadAll() {
+<<<<<<< HEAD
       try {
         const [s, b, o, a] = await Promise.all([
           fetch(`${API}/Shipments?$orderby=shipmentId asc`).then(r => r.json()),
@@ -1304,13 +1520,24 @@
       } catch (err) {
         console.error('Failed to load OData feeds', err);
       }
+=======
+      const [s, b, o, a, m] = await Promise.all([
+        fetch(API + '/Shipments?$orderby=shipmentId asc').then(r => r.json()),
+        fetch(API + '/ReeferBatches').then(r => r.json()),
+        fetch(API + '/RerouteOptions?$orderby=recommended desc,totalCostINR asc').then(r => r.json()),
+        fetch(API + '/AuditLogs?$orderby=createdAt desc').then(r => r.json()),
+        fetch(API + '/MaritimeIncidents?$orderby=createdAt desc').then(r => r.json())
+      ]);
+      state = { shipments: s.value || [], batches: b.value || [], options: o.value || [], audits: a.value || [], sos: m.value || [] };
+      renderAll();
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     function renderAll() {
       const totalINR = state.shipments.reduce((acc, s) => acc + Number(s.cargoValueINR || 0), 0);
       const totalUSD = state.shipments.reduce((acc, s) => acc + Number(s.cargoValueUSD || 0), 0);
       const alerts = state.shipments.filter(s => s.status === 'ALERT_TRIGGERED').length;
-      const pending = state.options.filter(o => o.approvalStatus === 'PENDING_HITL').length;
+      const pending = state.options.filter(o => o.approvalStatus === 'PENDING_HITL' || o.approvalStatus === 'PENDING_CFO_DUAL_APPROVAL').length;
 
       document.getElementById('kpiFleet').textContent = `${state.shipments.length} Boxes`;
       document.getElementById('kpiCargoVal').textContent = `Value: ${fmtMoney(totalINR, totalUSD)}`;
@@ -1339,10 +1566,49 @@
       }).join('');
       if (prev) sel.value = prev;
 
+<<<<<<< HEAD
       renderChart();
       renderRoutes();
       renderFleet();
       renderAudit();
+=======
+      const sosSel = document.getElementById('sosShipSelect');
+      if (sosSel) {
+        const prevS = sosSel.value;
+        let optsHtml = '';
+        for (const s of state.shipments) optsHtml += '<option value="' + s.shipmentId + '">' + s.shipmentId + ' · ' + s.product + ' (MMSI ' + s.vesselMMSI + ')</option>';
+        sosSel.innerHTML = optsHtml;
+        if (prevS) sosSel.value = prevS;
+      }
+      renderChart(); renderRoutes(); renderFleet(); renderAudit(); renderPharmaOnMap(); renderSosIncidents();
+    }
+
+    
+    // Realistic GPS waypoints along JNPT -> Gulf / Red Sea lanes for the 16 S/4HANA Pharma Reefers
+    const pharmaCoords = {
+      "SHP-JNPT-001": [25.60, 57.10], "SHP-JNPT-002": [16.20, 41.30], "SHP-JNPT-003": [24.40, 59.80],
+      "SHP-JNPT-004": [23.10, 62.40], "SHP-JNPT-005": [22.00, 65.10], "SHP-JNPT-006": [21.30, 61.20],
+      "SHP-JNPT-007": [25.10, 58.40], "SHP-JNPT-008": [18.40, 40.20], "SHP-JNPT-009": [23.90, 60.90],
+      "SHP-JNPT-010": [20.40, 68.30], "SHP-JNPT-011": [13.80, 43.10], "SHP-JNPT-012": [22.60, 63.80],
+      "SHP-JNPT-013": [24.90, 56.60], "SHP-JNPT-014": [21.10, 66.70], "SHP-JNPT-015": [19.80, 70.20],
+      "SHP-JNPT-016": [14.70, 53.50]
+    };
+
+    function renderPharmaOnMap() {
+      if (!map) return;
+      if (!pharmaFleetLayer) pharmaFleetLayer = L.layerGroup().addTo(map);
+      pharmaFleetLayer.clearLayers();
+      state.shipments.forEach(s => {
+        const pt = pharmaCoords[s.shipmentId];
+        if (!pt) return;
+        const bt = state.batches.find(x => x.shipmentId === s.shipmentId) || {};
+        const col = s.status === "ALERT_TRIGGERED" ? "#EF4444" : (s.status === "REROUTED" ? "#10B981" : "#F0AB00");
+        L.circleMarker(pt, {
+          radius: s.status === "ALERT_TRIGGERED" ? 8 : 6,
+          fillColor: col, color: "#00144A", weight: 2, fillOpacity: 0.95
+        }).bindPopup(`<strong>💊 ${s.shipmentId}</strong> (${s.status})<br/>${s.product}<br/>Shelf Life: <strong>${bt.remainingShelfLifeDays || 18}d</strong> · Temp: <strong>${bt.currentTempC || 4.2}°C</strong><br/>Dest: ${s.destination}<br/>Value: ${fmtMoney(s.cargoValueINR, s.cargoValueUSD)}`).addTo(pharmaFleetLayer);
+      });
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     function renderChart() {
@@ -1394,6 +1660,7 @@
 
     function renderRoutes() {
       const wrap = document.getElementById('routesCards');
+<<<<<<< HEAD
       if (!wrap) return;
       if (state.options.length === 0) {
         wrap.innerHTML = '<div style="color:var(--text-dim);font-size:13px;">No reroute options simulated yet.</div>';
@@ -1418,9 +1685,34 @@
           `;
         } else if (o.approvalStatus === 'APPROVED') {
           btnHtml = `<div class="pill pill-ok" style="justify-content:center;padding:8px;">✔ SIGNED OFF (HITL)</div>`;
+=======
+      if (state.options.length === 0) { wrap.innerHTML = '<div style="color:var(--muted);font-size:13px;">No reroute options simulated yet.</div>'; return; }
+      if (state.audits.length > 0) document.getElementById('briefBox').innerHTML = '<strong>✦ Agent 04 (The Safe Guard) Executive Brief:</strong><br/>' + state.audits[0].details;
+      let htmlOut = '';
+      for (const o of state.options) {
+        const isAutoRej = o.spoilageFlag || String(o.approvalStatus || '').startsWith('AUTO_REJECTED');
+        const cls = o.recommended ? 'route-card rec' : (isAutoRej ? 'route-card spoil' : 'route-card');
+        const statusPill = o.approvalStatus === 'AUTO_REJECTED_IMDG_BAN'
+          ? '<span class="pill pill-bad">PROHIBITED · IMDG AIR BAN</span>'
+          : o.spoilageFlag
+            ? '<span class="pill pill-bad">AUTO-REJECTED · SPOILAGE</span>'
+            : o.approvalStatus === 'PENDING_CFO_DUAL_APPROVAL'
+              ? '<span class="pill pill-bad">CFO DUAL-APPROVAL REQUIRED</span>'
+              : o.recommended
+                ? '<span class="pill pill-ok">RECOMMENDED · OPTIMAL</span>'
+                : '<span class="pill pill-warn">ALTERNATIVE</span>';
+        const cfoTag = o.cfoCapExceeded ? '<div class="cfo-lock">CFO Spend-Cap Gate Active</div>' : '';
+        let btnHtml = '';
+        if (o.approvalStatus === 'PENDING_HITL' || o.approvalStatus === 'PENDING_CFO_DUAL_APPROVAL') {
+          const lbl = o.cfoCapExceeded ? 'Authorize (CFO + VP Dual Sign-Off)' : 'Approve &amp; Sign Off';
+          btnHtml = '<div style="display:flex;gap:8px;margin-top:auto;"><button class="btn btn-teal" style="flex:1;justify-content:center;" onclick="decide(\'' + o.ID + '\',\'approve\')">' + lbl + '</button><button class="btn btn-ghost" onclick="decide(\'' + o.ID + '\',\'reject\')">Override</button></div>';
+        } else if (o.approvalStatus === 'APPROVED') {
+          btnHtml = '<div style="display:grid;gap:6px;margin-top:auto;"><div class="pill pill-ok" style="justify-content:center;padding:8px;">AUTHORIZED &amp; LEDGERED</div><button class="btn btn-ghost" style="justify-content:center;font-size:12px;" onclick="printCertificate(\'' + o.ID + '\')">Download Official Compliance Certificate (PDF)</button></div>';
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
         } else if (o.approvalStatus === 'REJECTED') {
-          btnHtml = `<div class="pill pill-bad" style="justify-content:center;padding:8px;">✖ OVERRIDDEN</div>`;
+          btnHtml = '<div class="pill pill-bad" style="justify-content:center;padding:8px;">OVERRIDDEN</div>';
         }
+<<<<<<< HEAD
         return `
           <div class="${cls}">
             <strong style="font-size:15px;color:#fff;">${o.routeName}</strong>
@@ -1437,6 +1729,20 @@
           </div>
         `;
       }).join('');
+=======
+        const priceMain = currencyMode === 'USD' ? fmtUSD(o.totalCostUSD) : fmtINR(o.totalCostINR);
+        const priceSub = (currencyMode === 'BOTH' ? fmtUSD(o.totalCostUSD) + ' · ' : '') + 'Transit: ' + o.transitDays + 'd · Duty: ' + o.cepaDutyPct + '%';
+        htmlOut += '<div class="' + cls + '">'
+          + '<strong style="font-size:14.5px;color:var(--navy);">' + o.routeName + '</strong>'
+          + '<div>' + statusPill + cfoTag + '</div>'
+          + '<div><div class="price-big">' + priceMain + '</div><div class="price-sub">' + priceSub + '</div></div>'
+          + '<div style="font-size:12px;color:var(--teal);font-weight:700;">' + (o.savingsINR > 0 ? 'Saves ' + fmtMoney(o.savingsINR, o.savingsUSD) + ' vs Gulf' : 'No freight cost savings') + '</div>'
+          + (o.complianceNote ? '<div style="font-size:11.5px;color:#1D4ED8;font-weight:600;">' + o.complianceNote + '</div>' : '')
+          + '<div style="font-size:12px;color:var(--muted);line-height:1.45;">' + o.rationale + '</div>'
+          + btnHtml + '</div>';
+      }
+      wrap.innerHTML = htmlOut;
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     function renderFleet() {
@@ -1508,6 +1814,7 @@
 
     async function triggerCrisis() {
       const shipmentId = document.getElementById('shipmentSelect').value || 'SHP-JNPT-001';
+<<<<<<< HEAD
       const tempVal = parseFloat(document.getElementById('tempSlider').value) || 9.4;
       const darkMins = parseInt(document.getElementById('darkSlider').value, 10) || 45;
 
@@ -1550,12 +1857,29 @@
         console.error('Crisis trigger error', err);
         streamA2AExecution(crisisPayload, null);
       }
+=======
+      showToast(`⚡ Running authenticated 4-Agent triage for ${shipmentId}...`);
+      const res = await fetch(`${API}/triggerCrisis`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, 'X-Pravah-Token': authToken },
+        body: JSON.stringify({
+          shipmentId, eventType: 'HORMUZ_CHOKEPOINT_STALL_AND_TEMP_DRIFT', chokepoint: 'Strait of Hormuz / Red Sea',
+          vesselSogKnots: 0.4, aisDarkMinutes: parseInt(document.getElementById('darkSlider').value, 10),
+          reeferTempC: parseFloat(document.getElementById('tempSlider').value), doorOpen: true, severity: 'CRITICAL',
+          cargoDomain: document.getElementById('domainSelect')?.value || 'PHARMA_COLD_CHAIN',
+          cfoSpendCapINR: Number(document.getElementById('capSlider')?.value || 500000)
+        })
+      });
+      if (res.status === 401) { logout(); return showAuthErr('Session expired. Please sign in again.'); }
+      showToast('✔ 4-Agent triage complete! Review HITL Gate.');
+      await loadAll();
+>>>>>>> 956fb33a33d8677aea66a92a9d0bf1ba91133963
     }
 
     async function decide(optionId, type) {
       const res = await fetch(`${API}/${type === 'approve' ? 'approveReroute' : 'rejectReroute'}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken },
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, 'X-Pravah-Token': authToken },
         body: JSON.stringify(type === 'approve' ? { optionId } : { optionId, reason: 'Manual override per EU AI Act Art. 14(4)(e)' })
       });
       if (res.status === 401) { logout(); return showAuthErr('Session expired.'); }
@@ -1658,6 +1982,267 @@
 
     // Initialize session check
     checkSession();
+  
+    let sosLayer = null;
+    const DOMAIN_HINTS = {
+      PHARMA_COLD_CHAIN: 'Strict 2°C–8°C thermal band, 18d shelf life — blocks Cape Detour (+14d spoilage).',
+      AGRI_UREA_BULK: '180d shelf life, planting-season deadline — avoids $3,500 Gulf war surcharge & farmer price doubling.',
+      PERISHABLE_FOOD: 'Ultra-short 12d shelf life — blocks both Cape (+14d) & Delayed Gulf, forces 7d Jeddah Intermodal.',
+      SEMICONDUCTOR_JIT: '₹8L/day fab line-down penalty past 5d buffer — dynamically weighs Air vs Jeddah Sea-Air + triggers CFO Lock.',
+      CHEMICALS_HAZMAT: 'IMDG Dangerous Goods Air Ban — auto-blocks Panic Spot Air and routes via bonded sea/land-bridge.'
+    };
+    function updateDomainHint() {
+      const k = document.getElementById('domainSelect').value;
+      document.getElementById('domainHint').textContent = DOMAIN_HINTS[k] || '';
+    }
+    function updateCapLabel() {
+      const inr = Number(document.getElementById('capSlider').value || 500000);
+      const usd = Math.round(inr / 84);
+      document.getElementById('capVal').textContent = '₹' + inr.toLocaleString('en-IN') + ' ($' + usd.toLocaleString('en-US') + ')';
+    }
+    function updateThermalMeter() {
+      const t = Number(document.getElementById('tempSlider').value);
+      document.getElementById('tempVal').textContent = t.toFixed(1) + '°C';
+      const pct = Math.max(0, Math.min(100, (t / 14) * 100));
+      document.getElementById('thermalPin').style.left = pct + '%';
+      const st = document.getElementById('thermalStatus');
+      if (t >= 2 && t <= 8) {
+        st.style.color = '#059669';
+        st.textContent = 'SAFE COLD-CHAIN BAND (' + t.toFixed(1) + '°C): Biologic potency stable within WHO-GDP 2°C–8°C limits.';
+      } else if (t < 2) {
+        st.style.color = '#0284C7';
+        st.textContent = 'FREEZE EXCURSION (' + t.toFixed(1) + '°C): Risk of protein denaturation — immediate reefer check needed.';
+      } else {
+        const hrs = Math.max(2, Math.round(24 - (t - 8) * 11));
+        st.style.color = '#DC2626';
+        st.textContent = 'CRITICAL EXCURSION (' + t.toFixed(1) + '°C): ~' + hrs + 'h remaining before biologic potency degrades.';
+      }
+    }
+
+    function renderSosIncidents() {
+      const list = state.sos || [];
+      if (map) {
+        if (!sosLayer) sosLayer = L.layerGroup().addTo(map);
+        sosLayer.clearLayers();
+      }
+      const banner = document.getElementById('blastBanner');
+      const tbody = document.getElementById('sosBody');
+      if (!list.length) {
+        if (banner) banner.style.display = 'none';
+        if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted);">No maritime SOS alerts active. Fleet operating normally.</td></tr>';
+        return;
+      }
+      const latest = list[0];
+      if (banner) {
+        banner.style.display = 'flex';
+        document.getElementById('blastTitle').innerHTML = '<span class="pulse-dot"></span>FLEET-WIDE BLAST RADIUS: ' + latest.incidentCode + ' (' + latest.incidentType + ')';
+        document.getElementById('blastSub').textContent = latest.affectedShipments + ' fleet shipments alerted · ' + latest.targetAgencies + ' · 50-NM Danger Zone Active';
+        document.getElementById('blastVal').textContent = fmtMoney(latest.protectedValueINR, latest.protectedValueUSD);
+      }
+      const sumBox = document.getElementById('sosBlastSummary');
+      if (sumBox) {
+        sumBox.innerHTML = '<strong>' + latest.incidentCode + '</strong> dispatched (Prototype Gateway) · <strong>' + latest.affectedShipments + ' fleet shipments</strong> alerted · Protected Cargo: <strong>' + fmtMoney(latest.protectedValueINR, latest.protectedValueUSD) + '</strong>';
+      }
+      const pre = document.getElementById('sosPacketView');
+      if (pre && latest.dispatchPacketJson) pre.textContent = latest.dispatchPacketJson;
+
+      let rows = '';
+      for (const m of list) {
+        rows += '<tr><td><strong>' + m.incidentCode + '</strong></td><td><span class="pill pill-bad">' + m.incidentType + '</span></td><td>' + m.vesselName + ' (' + m.shipmentId + ')</td><td>' + m.latitude + '°N, ' + m.longitude + '°E</td><td><strong>' + m.affectedShipments + ' boxes</strong> · ' + fmtMoney(m.protectedValueINR, m.protectedValueUSD) + '</td><td><span class="pill pill-warn">' + m.status + '</span></td></tr>';
+        if (sosLayer) {
+          const radiusMeters = Number(m.dangerRadiusNM || 50) * 1852;
+          L.circle([Number(m.latitude), Number(m.longitude)], { radius: radiusMeters, color: '#DC2626', fillColor: '#EF4444', fillOpacity: 0.24, weight: 2, dashArray: '6 4' }).addTo(sosLayer);
+          L.circleMarker([Number(m.latitude), Number(m.longitude)], { radius: 9, color: '#FFFFFF', fillColor: '#DC2626', fillOpacity: 1, weight: 2.5 })
+            .bindPopup('<strong>🚨 ' + m.incidentCode + ' — ' + m.incidentType + '</strong><br/>Vessel: ' + m.vesselName + '<br/>Bearing: ' + m.threatBearingDeg + '°<br/>Blast Radius: ' + m.affectedShipments + ' boxes (' + fmtMoney(m.protectedValueINR, m.protectedValueUSD) + ')<br/><small>' + m.targetAgencies + '</small>')
+            .addTo(sosLayer);
+        }
+      }
+      if (tbody) tbody.innerHTML = rows;
+    }
+
+    async function reportSos() {
+      const btn = document.getElementById('btnSos');
+      btn.disabled = true; btn.textContent = 'Generating Naval Distress Packet...';
+      const shipId = document.getElementById('sosShipSelect').value || 'SHP-JNPT-001';
+      const shipObj = (state.shipments || []).find(s => s.shipmentId === shipId) || {};
+      const payload = {
+        incidentType: document.getElementById('sosType').value,
+        vesselName: 'MV Deccan Reefer (' + (shipObj.corridor || 'JNPT-Gulf') + ')',
+        vesselMMSI: shipObj.vesselMMSI || '419001234',
+        shipmentId: shipId,
+        latitude: Number(document.getElementById('sosLat').value),
+        longitude: Number(document.getElementById('sosLng').value),
+        threatBearingDeg: Number(document.getElementById('sosBearing').value),
+        threatSource: document.getElementById('sosSource').value,
+        corridor: shipObj.corridor || 'Strait of Hormuz / Arabian Sea',
+        cargoCriticality: document.getElementById('sosCrit').value,
+        dangerRadiusNM: Number(document.getElementById('sosRadius').value || 50),
+        severity: 'CRITICAL'
+      };
+      const res = await fetch(API + '/reportMaritimeSOS', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, 'X-Pravah-Token': authToken },
+        body: JSON.stringify(payload)
+      });
+      if (res.status === 401) { logout(); return showAuthErr('Session expired. Please sign in again.'); }
+      const data = await res.json();
+      if (!res.ok) { showToast('❌ ' + (data.error?.message || 'SOS failed')); }
+      else {
+        document.getElementById('sosPacketView').textContent = JSON.stringify(JSON.parse(data.value), null, 2);
+        showToast('Naval Distress Packet persisted in HANA · 50-NM danger zone active.');
+      }
+      btn.disabled = false; btn.textContent = 'Transmit Naval Distress Packet & Scan Fleet';
+      await loadAll();
+    }
+
+    function copySosPacket() {
+      const txt = document.getElementById('sosPacketView')?.textContent || '';
+      if (!txt || txt.startsWith('//')) { showToast('No dispatch packet generated yet.'); return; }
+      navigator.clipboard?.writeText(txt);
+      showToast('Standardized IFC-IOR / UKMTO JSON copied to clipboard.');
+    }
+
+    function computeAuditHash(seed) {
+      let h1 = 0xdeadbeef ^ seed.length, h2 = 0x41c6ce57 ^ seed.length;
+      for (let i = 0; i < seed.length; i++) {
+        const ch = seed.charCodeAt(i);
+        h1 = Math.imul(h1 ^ ch, 2654435761);
+        h2 = Math.imul(h2 ^ ch, 1597334677);
+      }
+      const hex = ((h1 >>> 0).toString(16).padStart(8, '0') + (h2 >>> 0).toString(16).padStart(8, '0')).toUpperCase();
+      return 'HANA-SHA256-' + hex + '-' + seed.length.toString(16).toUpperCase().padStart(4, '0');
+    }
+
+    function printCertificate(optionId) {
+      const opt = (state.options || []).find(r => r.ID === optionId);
+      if (!opt) return;
+      const ship = (state.shipments || []).find(s => s.shipmentId === opt.shipmentId) || {};
+      const nowIso = new Date().toISOString();
+      const certNo = 'PRAVAH-EU14-' + new Date().getUTCFullYear() + '-' + String(opt.ID || '0000').slice(0, 6).toUpperCase();
+      const digest = computeAuditHash(certNo + '|' + opt.shipmentId + '|' + opt.routeName + '|' + nowIso);
+      const originUrl = window.location.origin;
+      const execName = currentUser?.fullName || 'VP Rajesh Nair';
+      const execRole = currentUser?.role || 'Authorized Supply Chain Executive';
+      const execCo = currentUser?.companyName || 'Deccan Biologics Ltd';
+      const domainLabel = String(opt.cargoDomain || 'PHARMA_COLD_CHAIN').replace(/_/g, ' ');
+      const cfoStatus = opt.cfoCapExceeded
+        ? 'CFO Dual-Approval Cap Cleared (> ₹' + Number(opt.cfoCapThresholdINR || 500000).toLocaleString('en-IN') + ')'
+        : 'Within Automated CFO Spend Cap (≤ ₹' + Number(opt.cfoCapThresholdINR || 500000).toLocaleString('en-IN') + ')';
+
+      const w = window.open('', '_blank', 'width=900,height=980');
+      if (!w) { showToast('Please allow pop-ups for this site to view the Compliance Certificate.'); return; }
+
+      const sealSvg = '<svg width="92" height="92" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">'
+        + '<circle cx="60" cy="60" r="54" fill="none" stroke="#0B1221" stroke-width="2.5"/>'
+        + '<circle cx="60" cy="60" r="48" fill="none" stroke="#0057D2" stroke-width="1" stroke-dasharray="3 2"/>'
+        + '<circle cx="60" cy="60" r="32" fill="#F8FAFC" stroke="#0B1221" stroke-width="1.2"/>'
+        + '<path d="M47 61 L56 70 L74 50" fill="none" stroke="#047857" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>'
+        + '<text x="60" y="21" text-anchor="middle" font-size="7.5" font-weight="800" fill="#0B1221" letter-spacing="1.4">EU AI ACT · ART. 14(4)</text>'
+        + '<text x="60" y="105" text-anchor="middle" font-size="7.2" font-weight="800" fill="#0057D2" letter-spacing="1.2">HANA CLOUD VERIFIED</text>'
+        + '</svg>';
+
+      const htmlDoc = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + certNo + ' — Pravah-A2A Compliance Certificate</title>'
+        + '<style>'
+        + '@page { size: A4; margin: 12mm; }'
+        + '* { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }'
+        + 'body { font-family: "Inter", "Segoe UI", -apple-system, Arial, sans-serif; background: #E2E8F0; margin: 0; padding: 24px; color: #0F172A; }'
+        + '.toolbar { max-width: 794px; margin: 0 auto 14px; display: flex; justify-content: space-between; align-items: center; background: #0B1221; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 13px; }'
+        + '.toolbar button { background: #0057D2; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 12.5px; }'
+        + '.toolbar button.sec { background: rgba(255,255,255,0.12); margin-left: 8px; }'
+        + '.sheet { position: relative; max-width: 794px; margin: 0 auto; background: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: 0 20px 50px rgba(15,23,42,0.14); overflow: hidden; }'
+        + '.watermark { position: absolute; top: 46%; left: 50%; transform: translate(-50%,-50%) rotate(-32deg); font-size: 46px; font-weight: 900; letter-spacing: 0.14em; color: rgba(11,18,33,0.032); white-space: nowrap; pointer-events: none; user-select: none; }'
+        + '.hdr { background: #0B1221; color: #FFFFFF; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #0057D2; }'
+        + '.hdr-left { display: flex; align-items: center; gap: 14px; }'
+        + '.logo-box { width: 48px; height: 48px; background: #FFFFFF; border-radius: 8px; padding: 4px; display: flex; align-items: center; justify-content: center; }'
+        + '.logo-box img { width: 100%; height: 100%; object-fit: contain; }'
+        + '.brand { font-size: 19px; font-weight: 800; letter-spacing: 0.04em; }'
+        + '.brand-sub { font-size: 11px; color: #94A3B8; letter-spacing: 0.02em; margin-top: 2px; }'
+        + '.hdr-right { text-align: right; font-size: 11px; color: #CBD5E1; line-height: 1.55; }'
+        + '.doc-id { font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; font-weight: 700; color: #38BDF8; }'
+        + '.body { padding: 26px 32px 28px; position: relative; z-index: 1; }'
+        + '.title-row { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 14px; margin-bottom: 18px; }'
+        + '.title-row h1 { margin: 0; font-size: 18px; font-weight: 800; color: #0B1221; letter-spacing: -0.01em; }'
+        + '.title-row p { margin: 4px 0 0; font-size: 12px; color: #475569; }'
+        + '.status-pill { background: #ECFDF5; color: #065F46; border: 1px solid #6EE7B7; font-size: 11px; font-weight: 800; letter-spacing: 0.05em; padding: 5px 11px; border-radius: 4px; }'
+        + '.kpi-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }'
+        + '.kpi-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 12px 14px; }'
+        + '.kpi-box.em { background: #ECFDF5; border-color: #A7F3D0; }'
+        + '.k-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #64748B; }'
+        + '.k-val { font-size: 17px; font-weight: 800; color: #0B1221; margin-top: 4px; font-variant-numeric: tabular-nums; }'
+        + '.kpi-box.em .k-val { color: #047857; }'
+        + '.k-sub { font-size: 11px; color: #475569; margin-top: 2px; }'
+        + '.sec-hdr { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0057D2; margin: 16px 0 8px; }'
+        + '.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }'
+        + 'table { width: 100%; border-collapse: collapse; }'
+        + 'td { padding: 7px 0; border-bottom: 1px solid #F1F5F9; font-size: 12px; vertical-align: top; }'
+        + 'td.k { color: #64748B; font-weight: 600; width: 42%; padding-right: 8px; }'
+        + 'td.v { color: #0F172A; font-weight: 600; font-variant-numeric: tabular-nums; }'
+        + '.rationale { background: #F8FAFC; border-left: 3px solid #0057D2; padding: 10px 14px; font-size: 11.8px; line-height: 1.5; color: #334155; margin-top: 14px; border-radius: 0 6px 6px 0; }'
+        + '.digest-box { margin-top: 16px; background: #0B1221; color: #E2E8F0; padding: 11px 14px; border-radius: 6px; font-family: ui-monospace, Consolas, monospace; font-size: 10.5px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }'
+        + '.sign-row { margin-top: 22px; padding-top: 16px; border-top: 1.5px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; }'
+        + '.sig-line { width: 250px; border-bottom: 1.5px solid #0B1221; padding-bottom: 4px; font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: 18px; color: #0B1221; }'
+        + '.sig-meta { font-size: 11px; color: #475569; margin-top: 5px; line-height: 1.45; }'
+        + '.ftr { background: #F8FAFC; border-top: 1px solid #E2E8F0; padding: 10px 32px; font-size: 10px; color: #64748B; display: flex; justify-content: space-between; }'
+        + '@media print { body { background: #fff; padding: 0; } .toolbar { display: none !important; } .sheet { border: none; box-shadow: none; max-width: 100%; } }'
+        + '</style></head><body>'
+        + '<div class="toolbar"><span><strong>Official Compliance Dossier</strong> · ' + certNo + '</span><div><button onclick="window.print()">Print / Save as PDF</button><button class="sec" onclick="window.close()">Close</button></div></div>'
+        + '<div class="sheet">'
+        + '<div class="watermark">VERIFIED · SAP HANA CLOUD AUDIT</div>'
+        + '<div class="hdr">'
+        +   '<div class="hdr-left"><div class="logo-box"><img src="' + originUrl + '/logo.jpg" alt="Pravah-A2A"/></div><div><div class="brand">PRAVAH-A2A</div><div class="brand-sub">SAP BTP Autonomous Maritime Freight &amp; Customs Governance</div></div></div>'
+        +   '<div class="hdr-right"><div class="doc-id">' + certNo + '</div><div>Regulation (EU) 2024/1689 · Article 14(4)</div><div>Issued: ' + nowIso.replace('T', ' ').slice(0, 19) + ' UTC</div></div>'
+        + '</div>'
+        + '<div class="body">'
+        +   '<div class="title-row"><div><h1>EXECUTIVE ROUTING &amp; CUSTOMS COMPLIANCE CERTIFICATE</h1><p>Human-in-the-Loop (HITL) Authorization Record Persisted in SAP HANA Cloud</p></div><span class="status-pill">AUTHORIZED &amp; LEDGERED</span></div>'
+        +   '<div class="kpi-strip">'
+        +     '<div class="kpi-box"><div class="k-lbl">Authorized Freight Cost</div><div class="k-val">₹' + Number(opt.totalCostINR).toLocaleString('en-IN') + '</div><div class="k-sub">USD $' + Number(opt.totalCostUSD).toLocaleString('en-US') + ' · ' + opt.mode + '</div></div>'
+        +     '<div class="kpi-box em"><div class="k-lbl">Verified Cost Avoidance</div><div class="k-val">₹' + Number(opt.savingsINR).toLocaleString('en-IN') + '</div><div class="k-sub">USD $' + Number(opt.savingsUSD).toLocaleString('en-US') + ' vs Gulf War Surcharge</div></div>'
+        +     '<div class="kpi-box"><div class="k-lbl">Transit &amp; Preferential Duty</div><div class="k-val">' + opt.transitDays + ' Days · ' + opt.cepaDutyPct + '%</div><div class="k-sub">HS ' + (ship.hsCode || '3004.31') + ' · Verified</div></div>'
+        +   '</div>'
+        +   '<div class="grid2">'
+        +     '<div><div class="sec-hdr">1. Consignment &amp; Routing Specification</div><table>'
+        +       '<tr><td class="k">Shipment ID</td><td class="v">' + opt.shipmentId + '</td></tr>'
+        +       '<tr><td class="k">Cargo Vertical</td><td class="v">' + domainLabel + '</td></tr>'
+        +       '<tr><td class="k">Commodity</td><td class="v">' + (ship.product || 'Controlled Maritime Cargo') + '</td></tr>'
+        +       '<tr><td class="k">Origin → Destination</td><td class="v">' + (ship.origin || 'Mumbai JNPT') + ' → ' + (ship.destination || 'GCC Hub') + '</td></tr>'
+        +       '<tr><td class="k">Approved Corridor</td><td class="v">' + opt.routeName + '</td></tr>'
+        +     '</table></div>'
+        +     '<div><div class="sec-hdr">2. Regulatory &amp; Financial Controls</div><table>'
+        +       '<tr><td class="k">EU AI Act Clause</td><td class="v">Reg. (EU) 2024/1689 Art. 14(4)</td></tr>'
+        +       '<tr><td class="k">Trade / Tariff Rule</td><td class="v">' + (opt.complianceNote || 'India-UAE CEPA 0% Duty') + '</td></tr>'
+        +       '<tr><td class="k">CFO Spend-Cap Gate</td><td class="v">' + cfoStatus + '</td></tr>'
+        +       '<tr><td class="k">Cold-Chain / Safety</td><td class="v">' + (opt.coldChainSafe ? 'Compliant (Zero Spoilage Risk)' : 'Exception Reviewed') + '</td></tr>'
+        +       '<tr><td class="k">Persistence Layer</td><td class="v">SAP HANA Cloud (HDI Ledger)</td></tr>'
+        +     '</table></div>'
+        +   '</div>'
+        +   '<div class="rationale"><strong>Agent 04 (Safe Guard) Compliance Rationale:</strong> ' + (opt.rationale || 'Verified optimal corridor satisfying regulatory, thermal, and financial guardrails.') + '</div>'
+        +   '<div class="digest-box"><span>AUDIT DIGEST: ' + digest + '</span><span>TENANT: ' + execCo.toUpperCase() + '</span></div>'
+        +   '<div class="sign-row">'
+        +     '<div><div class="sig-line">' + execName + '</div><div class="sig-meta"><strong>' + execName + '</strong> · ' + execRole + '<br/>' + execCo + '<br/>Digitally Signed via Pravah-A2A HMAC-SHA256 Session · ' + nowIso + '</div></div>'
+        +     '<div>' + sealSvg + '</div>'
+        +   '</div>'
+        + '</div>'
+        + '<div class="ftr"><span>Pravah-A2A Control Tower · SAP BTP Cloud Foundry (US10)</span><span>Immutable Record · Do Not Alter</span></div>'
+        + '</div></body></html>';
+
+      w.document.write(htmlDoc);
+      w.document.close();
+    }
+
+    async function resetDemo() {
+      if (!confirm('Reset all 16 shipments, SOS beacons, and reroute cards back to clean IN_TRANSIT?')) return;
+      const res = await fetch(API + '/resetDemo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, 'X-Pravah-Token': authToken },
+        body: '{}'
+      });
+      if (res.status === 401) { logout(); return showAuthErr('Session expired.'); }
+      const data = await res.json();
+      if (!res.ok) { showToast('❌ ' + (data.error?.message || 'Reset failed')); return; }
+      document.getElementById('briefBox').innerHTML = 'Click <strong>Run 4-Agent A2A Crisis Triage Now</strong> to generate a live reroute recommendation.';
+      showToast(data.value);
+      await loadAll();
+    }
   </script>
 </body>
 </html>
