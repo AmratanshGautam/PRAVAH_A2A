@@ -371,47 +371,134 @@
     .grid-2 { display: grid; grid-template-columns: 1.55fr 1fr; gap: 20px; margin-bottom: 20px; }
     @media (max-width: 1080px) { .grid-2 { grid-template-columns: 1fr; } .sidebar { display: none; } }
 
-    /* GLOBAL MARITIME COMMAND MAP */
+    /* GLOBAL MARITIME COMMAND MAP (EXPANDED) */
+    .map-hero-panel {
+      position: relative;
+      background: linear-gradient(180deg, rgba(13, 21, 46, 0.96) 0%, rgba(9, 15, 35, 0.98) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      box-shadow: 0 18px 42px rgba(2, 6, 23, 0.55), inset 0 1px 0 rgba(125, 211, 252, 0.12);
+    }
+    .map-hero-panel .panel-head {
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+    }
+    .map-stage-frame {
+      position: relative;
+      border-radius: 14px;
+      padding: 2px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.36), rgba(30, 58, 138, 0.24) 45%, rgba(16, 185, 129, 0.28));
+      box-shadow: 0 14px 36px rgba(2, 6, 23, 0.52);
+    }
     #maritimeMap {
-      height: 410px; min-height: 410px; width: 100%; border-radius: 12px;
-      border: 1px solid rgba(56, 189, 248, 0.24); z-index: 1;
+      height: 540px; min-height: 540px; width: 100%; border-radius: 12px;
+      border: none; z-index: 1;
       background: #060d1c;
     }
-    .map-filter-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 10px; }
-    .map-filter-group { display: flex; flex-wrap: wrap; gap: 6px; }
-    .mf-btn {
-      background: rgba(15, 23, 52, 0.9); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.28);
-      padding: 5px 10px; border-radius: 7px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+    @media (max-width: 1080px) {
+      #maritimeMap { height: 430px; min-height: 430px; }
     }
-    .mf-btn:hover { border-color: #38bdf8; color: #ffffff; }
-    .mf-btn.active { background: #0057d2; border-color: #38bdf8; color: #ffffff; }
-    .route-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+    .map-filter-bar {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 10px; margin-bottom: 14px; padding: 8px 10px; border-radius: 12px;
+      background: rgba(7, 13, 32, 0.72); border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+    .map-filter-group { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+    .mf-btn {
+      background: rgba(15, 23, 52, 0.88); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.26);
+      padding: 6px 13px; border-radius: 8px; font-size: 11.5px; font-weight: 650; cursor: pointer;
+      transition: all 0.18s ease; letter-spacing: 0.15px;
+    }
+    .mf-btn:hover { border-color: #38bdf8; color: #ffffff; background: rgba(20, 34, 74, 0.96); transform: translateY(-1px); }
+    .mf-btn.active {
+      background: linear-gradient(135deg, #0057d2 0%, #0284c7 100%);
+      border-color: rgba(125, 211, 252, 0.65); color: #ffffff;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.32);
+    }
+    .mf-btn-fit {
+      background: rgba(14, 165, 233, 0.12); border-color: rgba(56, 189, 248, 0.48);
+      color: #7dd3fc; font-weight: 700;
+    }
+    .mf-btn-fit:hover {
+      background: rgba(14, 165, 233, 0.24); border-color: #38bdf8; color: #ffffff;
+    }
+    .route-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
     @media (max-width: 1100px) { .route-strip { grid-template-columns: repeat(2, 1fr); } }
     .rs-card {
-      background: rgba(10, 18, 42, 0.88); border: 1px solid rgba(148, 163, 184, 0.22); border-radius: 9px;
-      padding: 9px 10px; cursor: pointer; transition: all 0.16s; color: #e2e8f0;
+      position: relative; overflow: hidden;
+      background: rgba(10, 18, 42, 0.88); border: 1px solid rgba(148, 163, 184, 0.22); border-radius: 11px;
+      padding: 12px 14px; cursor: pointer; transition: all 0.18s ease; color: #e2e8f0;
     }
-    .rs-card:hover, .rs-card.selected { border-color: #38bdf8; box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.45); background: rgba(15, 26, 60, 0.98); }
-    .rs-title { font-size: 11.5px; font-weight: 700; color: #f8fafc; display: flex; justify-content: space-between; align-items: center; gap: 4px; }
-    .rs-meta { font-size: 10.5px; color: #94a3b8; margin-top: 4px; line-height: 1.4; font-variant-numeric: tabular-nums; }
-    .rs-tag { font-size: 9.5px; font-weight: 700; padding: 1px 6px; border-radius: 4px; text-transform: uppercase; }
+    .rs-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: rgba(148, 163, 184, 0.35);
+      transition: background 0.18s ease;
+    }
+    #rs-multimodal::before { background: #10b981; }
+    #rs-disrupted::before { background: #ef4444; }
+    #rs-cape::before { background: #f59e0b; }
+    #rs-transoceanic::before { background: #38bdf8; }
+    .rs-card:hover {
+      border-color: rgba(56, 189, 248, 0.6); transform: translateY(-1px);
+      background: rgba(15, 27, 62, 0.96); box-shadow: 0 8px 20px rgba(2, 6, 23, 0.35);
+    }
+    .rs-card.selected {
+      border-color: #38bdf8; box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.45), 0 10px 24px rgba(2, 132, 199, 0.2);
+      background: rgba(15, 28, 66, 0.98);
+    }
+    .rs-title { font-size: 12.5px; font-weight: 750; color: #f8fafc; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+    .rs-meta { font-size: 11px; color: #94a3b8; margin-top: 6px; line-height: 1.48; font-variant-numeric: tabular-nums; }
+    .rs-tag { font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.3px; }
     .rs-ok { background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
     .rs-bad { background: rgba(239, 68, 68, 0.18); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
     .rs-warn { background: rgba(245, 158, 11, 0.18); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
     .rs-info { background: rgba(56, 189, 248, 0.16); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
     .map-legend {
-      display: flex; gap: 16px; flex-wrap: wrap; font-size: 11.5px;
-      color: var(--text-muted); margin-top: 12px; font-weight: 600;
+      display: flex; gap: 20px; flex-wrap: wrap; align-items: center; font-size: 11.5px;
+      color: var(--text-muted); margin-top: 14px; padding: 10px 14px; border-radius: 10px;
+      background: rgba(7, 13, 32, 0.56); border: 1px solid rgba(148, 163, 184, 0.14); font-weight: 600;
     }
-    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 7px; vertical-align: middle; }
 
-    /* Leaflet Popups */
+    /* Leaflet Controls & Popups */
+    .leaflet-bar, .leaflet-control-layers {
+      background: rgba(10, 16, 38, 0.88) !important;
+      border: 1px solid rgba(56, 189, 248, 0.32) !important;
+      border-radius: 10px !important;
+      box-shadow: 0 8px 24px rgba(2, 6, 23, 0.55) !important;
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+    .leaflet-bar a {
+      background: transparent !important;
+      color: #e2e8f0 !important;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18) !important;
+      width: 32px !important; height: 32px !important; line-height: 32px !important;
+      font-weight: 700 !important;
+    }
+    .leaflet-bar a:last-child { border-bottom: none !important; }
+    .leaflet-bar a:hover { background: rgba(56, 189, 248, 0.18) !important; color: #ffffff !important; }
+    .leaflet-control-layers-toggle { filter: invert(0.92) hue-rotate(180deg); opacity: 0.92; }
+    .leaflet-control-layers-expanded {
+      color: #e2e8f0 !important; padding: 10px 14px !important; font-size: 12px !important; font-weight: 600;
+    }
+    .leaflet-control-attribution {
+      background: rgba(6, 13, 28, 0.72) !important; color: #94a3b8 !important;
+      border-top-left-radius: 8px; padding: 2px 8px !important; font-size: 10px !important;
+    }
+    .leaflet-control-attribution a { color: #7dd3fc !important; }
+    .leaflet-tooltip {
+      background: rgba(10, 16, 38, 0.94) !important; color: #f8fafc !important;
+      border: 1px solid rgba(56, 189, 248, 0.45) !important; border-radius: 7px !important;
+      font-size: 11px !important; font-weight: 650 !important; padding: 4px 8px !important;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5) !important;
+    }
+    .leaflet-tooltip-top::before { border-top-color: rgba(56, 189, 248, 0.45) !important; }
     .leaflet-popup-content-wrapper, .leaflet-popup-tip {
       background: rgba(10, 15, 36, 0.96) !important;
       color: #f8fafc !important;
       border: 1px solid var(--border-bright) !important;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.72) !important;
       border-radius: 12px !important;
     }
     .leaflet-popup-content { margin: 12px 14px !important; line-height: 1.5 !important; font-size: 12px !important; }
@@ -805,13 +892,38 @@
     body.day-mode pre.json-box { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
 
     /* Map & Route Strip Light */
+    body.day-mode .map-hero-panel {
+      background: #ffffff; border-color: #cbd5e1;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+    body.day-mode .map-hero-panel .panel-head { border-bottom-color: #e2e8f0; }
+    body.day-mode .map-stage-frame {
+      background: linear-gradient(135deg, #93c5fd, #cbd5e1 50%, #6ee7b7);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+    }
     body.day-mode #maritimeMap { background: #dce6f2; border-color: #94a3b8; }
+    body.day-mode .map-filter-bar { background: #f8fafc; border-color: #cbd5e1; }
     body.day-mode .mf-btn { background: #ffffff; color: #1e293b; border-color: #cbd5e1; }
-    body.day-mode .mf-btn.active { background: #0057d2; color: #ffffff; border-color: #0057d2; }
+    body.day-mode .mf-btn:hover { background: #f1f5f9; border-color: #0057d2; color: #0b1221; }
+    body.day-mode .mf-btn.active { background: #0057d2; color: #ffffff; border-color: #0057d2; box-shadow: 0 3px 10px rgba(0, 87, 210, 0.22); }
+    body.day-mode .mf-btn-fit { background: #eff6ff; color: #0057d2; border-color: #93c5fd; }
+    body.day-mode .mf-btn-fit:hover { background: #dbeafe; color: #1e3a8a; border-color: #0057d2; }
     body.day-mode .rs-card { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
-    body.day-mode .rs-card.selected { background: #eff6ff; border-color: #0057d2; }
+    body.day-mode .rs-card:hover { background: #f1f5f9; border-color: #60a5fa; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06); }
+    body.day-mode .rs-card.selected { background: #eff6ff; border-color: #0057d2; box-shadow: 0 0 0 1px rgba(0, 87, 210, 0.25); }
     body.day-mode .rs-title { color: #0b1221; }
     body.day-mode .rs-meta { color: #334155; }
+    body.day-mode .map-legend { background: #f8fafc; border-color: #e2e8f0; color: #334155; }
+    body.day-mode .leaflet-bar, body.day-mode .leaflet-control-layers {
+      background: rgba(255, 255, 255, 0.94) !important; border-color: #cbd5e1 !important;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12) !important;
+    }
+    body.day-mode .leaflet-bar a { color: #0f172a !important; border-bottom-color: #e2e8f0 !important; }
+    body.day-mode .leaflet-bar a:hover { background: #eff6ff !important; color: #0057d2 !important; }
+    body.day-mode .leaflet-control-layers-toggle { filter: none; opacity: 1; }
+    body.day-mode .leaflet-control-layers-expanded { color: #0f172a !important; }
+    body.day-mode .leaflet-control-attribution { background: rgba(255, 255, 255, 0.85) !important; color: #475569 !important; }
+    body.day-mode .leaflet-control-attribution a { color: #0057d2 !important; }
     body.day-mode .rs-ok { background: #dcfce7; color: #065f46; border-color: #86efac; }
     body.day-mode .rs-bad { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
     body.day-mode .rs-warn { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
@@ -957,63 +1069,53 @@
           </div>
         </div>
 
-        <!-- 1. MAP & COST MATRIX -->
-        <div class="grid-2">
-          <div class="panel" style="margin-bottom:0;">
-            <div class="panel-head">
-              <h2><span>🌍</span> Interactive Maritime Chokepoint Map</h2>
-              <span id="mapStatusPill" class="pill pill-ok">● AISStream + PortWatch Nominal</span>
+        <!-- 1. EXPANDED FULL-WIDTH INTERACTIVE MARITIME CHOKEPOINT MAP -->
+        <div class="panel map-hero-panel">
+          <div class="panel-head">
+            <h2><span>🌍</span> Interactive Maritime Chokepoint Map</h2>
+            <span id="mapStatusPill" class="pill pill-ok">● AISStream + PortWatch Nominal</span>
+          </div>
+          <div class="map-filter-bar">
+            <div class="map-filter-group">
+              <button class="mf-btn active" id="mf-all" onclick="toggleGlobalLayer('all', this)">All Corridors</button>
+              <button class="mf-btn active" id="mf-disrupted" onclick="toggleGlobalLayer('disrupted', this)">Disrupted Route</button>
+              <button class="mf-btn active" id="mf-cape" onclick="toggleGlobalLayer('cape', this)">Cape Reroute</button>
+              <button class="mf-btn active" id="mf-multimodal" onclick="toggleGlobalLayer('multimodal', this)">CEPA / Multimodal</button>
+              <button class="mf-btn active" id="mf-chokepoints" onclick="toggleGlobalLayer('chokepoints', this)">Global Chokepoints (12)</button>
             </div>
-            <div class="map-filter-bar">
-              <div class="map-filter-group">
-                <button class="mf-btn active" id="mf-all" onclick="toggleGlobalLayer('all', this)">All Corridors</button>
-                <button class="mf-btn active" id="mf-disrupted" onclick="toggleGlobalLayer('disrupted', this)">Disrupted Route</button>
-                <button class="mf-btn active" id="mf-cape" onclick="toggleGlobalLayer('cape', this)">Cape Reroute</button>
-                <button class="mf-btn active" id="mf-multimodal" onclick="toggleGlobalLayer('multimodal', this)">CEPA / Multimodal</button>
-                <button class="mf-btn active" id="mf-chokepoints" onclick="toggleGlobalLayer('chokepoints', this)">Global Chokepoints (12)</button>
-              </div>
-              <button class="mf-btn" style="border-color:var(--accent-blue);color:var(--accent-blue);" onclick="fitGlobalCorridors()">Fit Global Corridors</button>
-            </div>
+            <button class="mf-btn mf-btn-fit" onclick="fitGlobalCorridors()">Fit Global Corridors</button>
+          </div>
+          <div class="map-stage-frame">
             <div id="maritimeMap"></div>
-            <div class="route-strip" id="routeComparisonStrip">
-              <div class="rs-card selected" id="rs-multimodal" onclick="highlightGlobalRoute('multimodal')">
-                <div class="rs-title"><span>CEPA / Fujairah Air-Sea</span><span class="rs-tag rs-ok">Optimal</span></div>
-                <div class="rs-meta">Transit: <strong>3–7d</strong> · 2–8°C Safe<br/>Buffer: +11d · ₹3.53L ($4.2k) · 0% CEPA</div>
-              </div>
-              <div class="rs-card" id="rs-disrupted" onclick="highlightGlobalRoute('disrupted')">
-                <div class="rs-title"><span>Hormuz / Red Sea</span><span class="rs-tag rs-bad">Disrupted</span></div>
-                <div class="rs-meta">Transit: <strong>12d+</strong> · Thermal Risk<br/>+$3,500 War Surcharge · ₹6.30L ($7.5k)</div>
-              </div>
-              <div class="rs-card" id="rs-cape" onclick="highlightGlobalRoute('cape')">
-                <div class="rs-title"><span>Cape of Good Hope</span><span class="rs-tag rs-warn">Spoilage</span></div>
-                <div class="rs-meta">Transit: <strong>+14d (26d)</strong> · Fails 18d<br/>Auto-Rejected Pharma · ₹5.71L ($6.8k)</div>
-              </div>
-              <div class="rs-card" id="rs-transoceanic" onclick="highlightGlobalRoute('transoceanic')">
-                <div class="rs-title"><span>Global APAC / US Lanes</span><span class="rs-tag rs-info">Active</span></div>
-                <div class="rs-meta">Malacca ↔ JNPT ↔ Rotterdam ↔ NY/NJ<br/>Panama Canal &amp; Bosporus Monitored</div>
-              </div>
+          </div>
+          <div class="route-strip" id="routeComparisonStrip">
+            <div class="rs-card selected" id="rs-multimodal" onclick="highlightGlobalRoute('multimodal')">
+              <div class="rs-title"><span>CEPA / Fujairah Air-Sea</span><span class="rs-tag rs-ok">Optimal</span></div>
+              <div class="rs-meta">Transit: <strong>3–7d</strong> · 2–8°C Safe<br/>Buffer: +11d · ₹3.53L ($4.2k) · 0% CEPA</div>
             </div>
-            <div class="map-legend">
-              <span><i class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></i>Original Disrupted Route (Red Sea/Hormuz)</span>
-              <span><i class="dot" style="background:#10b981;box-shadow:0 0 6px #10b981;"></i>Agent 03 Reroute (Fujairah Multimodal / Jeddah)</span>
-              <span><i class="dot" style="background:#f59e0b;"></i>Cape Detour (+14d Spoilage)</span>
-              <span><i class="dot" style="background:#00f2fe;box-shadow:0 0 6px #00f2fe;"></i>Active Biologic Vessel</span>
+            <div class="rs-card" id="rs-disrupted" onclick="highlightGlobalRoute('disrupted')">
+              <div class="rs-title"><span>Hormuz / Red Sea</span><span class="rs-tag rs-bad">Disrupted</span></div>
+              <div class="rs-meta">Transit: <strong>12d+</strong> · Thermal Risk<br/>+$3,500 War Surcharge · ₹6.30L ($7.5k)</div>
+            </div>
+            <div class="rs-card" id="rs-cape" onclick="highlightGlobalRoute('cape')">
+              <div class="rs-title"><span>Cape of Good Hope</span><span class="rs-tag rs-warn">Spoilage</span></div>
+              <div class="rs-meta">Transit: <strong>+14d (26d)</strong> · Fails 18d<br/>Auto-Rejected Pharma · ₹5.71L ($6.8k)</div>
+            </div>
+            <div class="rs-card" id="rs-transoceanic" onclick="highlightGlobalRoute('transoceanic')">
+              <div class="rs-title"><span>Global APAC / US Lanes</span><span class="rs-tag rs-info">Active</span></div>
+              <div class="rs-meta">Malacca ↔ JNPT ↔ Rotterdam ↔ NY/NJ<br/>Panama Canal &amp; Bosporus Monitored</div>
             </div>
           </div>
-
-          <div class="panel" style="margin-bottom:0;display:flex;flex-direction:column;">
-            <div class="panel-head">
-              <h2><span>📈</span> Freight Cost per 40-ft Reefer</h2>
-              <span class="pill pill-ok">Saves up to 63%</span>
-            </div>
-            <div style="flex:1;min-height:300px;position:relative;">
-              <canvas id="costChart"></canvas>
-            </div>
+          <div class="map-legend">
+            <span><i class="dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></i>Original Disrupted Route (Red Sea/Hormuz)</span>
+            <span><i class="dot" style="background:#10b981;box-shadow:0 0 6px #10b981;"></i>Agent 03 Reroute (Fujairah Multimodal / Jeddah)</span>
+            <span><i class="dot" style="background:#f59e0b;"></i>Cape Detour (+14d Spoilage)</span>
+            <span><i class="dot" style="background:#00f2fe;box-shadow:0 0 6px #00f2fe;"></i>Active Biologic Vessel</span>
           </div>
         </div>
 
         <!-- 2. REAL-TIME A2A MESSAGE TRACE / THOUGHT STREAM -->
-        <div class="panel" style="margin-top:20px;">
+        <div class="panel">
           <div class="panel-head">
             <h2><span>🤖</span> Live Agent-to-Agent (A2A) Execution Trace &amp; Thought Stream</h2>
             <div style="display:flex;gap:8px;align-items:center;">
@@ -1026,6 +1128,17 @@
             <div style="color:var(--text-muted);font-size:13px;padding:10px;font-style:italic;" id="a2aPlaceholder">
               Standby mode. Click <strong>Run Disruption Triage</strong> to watch the autonomous 4-agent reasoning stream (Watcher → Planner → Bookmaker → Safe Guard).
             </div>
+          </div>
+        </div>
+
+        <!-- 3. FREIGHT COST PER 40-FT REEFER (BELOW ALL AGENTS) -->
+        <div class="panel" style="display:flex;flex-direction:column;">
+          <div class="panel-head">
+            <h2><span>📈</span> Freight Cost per 40-ft Reefer</h2>
+            <span class="pill pill-ok">Saves up to 63%</span>
+          </div>
+          <div style="height:310px;position:relative;">
+            <canvas id="costChart"></canvas>
           </div>
         </div>
       </div>
@@ -1607,6 +1720,7 @@
       aisLayer = L.layerGroup().addTo(map);
       pharmaFleetLayer = L.layerGroup().addTo(map);
       sosLayer = L.layerGroup().addTo(map);
+      setTimeout(() => { if (map) map.invalidateSize(); }, 150);
     }
 
     function renderVesselMarker(vesselData) {
@@ -1651,7 +1765,7 @@
             Corridor: Arabian Sea → Red Sea / Hormuz Chokepoint
           </div>
         </div>
-      `);
+      `, { autoPanPaddingTopLeft: L.point(24, 56), autoPanPaddingBottomRight: L.point(24, 24) });
     }
 
     function updateMapForCrisis(crisisData) {
@@ -1935,7 +2049,7 @@
             data: isUSD ? [4200, 7500, 11500] : [352800, 630000, 966000],
             backgroundColor: isDay ? ['#059669', '#dc2626', '#d97706'] : ['#10b981', '#ef4444', '#f59e0b'],
             borderRadius: 8,
-            barThickness: 34
+            barThickness: 54
           }]
         },
         options: {
