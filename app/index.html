@@ -11,7 +11,125 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script id="pravah-mission-control-enhancer">
+  (function () {
+    function syncRangeFill(slider) {
+      var min = parseFloat(slider.min || "0");
+      var max = parseFloat(slider.max || "100");
+      var val = parseFloat(slider.value || "0");
+      var pct = max > min ? ((val - min) / (max - min)) * 100 : 0;
+      slider.style.setProperty("--range-pct", pct.toFixed(2) + "%");
+    }
 
+    function isPureWhiteBg(bg) {
+      return (
+        bg === "rgb(255, 255, 255)" ||
+        bg === "rgb(248, 250, 252)" ||
+        bg === "rgb(249, 250, 251)" ||
+        bg === "rgb(241, 245, 249)"
+      );
+    }
+
+    function enhanceMissionControlUI() {
+      var isLight =
+        document.body.classList.contains("light-mode") ||
+        document.body.classList.contains("day-mode") ||
+        document.documentElement.getAttribute("data-theme") === "light";
+
+      // 1. Sync active fill gradient on all range sliders
+      var sliders = document.querySelectorAll('input[type="range"]');
+      for (var i = 0; i < sliders.length; i++) {
+        var s = sliders[i];
+        syncRangeFill(s);
+        if (!s.dataset.mcBound) {
+          s.dataset.mcBound = "1";
+          s.addEventListener("input", function (ev) {
+            syncRangeFill(ev.target);
+          });
+          s.addEventListener("change", function (ev) {
+            syncRangeFill(ev.target);
+          });
+        }
+      }
+
+      // 2. Convert stubborn inline-white helper, thermal & SOS callout boxes
+      var boxes = document.querySelectorAll("main div, main p, .card div, .panel div");
+      for (var j = 0; j < boxes.length; j++) {
+        var el = boxes[j];
+        if (el.closest(".leaflet-container") || el.tagName === "BUTTON") continue;
+
+        var txt = (el.textContent || "").trim();
+        var cs = window.getComputedStyle(el);
+
+        // Thermal Excursion Box (CRITICAL EXCURSION / SAFE 2-8°C)
+        if (
+          txt.indexOf("CRITICAL EXCURSION") !== -1 &&
+          txt.indexOf("SAFE (2") !== -1 &&
+          txt.length < 260
+        ) {
+          el.classList.add("mc-frosted-danger");
+          continue;
+        }
+
+        // CFO Spend-Cap Guardrail note
+        if (txt.indexOf("CFO Dual-Approval Lock") !== -1 && txt.length < 220) {
+          el.classList.add("mc-frosted-callout", "mc-frosted-warn");
+          continue;
+        }
+
+        // Domain helper note, Prototype Gateway Framing, or No active SOS alert box
+        if (
+          (txt.indexOf("Prototype Gateway Framing") !== -1 ||
+            txt.indexOf("No active SOS alert") !== -1 ||
+            txt.indexOf("thermal band") !== -1) &&
+          txt.length < 380
+        ) {
+          el.classList.add("mc-frosted-callout");
+          continue;
+        }
+
+        // Catch any other stray pure-white box in Dark Mode
+        if (
+          !isLight &&
+          isPureWhiteBg(cs.backgroundColor) &&
+          el.children.length <= 4 &&
+          txt.length > 10 &&
+          txt.length < 400
+        ) {
+          el.classList.add("mc-frosted-callout");
+        }
+      }
+
+      // 3. Ensure middle probe inset box adapts in both Dark & Light modes
+      var probeEl = document.querySelector('select[id*="shipment"], select[id*="Shipment"]');
+      if (probeEl && probeEl.parentElement && probeEl.parentElement.parentElement) {
+        probeEl.parentElement.parentElement.classList.add("mc-probe-inset");
+      }
+
+      // 4. Style secondary Event Mesh button cleanly as glass ghost
+      var buttons = document.querySelectorAll("button");
+      for (var k = 0; k < buttons.length; k++) {
+        if ((buttons[k].textContent || "").indexOf("Ingest S/4HANA Event Mesh") !== -1) {
+          buttons[k].classList.add("mc-btn-ghost");
+        }
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      enhanceMissionControlUI();
+      setTimeout(enhanceMissionControlUI, 400);
+    });
+
+    // Re-adapt automatically whenever Day/Night mode toggles or triage updates DOM
+    var observer = new MutationObserver(function () {
+      enhanceMissionControlUI();
+    });
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme"]
+    });
+  })();
+</script>
   <style>
     :root {
       --bg-space: #050814;
@@ -527,20 +645,38 @@
     /* === COMPLETE DAY MODE (SAP FIORI HORIZON LIGHT — HIGH CONTRAST) === */
     body.day-mode {
       --bg: #EEF2F7;
+      --bg-main: #EEF2F7;
+      --bg-dark: #EEF2F7;
       --surface: #FFFFFF;
+      --bg-surface: #F8FAFC;
       --card: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --bg-panel: #FFFFFF;
       --text: #0F172A;
+      --text-main: #0F172A;
+      --text-primary: #0F172A;
       --ink: #0F172A;
       --muted: #475569;
+      --text-muted: #475569;
+      --text-dim: #64748B;
       --border: #CBD5E1;
+      --border-color: #CBD5E1;
+      --border-subtle: #E2E8F0;
       --navy: #0B1221;
       --cobalt: #0057D2;
       --teal: #0F766E;
+      --accent-cyan: #0369A1;
+      --accent-blue: #0057D2;
+      --accent-amber: #B45309;
+      --accent-emerald: #047857;
+      --accent-purple: #6D28D9;
       --danger: #B91C1C;
       --success: #047857;
       background: #EEF2F7 !important;
       color: #0F172A !important;
     }
+
+    /* Sidebar & Navigation */
     body.day-mode .sidebar {
       background: #FFFFFF !important;
       border-right: 1px solid #CBD5E1 !important;
@@ -553,9 +689,19 @@
     body.day-mode .sidebar #userComp { color: #475569 !important; }
     body.day-mode .nav-item { color: #334155 !important; }
     body.day-mode .nav-item:hover { background: #F1F5F9 !important; color: #0B1221 !important; }
-    body.day-mode .nav-item.active { background: #0057D2 !important; color: #FFFFFF !important; box-shadow: 0 4px 12px rgba(0,87,210,0.25) !important; }
+    body.day-mode .nav-item.active {
+      background: #0057D2 !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 4px 12px rgba(0, 87, 210, 0.25) !important;
+    }
     body.day-mode .persona-pill { background: #F8FAFC !important; border: 1px solid #CBD5E1 !important; }
-    body.day-mode .sidebar-footer button { border-color: #CBD5E1 !important; color: #1E293B !important; background: #F8FAFC !important; }
+    body.day-mode .sidebar-footer button {
+      border-color: #CBD5E1 !important;
+      color: #1E293B !important;
+      background: #F8FAFC !important;
+    }
+
+    /* Workspace, Topbar & Cards */
     body.day-mode .workspace { background: #EEF2F7 !important; }
     body.day-mode .topbar {
       background: #FFFFFF !important;
@@ -571,7 +717,7 @@
       background: #FFFFFF !important;
       border: 1px solid #CBD5E1 !important;
       color: #0F172A !important;
-      box-shadow: 0 2px 8px rgba(15,23,42,0.05) !important;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05) !important;
     }
     body.day-mode .route-card.rec { border: 1.5px solid #059669 !important; background: #F0FDF4 !important; }
     body.day-mode .route-card.spoil { border: 1px solid #FECACA !important; background: #FEF2F2 !important; }
@@ -584,62 +730,99 @@
     body.day-mode .price-sub,
     body.day-mode label { color: #334155 !important; }
 
-    /* Fix dark slider container on Tab 2 */
-    body.day-mode .slider-row {
-      background: #F8FAFC !important;
-      border: 1px solid #CBD5E1 !important;
-      color: #0F172A !important;
-    }
-    body.day-mode .slider-row label { color: #1E293B !important; }
-
-    /* Fix Live A2A Execution Trace container & washed-out text on Tab 1 */
-    body.day-mode .trace-stream,
-    body.day-mode .trace-container,
-    body.day-mode .trace-terminal,
-    body.day-mode #traceFeed,
-    body.day-mode #a2aTraceStream {
+    /* Tab 1: Live A2A Execution Trace & Thought Stream (High Contrast) */
+    body.day-mode .a2a-stream-container {
       background: #F1F5F9 !important;
       border: 1px solid #CBD5E1 !important;
       color: #0F172A !important;
     }
-    body.day-mode .trace-card,
-    body.day-mode .trace-item,
-    body.day-mode .trace-step,
-    body.day-mode .trace-msg {
+    body.day-mode .a2a-card {
       background: #FFFFFF !important;
       border: 1px solid #CBD5E1 !important;
-      color: #1E293B !important;
+      border-left-width: 4px !important;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06) !important;
     }
-    body.day-mode .trace-card *,
-    body.day-mode .trace-item *,
-    body.day-mode .trace-step *,
-    body.day-mode .trace-msg *,
-    body.day-mode #traceFeed p,
-    body.day-mode #traceFeed div {
-      color: #1E293B !important;
+    body.day-mode .a2a-card.step-1 { border-left-color: #0284C7 !important; }
+    body.day-mode .a2a-card.step-2 { border-left-color: #D97706 !important; }
+    body.day-mode .a2a-card.step-3 { border-left-color: #059669 !important; }
+    body.day-mode .a2a-card.step-4 { border-left-color: #7C3AED !important; }
+    body.day-mode .a2a-avatar {
+      background: #F1F5F9 !important;
+      border: 1px solid #CBD5E1 !important;
+      color: #0F172A !important;
     }
-    body.day-mode .trace-badge,
-    body.day-mode .trace-tag {
+    body.day-mode .a2a-card-header { color: #475569 !important; }
+    body.day-mode .a2a-card-body,
+    body.day-mode .a2a-card-body * { color: #1E293B !important; }
+    body.day-mode .a2a-card-body strong,
+    body.day-mode .a2a-card-body b { color: #0B1221 !important; }
+    body.day-mode .badge-watcher {
       background: #E0F2FE !important;
       color: #0369A1 !important;
       border: 1px solid #7DD3FC !important;
     }
-    body.day-mode .trace-time { color: #475569 !important; }
+    body.day-mode .badge-planner {
+      background: #FEF3C7 !important;
+      color: #92400E !important;
+      border: 1px solid #FCD34D !important;
+    }
+    body.day-mode .badge-bookmaker {
+      background: #DCFCE7 !important;
+      color: #065F46 !important;
+      border: 1px solid #86EFAC !important;
+    }
+    body.day-mode .badge-safeguard {
+      background: #EDE9FE !important;
+      color: #5B21B6 !important;
+      border: 1px solid #C4B5FD !important;
+    }
 
-    /* High-contrast WCAG AAA semantic pills & badges */
+    /* Tab 2: Crisis Simulator Sliders & Controls (Removes Dark Slate Block) */
+    body.day-mode .slider-row,
+    body.day-mode div:has(> .slider-row),
+    body.day-mode div:has(> input[type="range"]) {
+      background: #F8FAFC !important;
+      border-color: #CBD5E1 !important;
+      color: #0F172A !important;
+    }
+    body.day-mode .slider-row label { color: #1E293B !important; }
+    body.day-mode input[type="range"] { accent-color: #0057D2 !important; }
+    body.day-mode select,
+    body.day-mode input[type="text"],
+    body.day-mode input[type="number"],
+    body.day-mode textarea {
+      background: #FFFFFF !important;
+      color: #0F172A !important;
+      border: 1px solid #CBD5E1 !important;
+    }
+
+    /* Semantic Pills & Badges (WCAG AAA Contrast) */
     body.day-mode .pill-ok { background: #DCFCE7 !important; color: #065F46 !important; border: 1px solid #86EFAC !important; }
     body.day-mode .pill-warn { background: #FEF3C7 !important; color: #92400E !important; border: 1px solid #FCD34D !important; }
     body.day-mode .pill-bad,
     body.day-mode .pill-danger { background: #FEE2E2 !important; color: #991B1B !important; border: 1px solid #FCA5A5 !important; }
     body.day-mode .pill-blue { background: #DBEAFE !important; color: #1E40AF !important; border: 1px solid #93C5FD !important; }
+    body.day-mode .domain-pill { background: #EFF6FF !important; color: #1D4ED8 !important; border: 1px solid #BFDBFE !important; }
 
-    /* Tables & Fleet Sparkline contrast */
-    body.day-mode table th { background: #F1F5F9 !important; color: #1E293B !important; border-bottom: 1.5px solid #CBD5E1 !important; }
+    /* Tabs 3, 4 & 5: Tables, Inline Neon Text & Maritime SOS Packet */
+    body.day-mode table th {
+      background: #F1F5F9 !important;
+      color: #1E293B !important;
+      border-bottom: 1.5px solid #CBD5E1 !important;
+    }
     body.day-mode table td { color: #0F172A !important; border-bottom: 1px solid #E2E8F0 !important; }
     body.day-mode table tbody tr:hover { background: #F8FAFC !important; }
-    body.day-mode #fleetBody span[style*="#00f2fe"],
-    body.day-mode #fleetBody span[style*="#38bdf8"],
-    body.day-mode #fleetBody span[style*="cyan"] { color: #0F766E !important; font-weight: 700 !important; }
+    body.day-mode [style*="#00f2fe"],
+    body.day-mode [style*="#38bdf8"],
+    body.day-mode [style*="cyan"] { color: #0369A1 !important; font-weight: 700 !important; }
+    body.day-mode [style*="#34d399"],
+    body.day-mode [style*="#10b981"] { color: #047857 !important; font-weight: 600 !important; }
+    body.day-mode .sos-pre {
+      background: #F8FAFC !important;
+      color: #0F172A !important;
+      border: 1px solid #CBD5E1 !important;
+      border-left: 4px solid #DC2626 !important;
+    }
 
     /* Inputs, Buttons, Map Controls & Route Strip */
     body.day-mode input[type="text"],
