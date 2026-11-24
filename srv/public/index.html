@@ -1054,7 +1054,7 @@
           </div>
           <div class="kpi-card teal">
             <div class="kpi-label">Modelled Savings / Reefer</div>
-            <div class="kpi-val mono" id="kpiSavings">₹3.10L / $3.3k+</div>
+            <div class="kpi-val mono" id="kpiSavings">₹2.77L / $3.3k+</div>
             <div class="kpi-sub">Jeddah Intermodal vs Panic Spot Rate</div>
           </div>
           <div class="kpi-card gold">
@@ -1970,7 +1970,7 @@
 
       document.getElementById('kpiFleet').textContent = `${state.shipments.length} Boxes`;
       document.getElementById('kpiCargoVal').textContent = `Value: ${fmtMoney(totalINR, totalUSD)}`;
-      document.getElementById('kpiSavings').textContent = currencyMode === 'USD' ? '$3,300–$7,300' : (currencyMode === 'INR' ? '₹3.10L–₹6.85L' : '₹3.10L / $3.3k+');
+      document.getElementById('kpiSavings').textContent = currencyMode === 'USD' ? '$3,300–$7,300' : (currencyMode === 'INR' ? '₹2.77L–₹6.85L' : '₹2.77L / $3.3k+');
       document.getElementById('kpiAlerts').textContent = alerts > 0 ? `${alerts} Critical` : '0 Alerts';
       document.getElementById('kpiAlertSub').textContent = alerts > 0 ? 'Hormuz Stall + Temp Excursion Active' : 'All JNPT–Gulf reefers nominal';
 

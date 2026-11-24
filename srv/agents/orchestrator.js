@@ -12,7 +12,7 @@ export const CARGO_DOMAINS = {
     key: 'PHARMA_COLD_CHAIN',
     label: 'Pharma & Biologics',
     usitcKeyword: 'insulin',
-    defaultHs: '3004.31.00.10',
+    defaultHs: '3004.31.00.10 (CEPA RoO: CTSH + ≥40% QVC & Direct Consignment; CoO attached)',
     defaultProduct: 'Insulin Glargine Biologics',
     tempRange: '2°C–8°C Cold-Chain',
     shelfLifeDays: 18,
@@ -187,7 +187,7 @@ export function calculateThermalSpoilageRisk(
 }
 
 export async function lookupUsitcHts(keyword = 'insulin', fallback = null) {
-  const fb = fallback || { htsno: '3004.31.00.10', description: 'Insulin Glargine (cached)', general: 'Free' };
+  const fb = fallback || { htsno: '3004.31.00.10 (CEPA RoO: CTSH + ≥40% QVC & Direct Consignment; CoO attached)', description: 'Insulin Glargine (cached)', general: 'Free' };
   const url = ['https:', '', 'hts.usitc.gov', 'reststop', 'search'].join('/') + '?keyword=' + encodeURIComponent(keyword);
   try {
     const res = await fetch(url);
@@ -591,7 +591,7 @@ async function safeguardNode(state) {
     state.batch,
     state.telemetry,
     chosen,
-    state.usitcResult || { htsno: '3004.31.00.10', general: 'Free', live: false },
+    state.usitcResult || { htsno: '3004.31.00.10 (CEPA RoO: CTSH + ≥40% QVC & Direct Consignment; CoO attached)', general: 'Free', live: false },
     state.cargoDomain,
     state.financialRisk,
     Boolean(state.fallbackTriggered)

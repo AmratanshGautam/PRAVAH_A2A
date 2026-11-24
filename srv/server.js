@@ -95,14 +95,14 @@ const AGENT_CARDS = {
       },
       {
         id: 'eu-ai-act-hitl-governance',
-        title: 'EU AI Act Art. 14(4) Dual-HITL & SHA-256 Ledger',
+        title: 'EU AI Act Art. 14 Override + Dual-RBAC & SHA-256 Ledger',
         description: 'Enforces RBAC Dual Sign-Off (SUPPLY_CHAIN_VP + QA_PHARMA_OFFICER), verifies SHA-256 hash-chained AuditLogs, and exports official compliance dossiers.',
         tags: ['eu-ai-act', 'rbac', 'sha256-ledger', 'compliance-dossier'],
         examples: ['Verify EU AI Act audit chain', 'Generate compliance dossier for SHP-JNPT-001']
       },
       {
         id: 'maritime-sos-naval-dispatch',
-        title: 'Maritime Security & Naval Distress Dispatch',
+        title: 'Maritime Security & Standardized Naval SOS Packet',
         description: 'Generates standardized Indian Navy IFC-IOR / UKMTO / Indian Coast Guard MRCC Mumbai distress packets and Fleet-Wide Blast Radius scans.',
         tags: ['ifc-ior', 'ukmto', 'mrcc', 'blast-radius']
       }
