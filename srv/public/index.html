@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pravah-A2A | Autonomous Maritime & Cold-Chain Command Center</title>
+  <title>Pravah — Autonomous Supply Chain & Cold-Chain Orchestration</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
@@ -16,546 +16,476 @@
         extend: {
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
-            display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
           },
           keyframes: {
-            marquee: { '0%': { transform: 'translateX(0%)' }, '100%': { transform: 'translateX(-50%)' } },
-            fadeSlideUp: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            fadeUp: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
           },
           animation: {
-            marquee: 'marquee 32s linear infinite',
-            fadeSlideUp: 'fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            fadeUp: 'fadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
           },
         },
       },
     };
   </script>
 </head>
-<body class="bg-[#050811] text-slate-100 font-sans antialiased selection:bg-cyan-500/25 selection:text-cyan-100 overflow-x-hidden">
+<body class="min-h-screen bg-[#09090B] text-zinc-100 font-sans antialiased selection:bg-[#2563EB]/30 selection:text-blue-200 overflow-x-hidden">
 
-  <!-- Refined Architectural Grid & Subtle Ambient Glow -->
-  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-    <div class="absolute inset-0 opacity-[0.035]" style="background-image: linear-gradient(to right, #94a3b8 1px, transparent 1px), linear-gradient(to bottom, #94a3b8 1px, transparent 1px); background-size: 64px 64px;"></div>
-    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[56rem] h-[28rem] rounded-full bg-sky-500/10 blur-[140px]"></div>
-    <div class="absolute bottom-0 left-1/4 w-[32rem] h-[24rem] rounded-full bg-indigo-600/10 blur-[140px]"></div>
+  <div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden="true">
+    <div class="absolute inset-0 opacity-[0.035]" style="background-image: linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px); background-size: 64px 64px;"></div>
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[56rem] h-[28rem] rounded-full bg-[#2563EB]/15 blur-[140px]"></div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- SYMMETRIC GLASSMORPHIC NAVBAR                                         -->
-  <!-- ===================================================================== -->
-  <header class="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#050811]/80 backdrop-blur-xl">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-18 py-3.5">
-        <!-- Left: Brand (flex-1 for mathematical centering) -->
-        <div class="flex-1 flex items-center">
-          <a href="#overview" class="inline-flex items-center gap-3 group">
-            <img src="/logo.jpg" alt="Pravah-A2A" class="w-9 h-9 rounded-xl object-cover border border-cyan-400/30 shadow-md shadow-sky-500/15" onerror="this.style.display='none'" />
-            <div class="flex flex-col">
-              <span class="font-display font-bold text-base tracking-tight text-white leading-none">
-                Pravah<span class="text-cyan-400">-A2A</span>
-              </span>
-              <span class="text-[10px] uppercase tracking-[0.14em] text-slate-400 mt-1">Command Center</span>
-            </div>
-          </a>
-        </div>
+  <!-- 1. STICKY NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-[#09090B]/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex-1 flex items-center">
+        <a href="#" class="inline-flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-[#2563EB] flex items-center justify-center shadow-lg shadow-[#2563EB]/30">
+            <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 text-white" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 8c3-3 6-3 9 0s6 3 9 0" /><path d="M3 16c3-3 6-3 9 0s6 3 9 0" />
+            </svg>
+          </div>
+          <span class="font-semibold text-base tracking-tight text-white">Pravah</span>
+        </a>
+      </div>
 
-        <!-- Center: Nav Pill -->
-        <nav class="hidden lg:flex items-center gap-1 rounded-full border border-white/[0.08] bg-white/[0.025] px-1.5 py-1">
-          <a href="#overview" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition">Overview</a>
-          <a href="#showcase" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition">Architecture</a>
-          <a href="#capabilities" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition">Capabilities</a>
-          <a href="#workflow" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition">Workflow</a>
-        </nav>
+      <nav class="hidden md:flex items-center gap-7" aria-label="Primary Navigation">
+        <a href="#platform" class="text-sm text-zinc-400 hover:text-white transition-colors">Platform</a>
+        <a href="#architecture" class="text-sm text-zinc-400 hover:text-white transition-colors">Solutions</a>
+        <a href="#security" class="text-sm text-zinc-400 hover:text-white transition-colors">Security</a>
+        <a href="#metrics" class="text-sm text-zinc-400 hover:text-white transition-colors">Impact</a>
+        <a href="#cta" class="text-sm text-zinc-400 hover:text-white transition-colors">Resources</a>
+      </nav>
 
-        <!-- Right: Actions (flex-1 justify-end) -->
-        <div class="flex-1 hidden md:flex items-center justify-end gap-2.5">
-          <a id="nav-return-tower-btn" href="/tower.html" class="hidden items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-cyan-300 border border-cyan-400/30 bg-cyan-500/10 hover:bg-cyan-500/20 rounded-xl transition">
-            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
-            <span>Tactical Tower</span>
-          </a>
-          <button type="button" data-open-auth="login" class="px-4 py-2 text-xs font-semibold text-slate-200 hover:text-white border border-white/10 hover:border-white/20 bg-white/[0.03] hover:bg-white/[0.06] rounded-xl transition cursor-pointer">
-            Enterprise Sign In
-          </button>
-          <button type="button" data-open-auth="register" class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-950 rounded-xl bg-gradient-to-r from-cyan-300 to-sky-400 hover:brightness-110 shadow-lg shadow-sky-500/20 transition cursor-pointer">
-            <span>Provision Tenant</span>
-            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-
-        <!-- Mobile Toggle -->
-        <button id="mobile-menu-toggle" type="button" aria-label="Toggle Menu" class="md:hidden inline-flex items-center justify-center p-2 rounded-xl border border-white/10 bg-white/[0.04] text-slate-200">
-          <i data-lucide="menu" class="w-5 h-5"></i>
+      <div class="flex-1 hidden md:flex items-center justify-end gap-3">
+        <a id="nav-return-tower-btn" href="/tower.html" class="hidden items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-blue-300 border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg transition">
+          <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i><span>Tactical Tower</span>
+        </a>
+        <button type="button" data-open-auth="login" class="px-3.5 py-2 text-sm font-medium text-zinc-300 hover:text-white transition-colors cursor-pointer">Sign In</button>
+        <button type="button" data-open-auth="register" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-[#2563EB] hover:bg-blue-500 rounded-lg shadow-md shadow-[#2563EB]/25 transition-all cursor-pointer">
+          <span>Provision Tenant</span><i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
         </button>
       </div>
 
-      <!-- Mobile Drawer -->
-      <div id="mobile-menu" class="hidden md:hidden pb-4 pt-2 border-t border-white/10 space-y-1.5">
-        <a href="#overview" class="mobile-nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-white/5">Overview</a>
-        <a href="#showcase" class="mobile-nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-white/5">Architecture</a>
-        <a href="#capabilities" class="mobile-nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-white/5">Capabilities</a>
-        <a href="#workflow" class="mobile-nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-white/5">Workflow</a>
-        <div class="pt-2 grid grid-cols-2 gap-2">
-          <button type="button" data-open-auth="login" class="py-2.5 text-xs font-semibold text-slate-200 border border-white/10 bg-white/[0.04] rounded-xl">Sign In</button>
-          <button type="button" data-open-auth="register" class="py-2.5 text-xs font-semibold text-slate-950 bg-gradient-to-r from-cyan-300 to-sky-400 rounded-xl">Provision Tenant</button>
-        </div>
+      <button id="mobile-menu-toggle" type="button" aria-label="Toggle Menu" class="md:hidden p-2 rounded-lg border border-white/10 text-zinc-300 hover:text-white">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#09090B] px-4 py-4 space-y-2">
+      <a href="#platform" class="mobile-nav-link block py-2 text-sm text-zinc-300 hover:text-white">Platform</a>
+      <a href="#architecture" class="mobile-nav-link block py-2 text-sm text-zinc-300 hover:text-white">Solutions</a>
+      <a href="#security" class="mobile-nav-link block py-2 text-sm text-zinc-300 hover:text-white">Security</a>
+      <a href="#metrics" class="mobile-nav-link block py-2 text-sm text-zinc-300 hover:text-white">Impact</a>
+      <div class="pt-2 grid grid-cols-2 gap-2">
+        <button type="button" data-open-auth="login" class="py-2 text-sm font-medium text-zinc-200 border border-white/10 rounded-lg">Sign In</button>
+        <button type="button" data-open-auth="register" class="py-2 text-sm font-medium text-white bg-[#2563EB] rounded-lg">Provision Tenant</button>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- =================================================================== -->
-    <!-- HERO SECTION (BALANCED & CENTERED)                                  -->
-    <!-- =================================================================== -->
-    <section id="overview" class="pt-16 pb-14 sm:pt-24 sm:pb-20 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-5xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-cyan-400/20 bg-cyan-500/[0.07] text-cyan-200 text-xs font-medium mb-7">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-          </span>
-          <span>SAP CAP &amp; LangGraph Multi-Agent Mesh • Enterprise Edition</span>
-        </div>
-
-        <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-[1.08] mb-6">
-          Autonomous Resiliency for
-          <span class="block mt-1 bg-gradient-to-r from-cyan-300 via-sky-400 to-indigo-400 bg-clip-text text-transparent">
-            Maritime &amp; Cold-Chain Corridors
-          </span>
-        </h1>
-
-        <p class="text-sm sm:text-base lg:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed mb-9">
-          Detect port disruptions, evaluate intermodal rerouting, compute Arrhenius MKT thermal risk, and enforce CFO spend-cap dual sign-offs in one unified tactical tower.
-        </p>
-
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5">
-          <button type="button" data-open-auth="login" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold text-slate-950 rounded-xl bg-gradient-to-r from-cyan-300 to-sky-400 hover:brightness-110 shadow-xl shadow-sky-500/20 transition cursor-pointer">
-            <i data-lucide="shield-check" class="w-4 h-4"></i>
-            <span>Authenticate to Tactical Tower</span>
-          </button>
-          <a href="#showcase" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-medium text-slate-200 hover:text-white rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] transition">
-            <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i>
-            <span>Explore Architecture</span>
-          </a>
-        </div>
-
-        <!-- SYMMETRIC 4-COLUMN KPI BAR -->
-        <div class="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 text-center">
-            <p class="font-display font-bold text-2xl sm:text-3xl text-white">₹2.77L</p>
-            <p class="text-xs text-slate-400 mt-1">Avg. Corridor Savings</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 text-center">
-            <p class="font-display font-bold text-2xl sm:text-3xl text-cyan-300">&lt; 2.4s</p>
-            <p class="text-xs text-slate-400 mt-1">A2A Disruption Triage</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 text-center">
-            <p class="font-display font-bold text-2xl sm:text-3xl text-white">5 Verticals</p>
-            <p class="text-xs text-slate-400 mt-1">Pharma to Semiconductors</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 text-center">
-            <p class="font-display font-bold text-2xl sm:text-3xl text-emerald-400">SHA-256</p>
-            <p class="text-xs text-slate-400 mt-1">EU AI Act Art. 14 Audit</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- =================================================================== -->
-    <!-- SUBTLE CAPABILITY MARQUEE                                           -->
-    <!-- =================================================================== -->
-    <section aria-label="Core Systems" class="relative border-y border-white/[0.07] bg-white/[0.015] py-3.5 overflow-hidden">
-      <div class="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#050811] to-transparent z-10"></div>
-      <div class="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#050811] to-transparent z-10"></div>
-      <div class="flex w-max animate-marquee hover:[animation-play-state:paused]">
-        <div class="flex items-center gap-10 px-5 text-xs font-medium tracking-wide text-slate-300 whitespace-nowrap">
-          <span class="inline-flex items-center gap-2"><i data-lucide="network" class="w-3.5 h-3.5 text-cyan-400"></i> LangGraph 4-Agent StateGraph</span>
-          <span class="text-white/15">•</span>
-          <span class="inline-flex items-center gap-2"><i data-lucide="thermometer" class="w-3.5 h-3.5 text-sky-400"></i> Arrhenius MKT Cold-Chain Telemetry</span>
-          <span class="text-white/15">•</span>
-          <span class="inline-flex items-center gap-2"><i data-lucide="lock" class="w-3.5 h-3.5 text-indigo-400"></i> CFO Spend-Cap Dual Approval (₹5L)</span>
-          <span class="text-white/15">•</span>
-          <span class="inline-flex items-center gap-2"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i> Hash-Chained Compliance Dossiers</span>
-          <span class="text-white/15">•</span>
-          <span class="inline-flex items-center gap-2"><i data-lucide="anchor" class="w-3.5 h-3.5 text-cyan-400"></i> IFC-IOR / UKMTO Maritime SOS</span>
-          <span class="text-white/15">•</span>
-        </div>
-        <div class="flex items-center gap-10 px-5 text-xs font-medium tracking-wide text-slate-300 whitespace-nowrap" aria-hidden="true">
-          <span class="inline-flex items-center gap-2"><i data-lucide="network" class="w-3.5 h-3.5 text-cyan-400"></i> LangGraph 4-Agent StateGraph</span>
-          <span class="text-white/15">•</span>
-          <span class="inline-flex items-center gap-2"><i data-lucide="thermometer" class="w-3.5 h-3.5 text-sky-400"></i> Arrhenius MKT Cold-Chain Telemetry</span>
-          <span class="text-white/15">•</span>
-          <span class="inline-flex items-center gap-2"><i data-lucide="lock" class="w-3.5 h-3.5 text-indigo-400"></i> CFO Spend-Cap Dual Approval (₹5L)</span>
-          <span class="text-white/15">•</span>
-          <span class="inline-flex items-center gap-2"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i> Hash-Chained Compliance Dossiers</span>
-          <span class="text-white/15">•</span>
-          <span class="inline-flex items-center gap-2"><i data-lucide="anchor" class="w-3.5 h-3.5 text-cyan-400"></i> IFC-IOR / UKMTO Maritime SOS</span>
-          <span class="text-white/15">•</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- =================================================================== -->
-    <!-- SYMMETRIC 6/6 AUTOMATIC SLIDING ARCHITECTURE SHOWCASE               -->
-    <!-- =================================================================== -->
-    <section id="showcase" class="py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+    <!-- 2. HERO SECTION -->
+    <section class="pt-20 pb-16 sm:pt-28 sm:pb-24 px-4 sm:px-6 lg:px-8">
       <div class="max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <div>
-            <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-cyan-400 mb-2.5">
-              <i data-lucide="cpu" class="w-3.5 h-3.5"></i> System Architecture
-            </span>
-            <h2 class="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight">
-              Precision Multi-Agent Orchestration
-            </h2>
+        <div class="text-center max-w-3xl mx-auto">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-xs font-medium text-zinc-300 mb-6">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#2563EB]"></span>
+            <span>Pravah 2.0 is live — SOC2 Type II &amp; EU AI Act Ready</span>
+            <i data-lucide="arrow-right" class="w-3 h-3 text-zinc-400"></i>
           </div>
-          <div class="flex items-center gap-2">
-            <span id="slider-status-pill" class="px-3 py-1.5 rounded-lg text-xs font-medium border border-white/10 bg-white/[0.03] text-slate-300">Auto-playing</span>
-            <button id="slider-prev" type="button" aria-label="Previous" class="p-2 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] text-slate-200 transition cursor-pointer"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-            <button id="slider-next" type="button" aria-label="Next" class="p-2 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] text-slate-200 transition cursor-pointer"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08] mb-6">
+            Orchestrate enterprise supply chains without friction.
+          </h1>
+          <p class="text-base sm:text-lg text-zinc-400 leading-relaxed mb-9 max-w-2xl mx-auto">
+            Pravah automates real-time disruption triage, cold-chain telemetry, and multi-agent corridor rerouting for global operations teams—cutting recovery times by 40% while enforcing strict financial guardrails.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5">
+            <button type="button" data-open-auth="login" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-[#2563EB] hover:bg-blue-500 rounded-lg shadow-lg shadow-[#2563EB]/25 transition-all cursor-pointer">
+              <span>Authenticate to Tactical Tower</span><i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+            <a href="#architecture" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium text-zinc-200 hover:text-white border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] rounded-lg transition-all">
+              <span>Explore Interactive Tour</span>
+            </a>
           </div>
         </div>
 
-        <div id="feature-slider" class="rounded-3xl border border-white/[0.09] bg-[#090f1d]/90 backdrop-blur-xl overflow-hidden shadow-2xl shadow-black/50">
-          <div class="min-h-[360px]">
-            <!-- Slide 1 -->
-            <div class="slide-item p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center animate-fadeSlideUp" data-slide="0">
-              <div class="lg:col-span-6 space-y-4">
-                <span class="inline-block px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-400/20 text-cyan-300 text-[11px] font-mono">01 // CORRIDOR OPTIMIZATION</span>
-                <h3 class="font-display font-bold text-2xl sm:text-3xl text-white">Autonomous Maritime &amp; Air-Sea Rerouting</h3>
-                <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
-                  Dynamically benchmarks Fujairah/Dubai Air-Sea and Jeddah Intermodal lanes against Gulf War surcharges, transit days, and India-UAE CEPA 0% duty corridors.
-                </p>
-                <div class="pt-2 flex flex-wrap gap-2 text-xs text-slate-300">
-                  <span class="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08]">CEPA 0% Duty</span>
-                  <span class="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08]">Self-Correcting StateGraph</span>
+        <!-- High-Fidelity Dashboard Preview -->
+        <div class="mt-16 max-w-5xl mx-auto">
+          <div class="rounded-2xl border border-white/10 bg-zinc-950/90 p-2 shadow-2xl shadow-black/80">
+            <div class="rounded-xl border border-white/10 bg-[#0C0C10] overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/[0.02]">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-zinc-700"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-zinc-700"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-zinc-700"></span>
+                  <span class="ml-3 text-xs font-mono text-zinc-500">pravah-command-center / live-flow</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-mono text-emerald-400">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>MESH SYNCED • 38ms</span>
                 </div>
               </div>
-              <div class="lg:col-span-6 rounded-2xl border border-white/[0.08] bg-[#050811] p-6">
-                <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-3 mb-4 border-b border-white/[0.07]">
-                  <span class="text-cyan-300">ROUTE_EVALUATION // LIVE</span>
-                  <span class="text-emerald-400">OPTIMAL SELECTED</span>
-                </div>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                  <div class="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                    <p class="text-[11px] text-slate-400">Jeddah Intermodal</p>
-                    <p class="font-display font-bold text-xl text-white mt-1">₹3,52,800</p>
-                    <p class="text-[11px] text-emerald-400 mt-1">Saves ₹2,77,200</p>
+              <div class="p-5 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-8 space-y-4">
+                  <div class="grid grid-cols-3 gap-3 items-center">
+                    <div class="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                      <i data-lucide="webhook" class="w-4 h-4 text-blue-400 mb-2"></i>
+                      <p class="text-xs font-semibold text-white">SAP Event Mesh</p>
+                      <p class="text-[11px] font-mono text-zinc-400 mt-0.5">Port Delay #409</p>
+                    </div>
+                    <div class="rounded-xl border border-[#2563EB]/50 bg-[#2563EB]/10 p-4 shadow-lg shadow-[#2563EB]/15">
+                      <i data-lucide="cpu" class="w-4 h-4 text-blue-400 mb-2"></i>
+                      <p class="text-xs font-semibold text-white">Pravah Engine</p>
+                      <p class="text-[11px] font-mono text-blue-300 mt-0.5">4 Agents Active</p>
+                    </div>
+                    <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
+                      <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 mb-2"></i>
+                      <p class="text-xs font-semibold text-white">Jeddah Reroute</p>
+                      <p class="text-[11px] font-mono text-emerald-300 mt-0.5">Saved ₹2.77L</p>
+                    </div>
                   </div>
-                  <div class="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                    <p class="text-[11px] text-slate-400">Emergency Air Charter</p>
-                    <p class="font-display font-bold text-xl text-slate-300 mt-1">₹9,66,000</p>
-                    <p class="text-[11px] text-amber-400 mt-1">CFO Dual-Lock Triggered</p>
-                  </div>
-                </div>
-                <div class="font-mono text-[11px] text-slate-400 flex justify-between pt-2 border-t border-white/[0.06]">
-                  <span>Protocol: A2A JSON-RPC 2.0</span>
-                  <span class="text-cyan-300">Status: VERIFIED</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="slide-item hidden p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center animate-fadeSlideUp" data-slide="1">
-              <div class="lg:col-span-6 space-y-4">
-                <span class="inline-block px-2.5 py-1 rounded-md bg-indigo-500/10 border border-indigo-400/20 text-indigo-300 text-[11px] font-mono">02 // THERMAL &amp; CARGO RISK</span>
-                <h3 class="font-display font-bold text-2xl sm:text-3xl text-white">Arrhenius MKT &amp; Batch VaR Engine</h3>
-                <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
-                  Calculates Mean Kinetic Temperature excursions and Value-at-Risk across 2–8°C Pharma biologics, perishable seafood, JIT semiconductors, and IMDG hazmat rules.
-                </p>
-                <div class="pt-2 flex flex-wrap gap-2 text-xs text-slate-300">
-                  <span class="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08]">2–8°C Pharma SLA</span>
-                  <span class="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08]">IMDG Air-Ban Guard</span>
-                </div>
-              </div>
-              <div class="lg:col-span-6 rounded-2xl border border-white/[0.08] bg-[#050811] p-6">
-                <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-3 mb-4 border-b border-white/[0.07]">
-                  <span class="text-indigo-300">COLD_CHAIN_TELEMETRY</span>
-                  <span class="text-emerald-400">WITHIN ENVELOPE</span>
-                </div>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                  <div class="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                    <p class="text-[11px] text-slate-400">Reefer MKT Index</p>
-                    <p class="font-display font-bold text-xl text-cyan-300 mt-1">4.6°C</p>
-                    <p class="text-[11px] text-slate-400 mt-1">Threshold: 2.0–8.0°C</p>
-                  </div>
-                  <div class="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                    <p class="text-[11px] text-slate-400">JIT Penalty Shield</p>
-                    <p class="font-display font-bold text-xl text-white mt-1">₹8L / day</p>
-                    <p class="text-[11px] text-emerald-400 mt-1">Zero Spoilage Alert</p>
+                  <div class="rounded-xl border border-white/10 bg-black/40 p-3.5 font-mono text-xs text-zinc-400 flex items-center justify-between">
+                    <span class="truncate"><span class="text-blue-400">DISPATCH</span> corridor.jeddah_intermodal — MKT 4.6°C (Safe)</span>
+                    <span class="text-emerald-400 shrink-0 ml-2">200 OK</span>
                   </div>
                 </div>
-                <div class="font-mono text-[11px] text-slate-400 flex justify-between pt-2 border-t border-white/[0.06]">
-                  <span>5 Cargo Verticals Active</span>
-                  <span class="text-indigo-300">SAP Event Mesh</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="slide-item hidden p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center animate-fadeSlideUp" data-slide="2">
-              <div class="lg:col-span-6 space-y-4">
-                <span class="inline-block px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-[11px] font-mono">03 // GOVERNANCE &amp; RBAC</span>
-                <h3 class="font-display font-bold text-2xl sm:text-3xl text-white">CFO Spend-Cap &amp; Dual HITL Sign-Off</h3>
-                <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
-                  High-value reroutes above ₹5,00,000 automatically engage a dual-approval lock requiring cryptographic sign-off from both the Supply Chain VP and QA Pharma Officer.
-                </p>
-                <div class="pt-2 flex flex-wrap gap-2 text-xs text-slate-300">
-                  <span class="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08]">VP + QA Dual Sign-Off</span>
-                  <span class="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08]">Zero-Trust HMAC Tokens</span>
-                </div>
-              </div>
-              <div class="lg:col-span-6 rounded-2xl border border-white/[0.08] bg-[#050811] p-6">
-                <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-3 mb-4 border-b border-white/[0.07]">
-                  <span class="text-emerald-300">HITL_APPROVAL_GATE</span>
-                  <span class="text-emerald-400">ENFORCED</span>
-                </div>
-                <div class="space-y-2.5 mb-4">
-                  <div class="flex items-center justify-between rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 text-xs">
-                    <span class="text-slate-200">1. VP Supply Chain Approval</span>
-                    <span class="font-mono text-emerald-400">SIGNED ✓</span>
+                <div class="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-3">
+                  <div class="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                    <p class="text-xs text-zinc-400">Active Shipments</p>
+                    <p class="text-2xl font-bold text-white mt-1">1,284</p>
+                    <p class="text-[11px] text-emerald-400 mt-1">99.94% SLA Compliant</p>
                   </div>
-                  <div class="flex items-center justify-between rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 text-xs">
-                    <span class="text-slate-200">2. QA Pharma Officer Release</span>
-                    <span class="font-mono text-emerald-400">SIGNED ✓</span>
+                  <div class="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                    <p class="text-xs text-zinc-400">CFO Spend-Cap Lock</p>
+                    <p class="text-2xl font-bold text-white mt-1">₹5,00,000</p>
+                    <p class="text-[11px] text-blue-400 mt-1">Dual HITL Enforced</p>
                   </div>
                 </div>
-                <div class="font-mono text-[11px] text-slate-400 flex justify-between pt-2 border-t border-white/[0.06]">
-                  <span>Spend-Cap: ₹5,00,000</span>
-                  <span class="text-emerald-300">EU AI Act Art. 14</span>
-                </div>
               </div>
-            </div>
-
-            <!-- Slide 4 -->
-            <div class="slide-item hidden p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center animate-fadeSlideUp" data-slide="3">
-              <div class="lg:col-span-6 space-y-4">
-                <span class="inline-block px-2.5 py-1 rounded-md bg-sky-500/10 border border-sky-400/20 text-sky-300 text-[11px] font-mono">04 // AUDIT &amp; MARITIME SOS</span>
-                <h3 class="font-display font-bold text-2xl sm:text-3xl text-white">Immutable Dossiers &amp; Naval Dispatch</h3>
-                <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
-                  Every autonomous recommendation is sealed in a SHA-256 hash-chained audit ledger with instant compliance dossier export and IFC-IOR / UKMTO / MRCC maritime SOS escalation.
-                </p>
-                <div class="pt-2 flex flex-wrap gap-2 text-xs text-slate-300">
-                  <span class="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08]">SHA-256 Hash Chain</span>
-                  <span class="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08]">IFC-IOR / UKMTO Ready</span>
-                </div>
-              </div>
-              <div class="lg:col-span-6 rounded-2xl border border-white/[0.08] bg-[#050811] p-6">
-                <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-3 mb-4 border-b border-white/[0.07]">
-                  <span class="text-sky-300">COMPLIANCE_LEDGER</span>
-                  <span class="text-emerald-400">TAMPER-PROOF</span>
-                </div>
-                <div class="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 font-mono text-[11px] text-slate-300 space-y-1.5 mb-4">
-                  <p><span class="text-slate-500">HASH:</span> <span class="text-cyan-300">0x9f8a4c...e271b0</span></p>
-                  <p><span class="text-slate-500">SOS_CHANNEL:</span> IFC-IOR / UKMTO / MRCC</p>
-                  <p><span class="text-slate-500">DOSSIER:</span> Exportable Audit Certificate</p>
-                </div>
-                <div class="font-mono text-[11px] text-slate-400 flex justify-between pt-2 border-t border-white/[0.06]">
-                  <span>100% Traceable Decisions</span>
-                  <span class="text-sky-300">ACTIVE</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Symmetric 4-Column Progress Pills -->
-          <div class="border-t border-white/[0.07] bg-white/[0.015] p-4">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              <button type="button" data-slide-btn="0" class="slide-pill text-left rounded-xl p-3 border border-cyan-400/40 bg-white/[0.05] transition cursor-pointer">
-                <div class="flex items-center justify-between text-xs font-semibold text-white mb-2"><span class="truncate">01. A2A Routing</span><i data-lucide="compass" class="w-3.5 h-3.5 text-cyan-300 shrink-0"></i></div>
-                <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden"><div class="slide-progress h-full w-0 bg-cyan-400 rounded-full"></div></div>
-              </button>
-              <button type="button" data-slide-btn="1" class="slide-pill text-left rounded-xl p-3 border border-white/[0.07] bg-white/[0.02] hover:bg-white/[0.04] transition cursor-pointer">
-                <div class="flex items-center justify-between text-xs font-semibold text-slate-300 mb-2"><span class="truncate">02. Cold-Chain MKT</span><i data-lucide="thermometer" class="w-3.5 h-3.5 text-indigo-300 shrink-0"></i></div>
-                <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden"><div class="slide-progress h-full w-0 bg-indigo-400 rounded-full"></div></div>
-              </button>
-              <button type="button" data-slide-btn="2" class="slide-pill text-left rounded-xl p-3 border border-white/[0.07] bg-white/[0.02] hover:bg-white/[0.04] transition cursor-pointer">
-                <div class="flex items-center justify-between text-xs font-semibold text-slate-300 mb-2"><span class="truncate">03. RBAC Dual Lock</span><i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-300 shrink-0"></i></div>
-                <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden"><div class="slide-progress h-full w-0 bg-emerald-400 rounded-full"></div></div>
-              </button>
-              <button type="button" data-slide-btn="3" class="slide-pill text-left rounded-xl p-3 border border-white/[0.07] bg-white/[0.02] hover:bg-white/[0.04] transition cursor-pointer">
-                <div class="flex items-center justify-between text-xs font-semibold text-slate-300 mb-2"><span class="truncate">04. Audit &amp; SOS</span><i data-lucide="anchor" class="w-3.5 h-3.5 text-sky-300 shrink-0"></i></div>
-                <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden"><div class="slide-progress h-full w-0 bg-sky-400 rounded-full"></div></div>
-              </button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- =================================================================== -->
-    <!-- SYMMETRIC 3x2 CAPABILITIES GRID                                     -->
-    <!-- =================================================================== -->
-    <section id="capabilities" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-t border-white/[0.06]">
+    <!-- 3. SOCIAL PROOF / LOGO CLOUD -->
+    <section class="py-12 border-y border-white/10 bg-white/[0.01] px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto text-center">
+        <p class="text-xs font-medium uppercase tracking-[0.16em] text-zinc-500 mb-8">Trusted by engineering and operations teams at</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 items-center">
+          <div class="opacity-50 hover:opacity-100 transition-opacity font-mono text-sm font-bold tracking-[0.2em] text-zinc-300">VANGUARD</div>
+          <div class="opacity-50 hover:opacity-100 transition-opacity font-mono text-sm font-bold tracking-[0.2em] text-zinc-300">MERIDIAN</div>
+          <div class="opacity-50 hover:opacity-100 transition-opacity font-mono text-sm font-bold tracking-[0.2em] text-zinc-300">HELIOS</div>
+          <div class="opacity-50 hover:opacity-100 transition-opacity font-mono text-sm font-bold tracking-[0.2em] text-zinc-300">APEX</div>
+          <div class="opacity-50 hover:opacity-100 transition-opacity font-mono text-sm font-bold tracking-[0.2em] text-zinc-300">STRATOS</div>
+          <div class="opacity-50 hover:opacity-100 transition-opacity font-mono text-sm font-bold tracking-[0.2em] text-zinc-300">KINETIX</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CORE CAPABILITIES (ASYMMETRIC BENTO GRID) -->
+    <section id="platform" class="py-24 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="max-w-2xl mb-14">
+          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#2563EB] mb-3">Core Capabilities</p>
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Built for high-stakes operational precision.</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.02] p-7 hover:border-white/20 transition-colors flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-lg bg-[#2563EB]/15 border border-[#2563EB]/30 flex items-center justify-center mb-5"><i data-lucide="zap" class="w-5 h-5 text-blue-400"></i></div>
+              <h3 class="text-xl font-semibold text-white mb-2">Real-Time Multi-Agent Orchestration</h3>
+              <p class="text-sm text-zinc-400 max-w-xl leading-relaxed">Evaluate port congestion, carrier tariffs, and Arrhenius MKT thermal risk simultaneously. Pravah routes exceptions in milliseconds without manual spreadsheet handoffs.</p>
+            </div>
+            <div class="mt-6 rounded-xl border border-white/10 bg-black/50 p-4 font-mono text-xs text-zinc-300 flex flex-wrap items-center justify-between gap-3">
+              <span>pipeline.state: SELF_CORRECTING</span>
+              <span class="px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-400">LATENCY: 34ms</span>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-7 hover:border-white/20 transition-colors flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-lg bg-white/[0.05] border border-white/10 flex items-center justify-center mb-5"><i data-lucide="layers" class="w-5 h-5 text-zinc-200"></i></div>
+              <h3 class="text-xl font-semibold text-white mb-2">Seamless Integrations</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">Native bi-directional sync with enterprise ERPs, TMS platforms, and IoT fleets.</p>
+            </div>
+            <div class="mt-6 grid grid-cols-3 gap-2">
+              <div class="rounded-lg border border-white/10 bg-white/[0.03] py-2 text-center text-[11px] font-mono text-zinc-300">SAP</div>
+              <div class="rounded-lg border border-white/10 bg-white/[0.03] py-2 text-center text-[11px] font-mono text-zinc-300">Oracle</div>
+              <div class="rounded-lg border border-white/10 bg-white/[0.03] py-2 text-center text-[11px] font-mono text-zinc-300">Snowflake</div>
+              <div class="rounded-lg border border-white/10 bg-white/[0.03] py-2 text-center text-[11px] font-mono text-zinc-300">Kafka</div>
+              <div class="rounded-lg border border-white/10 bg-white/[0.03] py-2 text-center text-[11px] font-mono text-zinc-300">REST</div>
+              <div class="rounded-lg border border-white/10 bg-white/[0.03] py-2 text-center text-[11px] font-mono text-zinc-300">Webhooks</div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-7 hover:border-white/20 transition-colors flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-lg bg-white/[0.05] border border-white/10 flex items-center justify-center mb-5"><i data-lucide="bar-chart-3" class="w-5 h-5 text-zinc-200"></i></div>
+              <h3 class="text-xl font-semibold text-white mb-2">Enterprise Analytics &amp; ROI</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">Track landed-cost deltas, CEPA duty savings, and cold-chain SLA adherence in real time.</p>
+            </div>
+            <div class="mt-6 flex items-end gap-2 h-16 px-1">
+              <div class="flex-1 h-[35%] rounded-t bg-gradient-to-t from-[#2563EB]/40 to-[#2563EB]"></div>
+              <div class="flex-1 h-[52%] rounded-t bg-gradient-to-t from-[#2563EB]/40 to-[#2563EB]"></div>
+              <div class="flex-1 h-[48%] rounded-t bg-gradient-to-t from-[#2563EB]/40 to-[#2563EB]"></div>
+              <div class="flex-1 h-[70%] rounded-t bg-gradient-to-t from-[#2563EB]/40 to-[#2563EB]"></div>
+              <div class="flex-1 h-[65%] rounded-t bg-gradient-to-t from-[#2563EB]/40 to-[#2563EB]"></div>
+              <div class="flex-1 h-[88%] rounded-t bg-gradient-to-t from-[#2563EB]/40 to-[#2563EB]"></div>
+              <div class="flex-1 h-[96%] rounded-t bg-gradient-to-t from-[#2563EB]/40 to-[#2563EB]"></div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.02] p-7 hover:border-white/20 transition-colors flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mb-5"><i data-lucide="file-check-2" class="w-5 h-5 text-emerald-400"></i></div>
+              <h3 class="text-xl font-semibold text-white mb-2">Automated Compliance &amp; Cryptographic Audit Trails</h3>
+              <p class="text-sm text-zinc-400 max-w-xl leading-relaxed">Every autonomous recommendation and human-in-the-loop sign-off is sealed in a SHA-256 hash-chained ledger—exportable as an auditor-ready compliance dossier in one click.</p>
+            </div>
+            <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+              <div class="rounded-lg border border-white/10 bg-black/40 p-3 text-zinc-300">EU AI Act Art. 14 Ready</div>
+              <div class="rounded-lg border border-white/10 bg-black/40 p-3 text-zinc-300">Dual HITL Signatures</div>
+              <div class="rounded-lg border border-white/10 bg-black/40 p-3 text-emerald-400">Zero Tamper Drift</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. INTERACTIVE "HOW IT WORKS" / ARCHITECTURE SECTION -->
+    <section id="architecture" class="py-24 px-4 sm:px-6 lg:px-8 border-t border-white/10 bg-white/[0.01]">
+      <div class="max-w-7xl mx-auto">
+        <div class="max-w-2xl mb-12">
+          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#2563EB] mb-3">Architecture</p>
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">From ingestion to autonomous scale in three steps.</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div class="lg:col-span-5 space-y-3">
+            <button type="button" data-arch-tab="0" class="arch-tab w-full text-left p-5 rounded-xl border border-[#2563EB] bg-[#2563EB]/10 transition-all cursor-pointer">
+              <div class="flex items-center gap-3 mb-1.5"><span class="font-mono text-xs font-semibold text-blue-400">01</span><h3 class="text-base font-semibold text-white">Connect</h3></div>
+              <p class="text-sm text-zinc-400 leading-relaxed">Ingest live telemetry from SAP S/4HANA, Oracle TMS, vessel AIS feeds, and IoT reefer sensors via zero-config webhooks.</p>
+            </button>
+            <button type="button" data-arch-tab="1" class="arch-tab w-full text-left p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-all cursor-pointer">
+              <div class="flex items-center gap-3 mb-1.5"><span class="font-mono text-xs font-semibold text-zinc-500">02</span><h3 class="text-base font-semibold text-white">Automate</h3></div>
+              <p class="text-sm text-zinc-400 leading-relaxed">Deploy deterministic multi-agent workflows that evaluate port congestion, thermal risk, and optimal intermodal reroutes.</p>
+            </button>
+            <button type="button" data-arch-tab="2" class="arch-tab w-full text-left p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-all cursor-pointer">
+              <div class="flex items-center gap-3 mb-1.5"><span class="font-mono text-xs font-semibold text-zinc-500">03</span><h3 class="text-base font-semibold text-white">Scale</h3></div>
+              <p class="text-sm text-zinc-400 leading-relaxed">Execute across global corridors with SHA-256 hash-chained audit logs, automated dossiers, and dedicated VPC isolation.</p>
+            </button>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="rounded-2xl border border-white/10 bg-[#0C0C10] overflow-hidden shadow-2xl">
+              <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3.5 border-b border-white/10 bg-white/[0.02]">
+                <div class="flex items-center gap-2 text-xs font-mono text-blue-400">
+                  <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+                  <span id="arch-badge">INGESTION_LAYER // EVENT_MESH</span>
+                </div>
+                <div id="arch-metrics" class="flex items-center gap-4 text-xs font-mono text-zinc-400">
+                  <span>Connectors: <strong class="text-white">40+</strong></span>
+                  <span>Sync: <strong class="text-white">18ms</strong></span>
+                </div>
+              </div>
+              <pre class="p-6 text-xs sm:text-sm font-mono text-zinc-300 overflow-x-auto leading-relaxed"><code id="arch-code"></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. ENTERPRISE SECURITY & RELIABILITY STRIP -->
+    <section id="security" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-white/10">
       <div class="max-w-7xl mx-auto">
         <div class="text-center max-w-2xl mx-auto mb-12">
-          <span class="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-400">Core Capabilities</span>
-          <h2 class="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight mt-2">Built for Mission-Critical Supply Chains</h2>
+          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#2563EB] mb-3">Security &amp; Reliability</p>
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Engineered for CISO and enterprise compliance standards.</h2>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <div class="rounded-2xl border border-white/[0.08] bg-[#090f1d]/70 hover:border-cyan-400/35 p-6 transition">
-            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center mb-4"><i data-lucide="git-branch" class="w-5 h-5 text-cyan-300"></i></div>
-            <h3 class="font-display font-bold text-base text-white mb-2">SAP Event Mesh Integration</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Ingests S/4HANA disruption webhooks in real time and dispatches autonomous corridor evaluations instantly.</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-[#090f1d]/70 hover:border-indigo-400/35 p-6 transition">
-            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-400/20 flex items-center justify-center mb-4"><i data-lucide="thermometer" class="w-5 h-5 text-indigo-300"></i></div>
-            <h3 class="font-display font-bold text-base text-white mb-2">Thermal &amp; Spoilage Shield</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Continuous Arrhenius MKT modelling protects high-value pharma biologics and perishable cargo in transit.</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-[#090f1d]/70 hover:border-emerald-400/35 p-6 transition">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-400/20 flex items-center justify-center mb-4"><i data-lucide="users" class="w-5 h-5 text-emerald-300"></i></div>
-            <h3 class="font-display font-bold text-base text-white mb-2">Multi-Tenant RBAC Isolation</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Scoped access for Supply Chain VPs, QA Pharma Officers, 3PL partners, and Analysts with instant role switching.</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-[#090f1d]/70 hover:border-sky-400/35 p-6 transition">
-            <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-400/20 flex items-center justify-center mb-4"><i data-lucide="bot" class="w-5 h-5 text-sky-300"></i></div>
-            <h3 class="font-display font-bold text-base text-white mb-2">Tactical AI Copilot</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Query live shipment risk, cost deltas, and duty savings in natural language directly inside the command center.</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-[#090f1d]/70 hover:border-amber-400/35 p-6 transition">
-            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-400/20 flex items-center justify-center mb-4"><i data-lucide="file-check-2" class="w-5 h-5 text-amber-300"></i></div>
-            <h3 class="font-display font-bold text-base text-white mb-2">One-Click Compliance Dossier</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Generate cryptographic audit dossiers with dual HITL signatures for regulatory and insurance verification.</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-[#090f1d]/70 hover:border-rose-400/35 p-6 transition">
-            <div class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-400/20 flex items-center justify-center mb-4"><i data-lucide="radio" class="w-5 h-5 text-rose-300"></i></div>
-            <h3 class="font-display font-bold text-base text-white mb-2">Maritime SOS Coordination</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Structured emergency escalation protocols aligned with IFC-IOR, UKMTO, and MRCC naval advisories.</p>
-          </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="rounded-xl border border-white/10 bg-white/[0.02] p-5"><i data-lucide="activity" class="w-5 h-5 text-blue-400 mb-3"></i><h3 class="text-sm font-semibold text-white mb-1">99.99% Uptime SLA</h3><p class="text-xs text-zinc-400">Multi-AZ active-active failover</p></div>
+          <div class="rounded-xl border border-white/10 bg-white/[0.02] p-5"><i data-lucide="lock" class="w-5 h-5 text-blue-400 mb-3"></i><h3 class="text-sm font-semibold text-white mb-1">End-to-End Encryption</h3><p class="text-xs text-zinc-400">AES-256 at rest, TLS 1.3 in transit</p></div>
+          <div class="rounded-xl border border-white/10 bg-white/[0.02] p-5"><i data-lucide="key-round" class="w-5 h-5 text-blue-400 mb-3"></i><h3 class="text-sm font-semibold text-white mb-1">Granular RBAC</h3><p class="text-xs text-zinc-400">Dual-approval &amp; SSO/SAML 2.0</p></div>
+          <div class="rounded-xl border border-white/10 bg-white/[0.02] p-5"><i data-lucide="shield-check" class="w-5 h-5 text-blue-400 mb-3"></i><h3 class="text-sm font-semibold text-white mb-1">SOC2 &amp; ISO 27001</h3><p class="text-xs text-zinc-400">Continuous compliance auditing</p></div>
+          <div class="rounded-xl border border-white/10 bg-white/[0.02] p-5"><i data-lucide="cloud" class="w-5 h-5 text-blue-400 mb-3"></i><h3 class="text-sm font-semibold text-white mb-1">Dedicated VPC</h3><p class="text-xs text-zinc-400">Single-tenant cloud or on-prem</p></div>
         </div>
       </div>
     </section>
 
-    <!-- =================================================================== -->
-    <!-- SYMMETRIC 3-STEP WORKFLOW & CTA                                     -->
-    <!-- =================================================================== -->
-    <section id="workflow" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-white/[0.06] bg-white/[0.01]">
+    <!-- 7. IMPACT METRICS & CUSTOMER PROOF -->
+    <section id="metrics" class="py-24 px-4 sm:px-6 lg:px-8 border-t border-white/10 bg-white/[0.01]">
       <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
-          <div class="rounded-2xl border border-white/[0.08] bg-[#090f1d]/80 p-7 text-center">
-            <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-400/25 font-mono text-sm font-bold text-cyan-300 mb-4">01</span>
-            <h3 class="font-display font-bold text-lg text-white mb-2">Authenticate Tenant</h3>
-            <p class="text-xs sm:text-sm text-slate-400">Sign in with corporate credentials or select a Subscribed Demo Tenant Key for instant role access.</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-[#090f1d]/80 p-7 text-center">
-            <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-400/25 font-mono text-sm font-bold text-indigo-300 mb-4">02</span>
-            <h3 class="font-display font-bold text-lg text-white mb-2">Evaluate Corridors</h3>
-            <p class="text-xs sm:text-sm text-slate-400">Review autonomous multi-agent reroutes, thermal MKT risk scores, and CEPA duty savings live.</p>
-          </div>
-          <div class="rounded-2xl border border-white/[0.08] bg-[#090f1d]/80 p-7 text-center">
-            <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-400/25 font-mono text-sm font-bold text-emerald-300 mb-4">03</span>
-            <h3 class="font-display font-bold text-lg text-white mb-2">Approve &amp; Audit</h3>
-            <p class="text-xs sm:text-sm text-slate-400">Execute VP + QA dual sign-off and seal the decision inside the SHA-256 compliance ledger.</p>
-          </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center"><p class="text-4xl sm:text-5xl font-bold tracking-tight text-white">40%</p><p class="text-sm text-zinc-400 mt-2">Faster disruption recovery</p></div>
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center"><p class="text-4xl sm:text-5xl font-bold tracking-tight text-white">10M+</p><p class="text-sm text-zinc-400 mt-2">Daily telemetry events processed</p></div>
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center"><p class="text-4xl sm:text-5xl font-bold tracking-tight text-white">&lt;50ms</p><p class="text-sm text-zinc-400 mt-2">Deterministic routing latency</p></div>
         </div>
 
-        <div class="rounded-3xl border border-white/10 bg-gradient-to-r from-sky-500/10 via-indigo-500/10 to-cyan-500/10 p-8 sm:p-12 text-center">
-          <h3 class="font-display font-bold text-2xl sm:text-3xl text-white">Enter the Pravah-A2A Tactical Tower</h3>
-          <p class="text-slate-300 text-sm sm:text-base mt-2.5 max-w-xl mx-auto">Authenticate with your enterprise account, provision a new tenant workspace, or test live with Subscribed Demo Tenant Keys.</p>
-          <div class="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-            <button type="button" data-open-auth="login" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-slate-950 bg-gradient-to-r from-cyan-300 to-sky-400 hover:brightness-110 shadow-lg shadow-sky-500/20 transition cursor-pointer">
-              <span>Enterprise Sign In</span><i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-            <button type="button" data-open-auth="register" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-medium text-slate-200 border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] transition cursor-pointer">
-              <span>Provision New Tenant</span>
-            </button>
-          </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <blockquote class="rounded-2xl border border-white/10 bg-white/[0.02] p-8 flex flex-col justify-between">
+            <p class="text-sm sm:text-base text-zinc-300 leading-relaxed mb-6">&ldquo;Pravah cut our maritime rerouting decisions from 14 hours of manual escalation to under three minutes—while keeping our CFO spend-cap and QA cold-chain approvals completely auditable.&rdquo;</p>
+            <footer><p class="text-sm font-semibold text-white">Rajesh Nair</p><p class="text-xs text-zinc-400">VP of Global Supply Chain, Meridian Pharma</p></footer>
+          </blockquote>
+          <blockquote class="rounded-2xl border border-white/10 bg-white/[0.02] p-8 flex flex-col justify-between">
+            <p class="text-sm sm:text-base text-zinc-300 leading-relaxed mb-6">&ldquo;Integrating Pravah directly with our SAP Event Mesh gave us real-time visibility into every reefer container across the Indian Ocean and Red Sea corridors without adding operational headcount.&rdquo;</p>
+            <footer><p class="text-sm font-semibold text-white">Ananya Deshmukh</p><p class="text-xs text-zinc-400">Chief Operations Officer, Helios Freight</p></footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. FINAL CONVERSION CTA SECTION -->
+    <section id="cta" class="py-24 px-4 sm:px-6 lg:px-8 border-t border-white/10">
+      <div class="max-w-4xl mx-auto rounded-3xl border border-white/10 bg-gradient-to-b from-[#2563EB]/15 via-white/[0.02] to-transparent p-8 sm:p-14 text-center">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4">Ready to modernize your operations?</h2>
+        <p class="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto mb-8">Authenticate with your enterprise account, provision a new tenant workspace, or schedule a walkthrough with our team.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+          <button type="button" data-open-auth="login" class="w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-semibold text-white bg-[#2563EB] hover:bg-blue-500 shadow-lg shadow-[#2563EB]/25 transition cursor-pointer">Enterprise Sign In</button>
+          <button type="button" data-open-auth="register" class="w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-medium text-zinc-200 border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] transition cursor-pointer">Provision New Tenant</button>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="border-t border-white/[0.07] bg-[#04060d] py-8 px-4 text-center text-xs text-slate-500">
-    &copy; <span id="footer-year">2026</span> Pravah-A2A Command Center. Autonomous Maritime &amp; Cold-Chain Resiliency.
+  <!-- 9. ENTERPRISE FOOTER -->
+  <footer class="border-t border-white/10 bg-[#060608] pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 border-b border-white/10">
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-white mb-4">Product</h4>
+          <ul class="space-y-2.5 text-sm text-zinc-400">
+            <li><a href="#platform" class="hover:text-white transition">Orchestration Engine</a></li>
+            <li><a href="#architecture" class="hover:text-white transition">Integrations</a></li>
+            <li><a href="#platform" class="hover:text-white transition">Analytics &amp; ROI</a></li>
+            <li><a href="#security" class="hover:text-white transition">Audit Ledger</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-white mb-4">Solutions</h4>
+          <ul class="space-y-2.5 text-sm text-zinc-400">
+            <li><a href="#platform" class="hover:text-white transition">Pharma Cold-Chain</a></li>
+            <li><a href="#platform" class="hover:text-white transition">Maritime Logistics</a></li>
+            <li><a href="#platform" class="hover:text-white transition">Semiconductor JIT</a></li>
+            <li><a href="#platform" class="hover:text-white transition">SAP S/4HANA Teams</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-white mb-4">Company</h4>
+          <ul class="space-y-2.5 text-sm text-zinc-400">
+            <li><a href="#metrics" class="hover:text-white transition">Customers</a></li>
+            <li><a href="#cta" class="hover:text-white transition">Careers</a></li>
+            <li><a href="#cta" class="hover:text-white transition">Partners</a></li>
+            <li><a href="#cta" class="hover:text-white transition">Contact Sales</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-white mb-4">Legal &amp; Security</h4>
+          <ul class="space-y-2.5 text-sm text-zinc-400">
+            <li><a href="#security" class="hover:text-white transition">SOC2 Type II</a></li>
+            <li><a href="#security" class="hover:text-white transition">ISO 27001</a></li>
+            <li><a href="#security" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="#security" class="hover:text-white transition">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+        <p>&copy; <span id="footer-year">2026</span> Pravah Technologies. All rights reserved.</p>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.02] text-zinc-300">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+          </span>
+          <span>All systems operational</span>
+        </div>
+      </div>
+    </div>
   </footer>
 
-  <!-- ===================================================================== -->
-  <!-- ENTERPRISE SIGN IN / PROVISION TENANT MODAL                           -->
-  <!-- ===================================================================== -->
-  <div id="auth-modal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 bg-[#03050a]/85 backdrop-blur-md overflow-y-auto">
-    <div class="relative w-full max-w-md rounded-3xl border border-white/15 bg-[#0a1020]/95 shadow-2xl shadow-black/80 overflow-hidden animate-fadeSlideUp my-auto">
-      <div class="h-1 w-full bg-gradient-to-r from-cyan-400 via-sky-500 to-indigo-500"></div>
-      <button id="auth-modal-close" type="button" aria-label="Close" class="absolute top-4 right-4 p-2 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/10 text-slate-400 hover:text-white transition cursor-pointer">
+  <!-- ENTERPRISE AUTH MODAL (WIRED TO /api/auth/login & /api/auth/register) -->
+  <div id="auth-modal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md overflow-y-auto">
+    <div class="relative w-full max-w-md rounded-2xl border border-white/15 bg-[#0C0C10] shadow-2xl overflow-hidden animate-fadeUp my-auto">
+      <div class="h-1 w-full bg-[#2563EB]"></div>
+      <button id="auth-modal-close" type="button" aria-label="Close" class="absolute top-4 right-4 p-2 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/10 text-zinc-400 hover:text-white transition cursor-pointer">
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
 
       <div class="p-6 sm:p-7">
         <div class="flex items-center gap-3 mb-5">
-          <img src="/logo.jpg" alt="Pravah-A2A" class="w-10 h-10 rounded-xl object-cover border border-cyan-400/30" onerror="this.style.display='none'" />
+          <img src="/logo.jpg" alt="Pravah" class="w-10 h-10 rounded-xl object-cover border border-white/15" onerror="this.style.display='none'" />
           <div>
-            <h2 class="font-display font-bold text-lg text-white leading-tight">Pravah-A2A Command Center</h2>
-            <p class="text-xs text-cyan-300">Autonomous Maritime &amp; Cold-Chain Resiliency</p>
+            <h2 class="font-bold text-lg text-white leading-tight">Pravah-A2A Command Center</h2>
+            <p class="text-xs text-blue-400">Autonomous Maritime &amp; Cold-Chain Resiliency</p>
           </div>
         </div>
 
         <div class="grid grid-cols-2 p-1 rounded-xl bg-white/[0.04] border border-white/10 mb-5">
-          <button id="tab-login-btn" type="button" class="py-2 text-xs font-semibold rounded-lg bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 shadow transition cursor-pointer">Enterprise Sign In</button>
-          <button id="tab-register-btn" type="button" class="py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white transition cursor-pointer">Provision New Tenant</button>
+          <button id="tab-login-btn" type="button" class="py-2 text-xs font-semibold rounded-lg bg-[#2563EB] text-white shadow transition cursor-pointer">Enterprise Sign In</button>
+          <button id="tab-register-btn" type="button" class="py-2 text-xs font-medium rounded-lg text-zinc-400 hover:text-white transition cursor-pointer">Provision New Tenant</button>
         </div>
 
         <div id="auth-feedback" class="hidden mb-4 px-3.5 py-2.5 rounded-xl text-xs font-medium border"></div>
 
-        <!-- ENTERPRISE SIGN IN FORM -->
         <form id="login-form" class="space-y-4" novalidate>
           <div>
-            <label for="login-email" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Authorized Corporate Email</label>
-            <input id="login-email" type="email" required placeholder="rajesh.nair@hyderabadpharma.in" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 focus:border-cyan-400/60 text-sm text-white placeholder-slate-500 outline-none transition" />
+            <label for="login-email" class="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Authorized Corporate Email</label>
+            <input id="login-email" type="email" required placeholder="rajesh.nair@hyderabadpharma.in" class="w-full px-3.5 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#2563EB] text-sm text-white placeholder-zinc-500 outline-none transition" />
           </div>
           <div>
-            <label for="login-password" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Password</label>
+            <label for="login-password" class="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Password</label>
             <div class="relative">
-              <input id="login-password" type="password" required placeholder="••••••••" class="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 focus:border-cyan-400/60 text-sm text-white placeholder-slate-500 outline-none transition" />
-              <button type="button" data-toggle-password="login-password" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 cursor-pointer"><i data-lucide="eye" class="w-4 h-4"></i></button>
+              <input id="login-password" type="password" required placeholder="••••••••" class="w-full pl-3.5 pr-10 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#2563EB] text-sm text-white placeholder-zinc-500 outline-none transition" />
+              <button type="button" data-toggle-password="login-password" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white p-1 cursor-pointer"><i data-lucide="eye" class="w-4 h-4"></i></button>
             </div>
           </div>
-          <button id="login-submit-btn" type="submit" class="w-full py-3 rounded-xl text-sm font-semibold text-slate-950 bg-gradient-to-r from-cyan-300 to-sky-400 hover:brightness-110 shadow-lg shadow-sky-500/20 transition cursor-pointer">
+          <button id="login-submit-btn" type="submit" class="w-full py-3 rounded-lg text-sm font-semibold text-white bg-[#2563EB] hover:bg-blue-500 shadow-lg shadow-[#2563EB]/25 transition cursor-pointer">
             Authenticate to Tactical Tower
           </button>
 
           <div class="pt-3 border-t border-white/10">
-            <p class="text-[11px] text-slate-400 mb-2">Subscribed Demo Tenant Keys (Password: <span class="text-cyan-300 font-mono">Pravah@2026</span>):</p>
+            <p class="text-[11px] text-zinc-400 mb-2">Subscribed Demo Tenant Keys (Password: <span class="text-blue-300 font-mono">Pravah@2026</span>):</p>
             <div class="flex flex-wrap gap-1.5">
-              <button type="button" data-demo-email="rajesh.nair@hyderabadpharma.in" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-cyan-200 border border-cyan-400/20 bg-cyan-500/[0.08] hover:bg-cyan-500/20 hover:border-cyan-300/50 transition cursor-pointer">VP Rajesh Nair (Hyderabad)</button>
-<button type="button" data-demo-email="ananya.deshmukh@ciplaexports.in" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-cyan-200 border border-cyan-400/20 bg-cyan-500/[0.08] hover:bg-cyan-500/20 hover:border-cyan-300/50 transition cursor-pointer">Ananya Deshmukh (Mumbai)</button>
-<button type="button" data-demo-email="khalid.mansoor@gulfmed3pl.ae" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-cyan-200 border border-cyan-400/20 bg-cyan-500/[0.08] hover:bg-cyan-500/20 hover:border-cyan-300/50 transition cursor-pointer">Dr. Khalid (Dubai 3PL)</button>
-<button type="button" data-demo-email="qa.officer@hyderabadpharma.in" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-cyan-200 border border-cyan-400/20 bg-cyan-500/[0.08] hover:bg-cyan-500/20 hover:border-cyan-300/50 transition cursor-pointer">Dr. Meera Iyer (QA Officer)</button>
-<button type="button" data-demo-email="analyst@hyderabadpharma.in" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-cyan-200 border border-cyan-400/20 bg-cyan-500/[0.08] hover:bg-cyan-500/20 hover:border-cyan-300/50 transition cursor-pointer">Rohan Kulkarni (Analyst)</button>
+              <button type="button" data-demo-email="rajesh.nair@hyderabadpharma.in" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-blue-200 border border-blue-500/25 bg-blue-500/10 hover:bg-blue-500/20 hover:border-blue-400/50 transition cursor-pointer">VP Rajesh Nair (Hyderabad)</button>
+<button type="button" data-demo-email="ananya.deshmukh@ciplaexports.in" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-blue-200 border border-blue-500/25 bg-blue-500/10 hover:bg-blue-500/20 hover:border-blue-400/50 transition cursor-pointer">Ananya Deshmukh (Mumbai)</button>
+<button type="button" data-demo-email="khalid.mansoor@gulfmed3pl.ae" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-blue-200 border border-blue-500/25 bg-blue-500/10 hover:bg-blue-500/20 hover:border-blue-400/50 transition cursor-pointer">Dr. Khalid (Dubai 3PL)</button>
+<button type="button" data-demo-email="qa.officer@hyderabadpharma.in" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-blue-200 border border-blue-500/25 bg-blue-500/10 hover:bg-blue-500/20 hover:border-blue-400/50 transition cursor-pointer">Dr. Meera Iyer (QA Officer)</button>
+<button type="button" data-demo-email="analyst@hyderabadpharma.in" class="demo-key-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-blue-200 border border-blue-500/25 bg-blue-500/10 hover:bg-blue-500/20 hover:border-blue-400/50 transition cursor-pointer">Rohan Kulkarni (Analyst)</button>
 
             </div>
           </div>
         </form>
 
-        <!-- PROVISION NEW TENANT FORM -->
         <form id="register-form" class="hidden space-y-3" novalidate>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label for="reg-name" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Full Name</label>
-              <input id="reg-name" type="text" required placeholder="Dr. Aarav Sharma" class="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 focus:border-cyan-400/60 text-sm text-white outline-none" />
+              <label for="reg-name" class="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">Full Name</label>
+              <input id="reg-name" type="text" required placeholder="Dr. Aarav Sharma" class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#2563EB] text-sm text-white outline-none" />
             </div>
             <div>
-              <label for="reg-company" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Company Name</label>
-              <input id="reg-company" type="text" required placeholder="Hyderabad Pharma" class="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 focus:border-cyan-400/60 text-sm text-white outline-none" />
+              <label for="reg-company" class="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">Company Name</label>
+              <input id="reg-company" type="text" required placeholder="Hyderabad Pharma" class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#2563EB] text-sm text-white outline-none" />
             </div>
           </div>
           <div>
-            <label for="reg-email" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Corporate Email</label>
-            <input id="reg-email" type="email" required placeholder="vp@company.in" class="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 focus:border-cyan-400/60 text-sm text-white outline-none" />
+            <label for="reg-email" class="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">Corporate Email</label>
+            <input id="reg-email" type="email" required placeholder="vp@company.in" class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#2563EB] text-sm text-white outline-none" />
           </div>
           <div>
-            <label for="reg-role" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">RBAC Clearance Role</label>
-            <select id="reg-role" class="w-full px-3 py-2 rounded-xl bg-[#0a1020] border border-white/10 focus:border-cyan-400/60 text-sm text-white outline-none">
+            <label for="reg-role" class="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">RBAC Clearance Role</label>
+            <select id="reg-role" class="w-full px-3 py-2 rounded-lg bg-[#0C0C10] border border-white/10 focus:border-[#2563EB] text-sm text-white outline-none">
               <option value="SUPPLY_CHAIN_VP">VP Supply Chain (Spend-Cap Approver)</option>
               <option value="QA_PHARMA_OFFICER">QA Pharma Officer (Cold-Chain Sign-Off)</option>
               <option value="ANALYST">Supply Chain Analyst</option>
             </select>
           </div>
           <div>
-            <label for="reg-password" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Password (8+ characters)</label>
-            <input id="reg-password" type="password" required placeholder="Minimum 8 characters" class="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 focus:border-cyan-400/60 text-sm text-white outline-none" />
+            <label for="reg-password" class="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">Password (8+ characters)</label>
+            <input id="reg-password" type="password" required placeholder="Minimum 8 characters" class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#2563EB] text-sm text-white outline-none" />
           </div>
-          <button id="reg-submit-btn" type="submit" class="w-full py-3 mt-1 rounded-xl text-sm font-semibold text-slate-950 bg-gradient-to-r from-cyan-300 to-sky-400 hover:brightness-110 shadow-lg shadow-sky-500/20 transition cursor-pointer">
+          <button id="reg-submit-btn" type="submit" class="w-full py-3 mt-1 rounded-lg text-sm font-semibold text-white bg-[#2563EB] hover:bg-blue-500 shadow-lg shadow-[#2563EB]/25 transition cursor-pointer">
             Provision Tenant &amp; Enter Tower
           </button>
         </form>
@@ -564,13 +494,13 @@
   </div>
 
   <!-- AUTHENTICATED TRANSITION OVERLAY -->
-  <div id="transition-overlay" class="fixed inset-0 z-50 hidden flex-col items-center justify-center p-6 bg-[#050811]/95 backdrop-blur-2xl text-center">
-    <div class="max-w-md w-full rounded-3xl border border-white/10 bg-[#0a1020] p-8 shadow-2xl">
-      <div class="w-12 h-12 mx-auto mb-5 rounded-full border-2 border-cyan-400/25 border-t-cyan-300 animate-spin"></div>
-      <h2 id="transition-welcome-title" class="font-display font-bold text-xl text-white mb-1.5">Authenticated</h2>
-      <p id="transition-status-text" class="text-xs sm:text-sm text-slate-400 mb-6">Initializing Tactical Tower workspace...</p>
+  <div id="transition-overlay" class="fixed inset-0 z-50 hidden flex-col items-center justify-center p-6 bg-[#09090B]/95 backdrop-blur-xl text-center">
+    <div class="max-w-md w-full rounded-2xl border border-white/10 bg-[#0C0C10] p-8 shadow-2xl">
+      <div class="w-10 h-10 mx-auto mb-5 rounded-full border-2 border-[#2563EB]/30 border-t-[#2563EB] animate-spin"></div>
+      <h2 id="transition-welcome-title" class="font-bold text-xl text-white mb-1.5">Authenticated</h2>
+      <p id="transition-status-text" class="text-xs sm:text-sm text-zinc-400 mb-6">Initializing Tactical Tower...</p>
       <div class="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
-        <div id="transition-progress-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-cyan-300 to-sky-400 transition-all duration-300"></div>
+        <div id="transition-progress-bar" class="h-full w-0 rounded-full bg-[#2563EB] transition-all duration-300"></div>
       </div>
     </div>
   </div>
@@ -579,6 +509,43 @@
     (() => {
       if (window.lucide) window.lucide.createIcons();
       document.getElementById('footer-year').textContent = String(new Date().getFullYear());
+
+      const archData = [
+        {
+          badge: 'INGESTION_LAYER // EVENT_MESH',
+          metrics: '<span>Connectors: <strong class="text-white">40+</strong></span><span>Sync: <strong class="text-white">18ms</strong></span>',
+          code: `// Register SAP Event Mesh & AIS Stream\nimport { PravahClient } from '@pravah/sdk';\n\nconst pravah = new PravahClient({\n  region: 'ap-south-1',\n  auth: process.env.PRAVAH_API_KEY,\n});\n\nawait pravah.sources.connect({\n  erp: 'sap-s4hana-prod',\n  telemetry: ['ais-maritime', 'reefer-mkt-iot'],\n  schemaValidation: 'strict',\n});`
+        },
+        {
+          badge: 'ORCHESTRATION // A2A_STATEGRAPH',
+          metrics: '<span>Guardrails: <strong class="text-white">RBAC + CFO</strong></span><span>Resolution: <strong class="text-white">&lt; 2.4s</strong></span>',
+          code: `// Define Autonomous Rerouting Policy\nexport const coldChainPolicy = pravah.workflow({\n  trigger: 'shipment.delay_detected',\n  guardrails: {\n    maxSpendWithoutDualSignOffINR: 500000,\n    requiredApprovers: ['SUPPLY_CHAIN_VP', 'QA_OFFICER'],\n    maxThermalExcursionC: 8.0,\n  },\n  onApprove: 'dispatch.intermodal_corridor',\n});`
+        },
+        {
+          badge: 'GOVERNANCE // IMMUTABLE_LEDGER',
+          metrics: '<span>Events: <strong class="text-white">10M+/day</strong></span><span>Audit: <strong class="text-white">SHA-256</strong></span>',
+          code: `// Verify Cryptographic Compliance Dossier\nconst dossier = await pravah.audit.exportDossier({\n  shipmentId: 'SHP-2026-HYD-DXB',\n  standard: 'EU_AI_ACT_ART_14',\n  includeDualHitlSignatures: true,\n});\n\nconsole.log(dossier.sha256Hash);\n// => "0x9f8a4c2d...e271b0" (Verified)`
+        }
+      ];
+
+      const archTabs = document.querySelectorAll('.arch-tab');
+      const archBadge = document.getElementById('arch-badge');
+      const archMetrics = document.getElementById('arch-metrics');
+      const archCode = document.getElementById('arch-code');
+
+      function setArchTab(idx) {
+        archTabs.forEach((t, i) => {
+          t.classList.toggle('border-[#2563EB]', i === idx);
+          t.classList.toggle('bg-[#2563EB]/10', i === idx);
+          t.classList.toggle('border-white/10', i !== idx);
+          t.classList.toggle('bg-white/[0.02]', i !== idx);
+        });
+        archBadge.textContent = archData[idx].badge;
+        archMetrics.innerHTML = archData[idx].metrics;
+        archCode.textContent = archData[idx].code;
+      }
+      archTabs.forEach((t, i) => t.addEventListener('click', () => setArchTab(i)));
+      setArchTab(0);
 
       const authModal = document.getElementById('auth-modal');
       const authFeedback = document.getElementById('auth-feedback');
@@ -597,48 +564,6 @@
       document.getElementById('mobile-menu-toggle').addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
       document.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
-      // Auto-Sliding Showcase
-      const slideItems = Array.from(document.querySelectorAll('.slide-item'));
-      const slidePills = Array.from(document.querySelectorAll('.slide-pill'));
-      const sliderStatusPill = document.getElementById('slider-status-pill');
-      const featureSlider = document.getElementById('feature-slider');
-      let activeIdx = 0, paused = false, elapsed = 0, lastTime = null;
-      const DURATION = 4500;
-
-      function goToSlide(idx) {
-        activeIdx = ((idx % slideItems.length) + slideItems.length) % slideItems.length;
-        elapsed = 0;
-        slideItems.forEach((el, i) => el.classList.toggle('hidden', i !== activeIdx));
-        slidePills.forEach((p, i) => {
-          p.classList.toggle('border-cyan-400/40', i === activeIdx);
-          p.classList.toggle('bg-white/[0.05]', i === activeIdx);
-          const bar = p.querySelector('.slide-progress');
-          if (bar) bar.style.width = '0%';
-        });
-      }
-
-      function tick(ts) {
-        if (lastTime === null) lastTime = ts;
-        const delta = ts - lastTime;
-        lastTime = ts;
-        if (!paused && authModal.classList.contains('hidden')) {
-          elapsed += delta;
-          const bar = slidePills[activeIdx]?.querySelector('.slide-progress');
-          if (bar) bar.style.width = `${Math.min((elapsed / DURATION) * 100, 100)}%`;
-          if (elapsed >= DURATION) goToSlide(activeIdx + 1);
-        }
-        requestAnimationFrame(tick);
-      }
-
-      featureSlider.addEventListener('mouseenter', () => { paused = true; sliderStatusPill.textContent = 'Paused'; });
-      featureSlider.addEventListener('mouseleave', () => { paused = false; sliderStatusPill.textContent = 'Auto-playing'; });
-      document.getElementById('slider-prev').addEventListener('click', () => goToSlide(activeIdx - 1));
-      document.getElementById('slider-next').addEventListener('click', () => goToSlide(activeIdx + 1));
-      slidePills.forEach((p, i) => p.addEventListener('click', () => goToSlide(i)));
-      goToSlide(0);
-      requestAnimationFrame(tick);
-
-      // Modal Logic
       let dismissed = false;
       function showFeedback(msg, ok = false) {
         authFeedback.textContent = msg;
@@ -651,11 +576,11 @@
         loginForm.classList.toggle('hidden', isReg);
         registerForm.classList.toggle('hidden', !isReg);
         tabRegisterBtn.className = isReg
-          ? 'py-2 text-xs font-semibold rounded-lg bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 shadow transition cursor-pointer'
-          : 'py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white transition cursor-pointer';
+          ? 'py-2 text-xs font-semibold rounded-lg bg-[#2563EB] text-white shadow transition cursor-pointer'
+          : 'py-2 text-xs font-medium rounded-lg text-zinc-400 hover:text-white transition cursor-pointer';
         tabLoginBtn.className = !isReg
-          ? 'py-2 text-xs font-semibold rounded-lg bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 shadow transition cursor-pointer'
-          : 'py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white transition cursor-pointer';
+          ? 'py-2 text-xs font-semibold rounded-lg bg-[#2563EB] text-white shadow transition cursor-pointer'
+          : 'py-2 text-xs font-medium rounded-lg text-zinc-400 hover:text-white transition cursor-pointer';
       }
       function openModal(tab = 'login') {
         mobileMenu.classList.add('hidden');
@@ -705,7 +630,7 @@
         overlay.classList.remove('hidden');
         overlay.classList.add('flex');
         setTimeout(() => { document.getElementById('transition-progress-bar').style.width = '100%'; }, 100);
-        setTimeout(() => { window.location.href = '/tower.html'; }, 900);
+        setTimeout(() => { window.location.href = '/tower.html'; }, 850);
       }
 
       loginForm.addEventListener('submit', async (e) => {
